@@ -1,4 +1,5 @@
-<?php 
+<?php
+	session_start();
 	require_once '../views/header.php'; 
 
 	echo "Hello world";

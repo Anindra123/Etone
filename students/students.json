@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "mail": "bivasdas911@gmail.com",
+        "pass": "1234",
+        "uname": "bivas",
+        "fname": "Anindra",
+        "lname": "Das",
+        "mname": "",
+        "loe": "UnderGraduate",
+        "ins_name": "AIUB"
+    },
+    {
+        "id": 2,
+        "mail": "b@mail.com",
+        "pass": "5555",
+        "uname": "sue",
+        "fname": "Sue",
+        "lname": "Storm",
+        "mname": "",
+        "loe": "High-School",
+        "ins_name": "ASU"
+    },
+    {
+        "id": 3,
+        "mail": "j@mail.com",
+        "pass": "6666",
+        "uname": "joe",
+        "fname": "joe",
+        "lname": "joe",
+        "mname": "",
+        "loe": "Elementary",
+        "ins_name": "UCLA"
+    },
+    {
+        "id": 4,
+        "mail": "bob@mail.com",
+        "pass": "7777",
+        "uname": "bob",
+        "fname": "Bob",
+        "lname": "Stew",
+        "mname": "",
+        "loe": "Elementary",
+        "ins_name": ""
+    },
+    {
+        "id": 5,
+        "mail": "tim@mail.com",
+        "pass": "8888",
+        "uname": "tim",
+        "fname": "Tim",
+        "lname": "Corey",
+        "mname": "",
+        "loe": "Elementary",
+        "ins_name": ""
+    }
+]
