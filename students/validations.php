@@ -1,8 +1,10 @@
 <?php 
+	require_once 'DataAcess.php';
 	$errors = array();
 	$cross_emote = "&#10060;";
 	$ok_emote = "&#9989;";
 	$name_pattern = "/^[a-zA-Z-' ]*$/";
+
 	//remove hackable material
 	function sanitize_input($data){
 		$data = htmlspecialchars($data);
@@ -99,7 +101,7 @@
 	}
 	//validation for single text fields 
 	function valid_name_check($text,$key,$msg){
-		global $errors;
+		global $errors,$name_pattern;
 		$text = sanitize_input($text);
 		if(!empty($text) && !preg_match($name_pattern,$text)){
 			$errors[$key] = $msg.$GLOBALS['cross_emote'];
@@ -112,4 +114,25 @@
 
 	function get_sucess($msg){
 		return $msg.$GLOBALS['ok_emote'];
+	}
+
+	function login_validation($email,$pass){
+		global $cross_emote,$errors;
+		$out = validate_login($email,$pass);
+		if($out === []){
+			$errors['mail_err'] = "Invalid mail or user doesn't exist ".$cross_emote;
+			$errors['pass_err'] = "Invalid password or user doesn't exist ".$cross_emote;
+			
+		}
+		else{
+			return $out;
+		}
+	}
+	function check_duplicate($uname,$pass,$mail){
+		global $cross_emote,$errors;
+		if(validate_registration($uname,$pass,$mail) === true){
+			$errors['uname_err'] = "Account with same username or email or password already exists ".$cross_emote;
+			$errors['mail_err'] = "Account with same username or email or password already exists ".$cross_emote;
+			$errors['pass_err'] = "Account with same username or email or password already exists ".$cross_emote;
+		}
 	}

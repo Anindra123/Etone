@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
  <!DOCTYPE html>
  <html>
  <head>
@@ -8,23 +12,33 @@
  </head>
  <?php 
  	require_once 'validations.php';
+    require_once 'dataAcessType.php';
+    set_type("f","students.json");
  	$mail = $pass = "";
  	$errors = [];
  	$validate = false;
+    $data = [];
  	if($_SERVER['REQUEST_METHOD'] === "POST"){
- 		global $mail,$pass,$errors,$validate;
  		$mail = $_POST['mail'];
  		$pass = $_POST['pass'];
  		email_validation($mail);
  		password_validation($pass);
+        
  		$errors = get_errors();
+        if(count($errors) === 0){
+            $data = login_validation($mail,$pass);
+            $errors = get_errors();
+        }
  		$validate = true;
  		
  	}
  	if(count($errors) === 0 && $validate === true){
- 		header('Refresh: 0; URL = student_dashboard.php');
-
- 	}
+ 		header('Location: student_dashboard.php');
+        $_SESSION['id'] = $data->id;
+        $_SESSION['full_name'] = $data->fname." ".$data->mname." ".$data->lname;
+        $_SESSION['page_name'] = "Daily Tasks Page";
+ 	    exit();
+    }
  ?>
  <body>
  	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" novalidate>
