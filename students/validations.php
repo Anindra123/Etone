@@ -1,5 +1,5 @@
 <?php 
-	require_once 'DataAcess.php';
+	require_once 'dataAcess.php';
 	$errors = array();
 	$cross_emote = "&#10060;";
 	$ok_emote = "&#9989;";
@@ -28,14 +28,14 @@
 	}
 
 	//validate passwords
-	function password_validation($pass){
+	function password_validation($pass,$key="pass_err"){
 		global $errors;
 		$pass = sanitize_input($pass);
 		if(empty($pass)){
-			$errors["pass_err"] = "Password cannot be empty ".$GLOBALS['cross_emote'];
+			$errors[$key] = "Password cannot be empty ".$GLOBALS['cross_emote'];
 		}
 		else if(strlen($pass) > 8){
-			$errors["pass_err"] = "Password can be maximum 8 characters long ".$GLOBALS['cross_emote'];
+			$errors[$key] = "Password can be maximum 8 characters long ".$GLOBALS['cross_emote'];
 		}
 
 	}
@@ -99,6 +99,12 @@
 			$errors[$key] = $msg.$GLOBALS['cross_emote'];
 		}
 	}
+	function empty_check($text,$key,$msg){
+		global $errors;
+		if(!isset($text)){
+			$errors[$key] = $msg.$GLOBALS['cross_emote'];
+		}
+	}
 	//validation for single text fields 
 	function valid_name_check($text,$key,$msg){
 		global $errors,$name_pattern;
@@ -118,6 +124,8 @@
 
 	function login_validation($email,$pass){
 		global $cross_emote,$errors;
+		$email = sanitize_input($email);
+		$pass = sanitize_input($pass);
 		$out = validate_login($email,$pass);
 		if($out === []){
 			$errors['mail_err'] = "Invalid mail or user doesn't exist ".$cross_emote;
@@ -130,9 +138,19 @@
 	}
 	function check_duplicate($uname,$pass,$mail){
 		global $cross_emote,$errors;
+		$uname = sanitize_input($uname);
+		$mail = sanitize_input($mail);
+		$pass = sanitize_input($pass);
 		if(validate_registration($uname,$pass,$mail) === true){
 			$errors['uname_err'] = "Account with same username or email or password already exists ".$cross_emote;
 			$errors['mail_err'] = "Account with same username or email or password already exists ".$cross_emote;
 			$errors['pass_err'] = "Account with same username or email or password already exists ".$cross_emote;
+		}
+	}
+
+	function check_validPass($pass,$id){
+		global $errors,$cross_emote;
+		if(!valid_pass($pass,$id)){
+			$errors['pass_err'] = "Given password doesn't match ".$cross_emote;
 		}
 	}

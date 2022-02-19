@@ -22,11 +22,15 @@
 		</table>
 		<hr>
 		<!-- profile and page view and profile related navigation links -->
-		<p>&nbsp;<b>Hello,<?php echo $_SESSION['full_name'] ?? ""; ?></b> &nbsp; 
-			<b><?php echo $_SESSION['page_name'] ?? "";?></b> 
-			&nbsp; <a href="../students/student_viewAccount.php">View profile</a>&nbsp;
-			<a href="">Update profile</a> &nbsp; <a href=""> Change password </a>
-			&nbsp; <a href="../students/logout.php">Log Out</a></p>
+		<p>&nbsp;<b>Hello, Username</b> &nbsp; 
+			<b>Page name</b>
+			&nbsp;
+			<a href="">View profile</a>&nbsp;
+			<a href="">Update profile</a> &nbsp;
+			<a href=""> Change password </a>&nbsp;
+			<a href="">Log Out</a>&nbsp; 
+		</p> 
+		
 		<hr>
 		<!-- menu navigation !-->
 		<br>

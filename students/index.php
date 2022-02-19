@@ -18,6 +18,10 @@
  	$errors = [];
  	$validate = false;
     $data = [];
+    if(isset($_SESSION['r_errors']) && isset($_SESSION['r_data'])){
+        unset($_SESSION['r_errors']);
+        unset($_SESSION['r_data']);
+    }
  	if($_SERVER['REQUEST_METHOD'] === "POST"){
  		$mail = $_POST['mail'];
  		$pass = $_POST['pass'];
@@ -57,7 +61,8 @@
  			<br>
  			<span><?php echo $errors['pass_err'] ?? '';?></span>
  			<br><br>
- 			<button type="submit">Log In</button>&nbsp;&nbsp;<a href="">Forgot Password ?</a>
+ 			<button type="submit">Log In</button>&nbsp;&nbsp;
+            <a href="forgot_pass.php">Forgot Password ?</a>
  			<br><br>
  			<p>Don't have an account ? <a href="student_register.php">Sign Up</a></p>
  			<br>
