@@ -1,5 +1,6 @@
 <?php 
 session_start();
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,24 +15,32 @@ session_start();
 		<fieldset>
 			<span>
 				<?php 
-
 				$errors = $_SESSION['p_errors'] ?? [];
 				$data = $_SESSION['p_data'] ?? [];
+				
+				if(isset($_SESSION['r_errors']))
+				{
+					echo '<br>';
+					echo $_SESSION['r_errors'];
+					echo '<br><br>';
+					session_unset();
+					session_destroy();
+				}
 				if(count($errors) === 0 && isset($_SESSION['success']))
 				{
 					echo '<br>';
 					echo $_SESSION['success'];
 					echo '<br><br>';
 					unset($_SESSION['success']);
+					if(!isset($_COOKIE['count'])){
+						$count = 1;
+						setcookie("count",$count);
+					}
+					else{
+						$count = ++$_COOKIE['count'];
+						setcookie("count",$count);
+					}
 				}
-				if(isset($_SESSION['r_errors']))
-				{
-					echo '<br>';
-					echo $_SESSION['r_errors'];
-					echo '<br><br>';
-					unset($_SESSION['r_errors']);
-				}
-
 				?>
 			</span>
 			<legend>Reset Password :</legend>

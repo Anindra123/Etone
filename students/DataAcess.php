@@ -122,7 +122,7 @@ function valid_pass($pass,$id){
 function update_password($data,$id){
 	$json_data = readData(get_fileName());
 	$arr = json_decode($json_data);
-	for($i=0;$i<count($data);$i++){
+	for($i=0;$i<count($arr);$i++){
 		if($arr[$i]->id === $id){
 			$arr[$i]->pass = $data['pass'];
 			break;
