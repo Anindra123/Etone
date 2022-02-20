@@ -22,6 +22,9 @@
         unset($_SESSION['r_errors']);
         unset($_SESSION['r_data']);
     }
+    if(isset($_COOKIE['count'])){
+        setcookie('count','',time()-3600);
+    }
  	if($_SERVER['REQUEST_METHOD'] === "POST"){
  		$mail = $_POST['mail'];
  		$pass = $_POST['pass'];
