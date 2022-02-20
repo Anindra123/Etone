@@ -11,10 +11,10 @@ session_start()
 </head>
 
 <body>
- <form action="studentAcc_info_validation.php" method="post" novalidate>
+   <form action="studentAcc_info_validation.php" method="post" novalidate>
     <span>
         <?php 
-        // if($_SERVER['REQUEST_METHOD'] === "POST"){
+        
         $errors = $_SESSION['r_errors'] ?? [];
         $data = $_SESSION['r_data'] ?? [];
         if(count($errors) === 0 && isset($_SESSION['success'])){
@@ -24,7 +24,7 @@ session_start()
             session_unset();
             session_destroy();
         }
-        // }
+        
         ?>
     </span>
 

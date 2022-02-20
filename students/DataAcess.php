@@ -133,3 +133,14 @@ function update_password($data,$id){
 
 }
 
+function passwordReset_validation($uname,$email){
+	$json_data = readData(get_fileName());
+	$arr  = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uname === $uname && 
+			$arr[$i]->mail === $email ){
+			return $arr[$i]->id;
+		}
+	}
+	return -1;
+}

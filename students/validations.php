@@ -121,6 +121,9 @@
 	function get_sucess($msg){
 		return $msg.$GLOBALS['ok_emote'];
 	}
+	function get_failure($msg){
+		return $msg.$GLOBALS['cross_emote'];
+	}
 
 	function login_validation($email,$pass){
 		global $cross_emote,$errors;
@@ -154,3 +157,15 @@
 			$errors['pass_err'] = "Given password doesn't match ".$cross_emote;
 		}
 	}
+
+	function resetpass_validation($uname,$email){
+		global $errors,$cross_emote;
+		$out = passwordReset_validation($uname,$email);
+		if($out < 0){
+			$errors['uname_err'] = "Invalid username or account doesnt't exist ".$cross_emote;
+			$errors['mail_err'] = "Invalid email or account doesnt't exist ".$cross_emote;
+		}else{
+			return $out;
+		}
+	}	
+
