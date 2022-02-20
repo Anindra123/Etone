@@ -1,1 +1,35 @@
-[{"id":1,"mail":"bivasdas911@gmail.com","pass":"1234","uname":"bivas","fname":"Anindra","lname":"Bivas","mname":"","loe":"College","ins_name":"AIUB"},{"id":2,"mail":"sue@mail.com","pass":"5555","uname":"sue","fname":"Sue","lname":"Storm","mname":"","loe":"High School","ins_name":"Texas high school"},{"id":3,"mail":"bob@mail.com","pass":"6666","uname":"bob","fname":"Bob","lname":"Stew","mname":"Stew","loe":"College","ins_name":"UCLA"}]
+[
+    {
+        "id": 1,
+        "mail": "bivasdas911@gmail.com",
+        "pass": "1234",
+        "uname": "bivas",
+        "fname": "Anindra",
+        "lname": "Bivas",
+        "mname": "",
+        "loe": "College",
+        "ins_name": "AIUB"
+    },
+    {
+        "id": 2,
+        "mail": "sue@mail.com",
+        "pass": "5555",
+        "uname": "sue",
+        "fname": "Sue",
+        "lname": "Storm",
+        "mname": "",
+        "loe": "High School",
+        "ins_name": "Texas high school"
+    },
+    {
+        "id": 3,
+        "mail": "bob@mail.com",
+        "pass": "6666",
+        "uname": "bob",
+        "fname": "Bob",
+        "lname": "Stew",
+        "mname": "Stew",
+        "loe": "College",
+        "ins_name": "UCLA"
+    }
+]
