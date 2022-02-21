@@ -2,27 +2,23 @@
 session_start();
 $_SESSION['page_name'] = 'Change Password Page';
 $id = $_SESSION['id'] ?? ""; 
-if(isset($_SESSION['u_errors'])){
-	unset($_SESSION['u_errors']);
-}
+
 require_once 'header.php';
 require_once 'dataAcess.php';
 ?>
 <form action="studentAcc_changePass_validation.php" method="post" novalidate>
 	<span>
-        <?php 
-        // if($_SERVER['REQUEST_METHOD'] === "POST"){
-        $errors = $_SESSION['p_errors'] ?? [];
-        $data = $_SESSION['p_data'] ?? [];
-        if(count($errors) === 0 && isset($_SESSION['success'])){
-            echo '<br>';
-            echo $_SESSION['success'];
-            echo '<br><br>';
-            unset($_SESSION['success']);
-        }
-        // }
-        ?>
-    </span>
+		<?php 
+		$errors = $_SESSION['p_errors'] ?? [];
+		$data = $_SESSION['p_data'] ?? [];
+		if(count($errors) === 0 && isset($_SESSION['success'])){
+			echo '<br>';
+			echo $_SESSION['success'];
+			echo '<br><br>';
+			unset($_SESSION['success']);
+		}
+		?>
+	</span>
 	<fieldset>
 		<legend>Change Password :</legend>
 		<br>
@@ -55,4 +51,8 @@ require_once 'dataAcess.php';
 
 <?php
 require_once 'footer.php';
+if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){
+	unset($_SESSION['p_errors']);
+	unset($_SESSION['p_data']);
+}
 ?>

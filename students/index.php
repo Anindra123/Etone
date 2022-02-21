@@ -18,10 +18,6 @@
  	$errors = [];
  	$validate = false;
     $data = [];
-    if(isset($_SESSION['r_errors']) && isset($_SESSION['r_data'])){
-        unset($_SESSION['r_errors']);
-        unset($_SESSION['r_data']);
-    }
     if(isset($_COOKIE['count'])){
         setcookie('count','',time()-3600);
     }
@@ -40,10 +36,9 @@
  		
  	}
  	if(count($errors) === 0 && $validate === true){
- 		header('Location: student_dashboard.php');
+ 		header('Location: student_tasks.php');
         $_SESSION['id'] = $data->id;
         $_SESSION['full_name'] = $data->fname." ".$data->mname." ".$data->lname;
-        $_SESSION['page_name'] = "Daily Tasks Page";
  	    exit();
     }
  ?>
