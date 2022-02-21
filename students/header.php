@@ -38,7 +38,7 @@
 			<br>
 			<nav>
 				&nbsp;
-				<a href="">Menu 1</a>&nbsp;
+				<a href="student_tasks.php">Daily Tasks</a>&nbsp;
 				<a href="">Menu 2</a>&nbsp;
 				<a href="">Menu 3</a>&nbsp;
 				<a href="">Menu 4</a>&nbsp;

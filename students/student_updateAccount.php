@@ -3,10 +3,7 @@ session_start();
 $_SESSION['page_name'] = 'Update Account Info Page';
 require_once 'header.php';
 require_once 'dataAcess.php';
-if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){
-    unset($_SESSION['p_errors']);
-    unset($_SESSION['p_data']);
-}
+
 ?>
 <form action="studentAcc_update_validation.php" method="post" novalidate>
     <span>
@@ -65,29 +62,25 @@ if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){
         <br><br>
         <input type="text" name="ins_name" id="ins_name" 
         value="<?php echo $data['ins_name'] ?? '';?>">
-        <!-- <br>
-        <span><?php //echo $errors['ins_name_err'] ?? ''; ?></span>
-        <br><br>
-        <label for="uname">Username *:</label>
-        <br><br>
-        <input type="text" name="uname"id="uname" 
-        value="<?php //echo $data['uname'] ?? '';?>">
-        <br>
-        <span><?php //echo $errors['uname_err'] ?? ''; ?></span>
-        <br><br>
-        <label for="mail">Email *:</label>
-        <br><br>
-        <input type="text" name="mail"id="mail" 
-        value="<?php// echo $data['mail'] ?? '';?>">
-        <br>
-        <span><?php //echo $errors['mail_err'] ?? ''; ?></span>
-        <br> -->
+
     </fieldset>
     <br>
-        <button type="submit">Update</button>
-        <br><br>
+    <button type="submit">Update</button>
+    <br><br>
 </form>
-
+<br>
+<form action="delete_account.php">
+    <fieldset>
+        <legend>Danger Zone</legend>
+        <br>
+        <button type="submit">Delete Account</button>
+        <br><br>
+    </fieldset>
+</form>
+<br><br>
 <?php
-    require_once 'footer.php';
-?>
+require_once 'footer.php';
+if(isset($_SESSION['u_errors'])){
+    unset($_SESSION['u_errors']);
+}
+?>  

@@ -144,3 +144,43 @@ function passwordReset_validation($uname,$email){
 	}
 	return -1;
 }
+
+
+function delete_account($id){
+	$json_data = readData(get_fileName());
+	$arr  = json_decode($json_data);
+	$new_arr = array();
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->id === $id){
+			continue;
+		}
+		else{
+			$new_arr[] = $arr[$i];
+		}
+	}
+	$new_arr = json_encode($new_arr);
+	writeData($new_arr,get_fileName());
+}
+
+
+function getTaskData($uid,$filename){
+	$json_data = readData($filename) ?? '';
+	if(empty($json_data)){
+		return [];
+	}
+	$arr = json_decode($json_data);
+	$out = array();
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid){
+			$out[] = $arr[$i];
+			return $out;
+		}
+	}
+}
+
+function setTaskData($data){
+	$json_data = readData($filename) ?? '';
+	if(empty($json_data)){
+		return [];
+	}
+}
