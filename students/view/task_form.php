@@ -1,14 +1,16 @@
-<?php 
-session_start();
-$_SESSION['page_name'] = 'Create Task Page';
-$id = $_SESSION['id'] ?? '';
-require_once 'header.php';
-require_once 'dataAcess.php';
-?>
-<form>
+<form action="student_task_validation.php" method="post" novalidate>	
 	<fieldset>
-		<legend>Create New Task :</legend>
-		<label for="tname">Task title *:</label>
+		<span>
+			<?php 
+			if(count($errors) === 0 && isset($_SESSION['success'])){
+				echo '<br>';
+				echo $_SESSION['success'];
+				echo '<br><br>';
+				unset($_SESSION['success']);
+			}?>
+		</span>
+		<legend><?php echo $page_title;?></legend>
+		<label for="tname">Task Title *:</label>
 		<br><br>
 		<input type="text" name="tname"id="tname" autofocus 
 		value= "<?php echo $data['tname'] ?? '';?>">
@@ -29,17 +31,9 @@ require_once 'dataAcess.php';
 		<br>
 		<span><?php echo $errors['etime_err'] ?? ''; ?></span>
 		<br><br>
-		<br>
-		<button type="submit">Create Task</button>
-		&nbsp;
-		<a href="student_tasks.php">Go back</a>
-		<br><br>
 	</fieldset>
+	<br>
+	<input type="submit">
+	&nbsp; <a href="student_tasks.php">Go back</a>
+	<br>
 </form>
-
-
-
-
-<?php
-require_once 'footer.php';
-?>  
