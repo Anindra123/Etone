@@ -22,25 +22,27 @@
 		</table>
 		<hr>
 		<!-- profile and page view and profile related navigation links -->
-		<p>&nbsp;<b>Hello, Username</b> &nbsp; 
-			<b>Page name</b>
-			&nbsp;
-			<a href="">View profile</a>&nbsp;
-			<a href="">Update profile</a> &nbsp;
-			<a href=""> Change password </a>&nbsp;
-			<a href="">Log Out</a>&nbsp; 
-		</p> 
-		
-		<hr>
-		<!-- menu navigation !-->
-		<br>
-		<nav>
-			&nbsp;
-			<a href="">Menu 1</a>&nbsp;
-			<a href="">Menu 2</a>&nbsp;
-			<a href="">Menu 3</a>&nbsp;
-			<a href="">Menu 4</a>&nbsp;
-		</nav>
-		<br>
-		<hr>
-	</header>
+		<p>&nbsp;<b>Hello, Username </b> &nbsp; 
+			<b>Current Page name</b>
+			
+			
+				&nbsp;
+				<a href="">View profile</a>&nbsp;
+				<a href="">Update profile</a> &nbsp;
+				<a href=""> Change password </a>&nbsp;
+				<a href="">Log Out</a>&nbsp; 
+				</p> 
+			
+			<hr>
+			<!-- menu navigation !-->
+			<br>
+			<nav>
+				&nbsp;
+				<a href="">Menu 1</a>&nbsp;
+				<a href="">Menu 2</a>&nbsp;
+				<a href="">Menu 3</a>&nbsp;
+				<a href="">Menu 4</a>&nbsp;
+			</nav>
+			<br>
+			<hr>
+		</header>
