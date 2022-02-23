@@ -173,14 +173,31 @@ function getTaskData($uid,$filename){
 	for ($i=0; $i < count($arr); $i++) { 
 		if($arr[$i]->uid === $uid){
 			$out[] = $arr[$i];
-			return $out;
 		}
+	}
+	if(count($out) > 0){
+		return $out;
+	}
+	else{
+		return [];
 	}
 }
 
-function setTaskData($data){
-	$json_data = readData($filename) ?? '';
-	if(empty($json_data)){
-		return [];
+function setTaskData($data,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	if(!isset($arr)){
+		$data_arr = [];
+		$data['id'] = 1;
+		$data_arr[] = $data;
+		$data_arr = json_encode($data_arr);
+		writeData($data_arr,$filename);
+	}
+	else{
+		$data['id'] = $arr[count($arr)-1]->id;
+		$data['id']++;
+		$arr[] = $data;
+		$arr= json_encode($arr);
+		writeData($arr,$filename);
 	}
 }
