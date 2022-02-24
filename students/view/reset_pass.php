@@ -1,6 +1,11 @@
 <?php 
 session_start();
-
+if(!isset($_SESSION['count'])){
+	$_SESSION['count'] = 0;
+}
+else{
+	$_SESSION['count']++;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +16,7 @@ session_start();
 	<link rel="icon" type="image/x-icon" href="../public/img/notes3.ico">
 </head>
 <body>
-	<form action="reset_pass_validation.php" method="post">
+	<form action="../controller/reset_pass_validation.php" method="post" novalidate>
 		<fieldset>
 			<span>
 				<?php 
@@ -23,8 +28,7 @@ session_start();
 					echo '<br>';
 					echo $_SESSION['r_errors'];
 					echo '<br><br>';
-					session_unset();
-					session_destroy();
+					unset($_SESSION['r_errors']);
 				}
 				if(count($errors) === 0 && isset($_SESSION['success']))
 				{
@@ -32,14 +36,12 @@ session_start();
 					echo $_SESSION['success'];
 					echo '<br><br>';
 					unset($_SESSION['success']);
-					if(!isset($_COOKIE['count'])){
-						$count = 1;
-						setcookie("count",$count);
-					}
-					else{
-						$count = ++$_COOKIE['count'];
-						setcookie("count",$count);
-					}
+				}
+				if(isset($_SESSION['m_errors'])){
+					echo '<br>';
+					echo $_SESSION['m_errors'];
+					echo '<br><br>';
+					unset($_SESSION['m_errors']);
 				}
 				?>
 			</span>
@@ -58,9 +60,19 @@ session_start();
 			<br>
 			<span><?php echo $errors['cpass_err'] ?? '';?></span>
 			<br><br>
-			<button type="submit">Reset Password</button> &nbsp; <a href="index.php">Go back to login page</a>
+			<button type="submit">Reset Password</button> &nbsp; <a href="logout.php">Go back to login page</a>
 			<br><br>
 		</fieldset>
 	</form>
 </body>
 </html>
+<?php 
+if(isset($_SESSION['p_data']) && 
+	isset($_SESSION['p_errors'])
+)
+{
+	unset($_SESSION['p_data']);
+	unset($_SESSION['p_errors']);
+
+}
+?>

@@ -1,14 +1,15 @@
 <?php 
 session_start();
 require_once 'validations.php';
-require_once 'DataAcess.php';
+require_once '../model/dataAcess.php';
+require_once '../model/dataAcessType.php';
+set_type("f","../model/students.json");
 $pass = $cpass = $u_id = "";
 $errors = [];
 $validated = false;
 
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-	global $pass,$cpass,$errors,$validated;
 	$pass = $_POST['pass'];
 	$cpass = $_POST['cpass'];
 
@@ -20,11 +21,9 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 }
 
 if(count($errors) === 0 && $validated === true){
-	global $pass,$cpass,$u_id;
 	$u_id = $_SESSION['u_id'] ?? '';
-		//print_r($_SESSION['u_id']);
-	$_SESSION['success'] = get_sucess("Password reseted sucessfully ");
-	if(isset($_COOKIE['count']) && $_COOKIE['count'] >= 1)
+	
+	if(isset($_SESSION['count']) && $_SESSION['count'] >= 1)
 	{	
 		if(isset($_SESSION['p_data']) && 
 			isset($_SESSION['p_errors'])
@@ -36,9 +35,10 @@ if(count($errors) === 0 && $validated === true){
 		}
 		$_SESSION['r_errors'] = get_failure("Password 
 			already reseted ");
-		header('Location: reset_pass.php');
+		header('Location: ../view/reset_pass.php');
 		exit();
 	}
+	$_SESSION['success'] = get_sucess("Password reseted sucessfully ");
 	$data = array(
 		'pass' => $pass
 	);
@@ -52,7 +52,7 @@ if(count($errors) === 0 && $validated === true){
 		unset($_SESSION['p_errors']);
 
 	}
-	header('Location: reset_pass.php');
+	header('Location: ../view/reset_pass.php');
 	exit();
 }
 else{
@@ -63,7 +63,7 @@ else{
 	);
 	$_SESSION['p_data'] = $data;
 	$_SESSION['p_errors'] = $errors;
-	header('Location: reset_pass.php');
+	header('Location: ../view/reset_pass.php');
 	exit();
 }
 

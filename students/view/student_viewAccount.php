@@ -2,19 +2,15 @@
 session_start();
 $_SESSION['page_name'] = "View Profile Page";
 $id = $_SESSION['id'] ?? ""; 
-if(isset($_SESSION['u_errors'])){
-	unset($_SESSION['u_errors']);
-}
-if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){
-	unset($_SESSION['p_errors']);
-	unset($_SESSION['p_data']);
-}
-require_once 'DataAcess.php';
-require_once 'dataAcessType.php';
-require_once 'header.php';
-set_type("f","students.json"); 
-$data = get_studentAccData($id);
+$data = Null;
 
+if(!isset($_SESSION['u_data'])){
+    header('Location: ../controller/viewStudentData.php');
+}
+else{
+    $data =$_SESSION['u_data'];
+}
+require_once 'header.php';
 ?>
 <h3>Your account information :</h3>
 <table border="1">

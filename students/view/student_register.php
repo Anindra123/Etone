@@ -11,7 +11,7 @@ session_start()
 </head>
 
 <body>
-   <form action="studentAcc_info_validation.php" method="post" novalidate>
+ <form action="../controller/studentAcc_info_validation.php" method="post" novalidate>
     <span>
         <?php 
         
@@ -23,6 +23,12 @@ session_start()
             echo '<br><br>';
             session_unset();
             session_destroy();
+        }
+        if(isset($_SESSION['m_errors'])){
+            echo '<br>';
+            echo $_SESSION['m_errors'];
+            echo '<br><br>';
+            unset($_SESSION['m_errors']);
         }
         
         ?>
@@ -113,3 +119,9 @@ session_start()
 </form>
 </body>
 </html>
+<?php 
+if(isset($_SESSION['r_errors']) && isset($_SESSION['r_data'])){
+    unset($_SESSION['r_errors']);
+    unset($_SESSION['r_data']);
+}
+?>

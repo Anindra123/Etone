@@ -1,38 +1,35 @@
 <?php
 session_start();
 require_once 'validations.php';
-require_once 'dataAcess.php';
+require_once '../model/dataAcess.php';
+require_once '../model/dataAcessType.php';
+set_type("f","../model/students.json");
 $fname = $lname =$mname =$mail = $uname =$loe = $ins_name = "";
 $errors = [];
 $validated = false;
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    global $mail,$fname,$lname,$mname,
-    $uname,$loe,$ins_name;
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
     $mname = $_POST['mname'];
     $loe = $_POST['loe'] ?? '';
     $ins_name = $_POST['ins_name'];
-    //email_validation($mail);
+    
     name_validation($fname,$lname,$mname);
-    //username_validation($uname);
     required_check($loe,"loe_err","Please select a level of education ");
     valid_name_check($ins_name,"ins_name_err",
         "Not a valid institution name ");
     $errors = get_errors();
-    // if(count($errors) === 0){
-    //     check_duplicate($uname,$pass,$mail);
-    //     $errors = get_errors();
-    // }
     $validated = true;
+}else{
+    $_SESSION['m_errors'] = get_failure("Cannot process get request ");
+    header('Location: ../view/student_updateAccount.php');
+    exit();
 }
 
 
 
 if(count($errors) === 0 && $validated === true ){
-    global $mail,$fname,$lname,$mname,
-    $uname,$loe,$ins_name;
     $data = array(
         'fname' => $fname,
         'lname' => $lname,
@@ -45,28 +42,23 @@ if(count($errors) === 0 && $validated === true ){
     update_studentData($data,$id);
 
     $_SESSION['success'] = get_sucess("Updated sucessfully");
-    if(isset($_SESSION['u_errors'])){
-        unset($_SESSION['u_errors']);
+    $_SESSION['full_name'] = $fname.' '.$mname.' '.$lname;
+    if(isset($_SESSION['u_data'])){
+        unset($_SESSION['u_data']);
     }
-    header("Location: student_updateAccount.php");
+    header("Location: ../view/student_updateAccount.php");
     exit();
 }
 else{
-
-    global $mail,$pass,$fname,$lname,$mname,
-    $uname,$loe,$ins_name,$errors;
-    // $data = array('id'=>Null,
-    //     'mail' => $mail,
-    //     'pass' => $pass,
-    //     'uname' => $uname,
-    //     'fname' => $fname,
-    //     'lname' => $lname,
-    //     'mname' => $mname,
-    //     'loe' => $loe,
-    //     'ins_name' => $ins_name
-    // );
+    $data = array('id'=>Null,    
+        'fname' => $fname,
+        'lname' => $lname,
+        'mname' => $mname,
+        'loe' => $loe,
+        'ins_name' => $ins_name
+    );
+    $_SESSION['u_data'] = $data;
     $_SESSION['u_errors'] = $errors;
-    // $_SESSION['data'] = $data;
-    header("Location: student_updateAccount.php");
+    header("Location: ../view/student_updateAccount.php");
     exit();
 }

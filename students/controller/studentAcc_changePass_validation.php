@@ -1,7 +1,9 @@
 <?php
 session_start();
 require_once 'validations.php';
-require_once 'dataAcess.php';
+require_once '../model/dataAcess.php';
+require_once '../model/dataAcessType.php';
+set_type("f","../model/students.json");
 $pass = $cpass = $npass = "";
 $errors = [];
 $validated = false;
@@ -11,8 +13,6 @@ $id = $_SESSION['id'] ?? '';
 
 //perform the required validation and checking whether request method is post
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-	global $pass,$npass,
-	$cpass,$errors,$id;
 	$pass = $_POST['pass'];
 	$npass = $_POST['npass'];
 	$cpass = $_POST['cpass'];
@@ -36,8 +36,6 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 // if all validation done and no errors found then save
 // the data in json file
 if(count($errors) === 0 && $validated === true){
-	global $npass,
-	$cpass,$id;
 	$data = array(
 		'pass' => $npass
 	);
@@ -48,12 +46,10 @@ if(count($errors) === 0 && $validated === true){
 		unset($_SESSION['p_errors']);
 		unset($_SESSION['p_data']);
 	}
-	header("Location: student_changePass.php");
+	header("Location: ../view/student_changePass.php");
 	exit();
 }
 else{
-	global $pass,$npass,
-	$cpass,$errors;
 	$data = array(
 		'npass' => $npass,
 		'pass' => $pass,
@@ -61,6 +57,6 @@ else{
 	);
 	$_SESSION['p_errors'] = $errors;
 	$_SESSION['p_data'] = $data;
-	header("Location: student_changePass.php");
+	header("Location: ../view/student_changePass.php");
 	exit();
 }
