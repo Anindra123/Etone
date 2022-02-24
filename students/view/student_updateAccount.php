@@ -1,22 +1,34 @@
 <?php 
 session_start();
 $_SESSION['page_name'] = 'Update Account Info Page';
+$data = [];
+if(!isset($_SESSION['u_data'])){
+    header('Location: ../controller/viewStudentData.php');
+}
+else{
+    $data =(array)$_SESSION['u_data'];
+}
 require_once 'header.php';
-require_once 'dataAcess.php';
-
 ?>
-<form action="studentAcc_update_validation.php" method="post" novalidate>
+<form action="../controller/studentAcc_update_validation.php" method="post" novalidate>
     <span>
         <?php 
         
         $errors = $_SESSION['u_errors'] ?? [];
         $id = $_SESSION['id'] ?? '';
-        $data =(array) get_studentAccData($id) ?? [];
-        if(count($errors) === 0 && isset($_SESSION['success'])){
-            echo '<br>';
-            echo $_SESSION['success'];
-            echo '<br><br>';
-            unset($_SESSION['success']);
+        if(isset($_SESSION['u_data'])){
+            if(count($errors) === 0 && isset($_SESSION['success'])){
+                echo '<br>';
+                echo $_SESSION['success'];
+                echo '<br><br>';
+                unset($_SESSION['success']);
+            }
+            if(isset($_SESSION['m_errors'])){
+                echo '<br>';
+                echo $_SESSION['m_errors'];
+                echo '<br><br>';
+                unset($_SESSION['m_errors']);
+            }
         }
         ?>
     </span>
@@ -62,7 +74,6 @@ require_once 'dataAcess.php';
         <br><br>
         <input type="text" name="ins_name" id="ins_name" 
         value="<?php echo $data['ins_name'] ?? '';?>">
-
     </fieldset>
     <br>
     <button type="submit">Update</button>

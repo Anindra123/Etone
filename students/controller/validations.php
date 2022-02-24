@@ -1,12 +1,14 @@
 <?php 
-require_once 'dataAcess.php';
+
+require_once '../model/dataAcess.php';
+
 $errors = array();
 $cross_emote = "&#10060;";
 $ok_emote = "&#9989;";
 $name_pattern = "/^[a-zA-Z-' ]*$/";
 $time_pattern = "/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/";
 
-	//remove hackable material
+//remove hackable material
 function sanitize_input($data){
 	$data = htmlspecialchars($data);
 	$data = stripslashes($data);
@@ -15,7 +17,7 @@ function sanitize_input($data){
 }
 
 
-	//validate email
+//validate email
 function email_validation($mail){
 	global $errors;
 	$mail = sanitize_input($mail);
@@ -28,7 +30,7 @@ function email_validation($mail){
 
 }
 
-	//validate passwords
+//validate passwords
 function password_validation($pass,$key="pass_err"){
 	global $errors;
 	$pass = sanitize_input($pass);
@@ -41,7 +43,7 @@ function password_validation($pass,$key="pass_err"){
 
 }
 
-	//validate confirm password and whether the two password match
+//validate confirm password and whether the two password match
 function confirm_pass_validation($cpass,$pass){
 	global $errors;
 	$cpass = sanitize_input($cpass);
@@ -57,7 +59,7 @@ function confirm_pass_validation($cpass,$pass){
 
 }
 
-	//validate name
+//validate name
 function name_validation($fname,$lname,$mname){
 	global $name_pattern,$errors;
 	$fname = sanitize_input($fname);
@@ -81,7 +83,7 @@ function name_validation($fname,$lname,$mname){
 	}
 
 }
-	//validate username
+//validate username
 function username_validation($uname){
 	global $errors;
 	$uname = sanitize_input($uname);
@@ -92,7 +94,7 @@ function username_validation($uname){
 	}
 }
 
-	//validation for single empty text feilds
+//validation for single empty text feilds
 function required_check($text,$key,$msg){
 	global $errors;
 	$text = sanitize_input($text);
@@ -106,7 +108,7 @@ function empty_check($text,$key,$msg){
 		$errors[$key] = $msg.$GLOBALS['cross_emote'];
 	}
 }
-	//validation for single text fields 
+//validation for single text fields 
 function valid_name_check($text,$key,$msg){
 	global $errors,$name_pattern;
 	$text = sanitize_input($text);

@@ -4,9 +4,8 @@ $_SESSION['page_name'] = 'Change Password Page';
 $id = $_SESSION['id'] ?? ""; 
 
 require_once 'header.php';
-require_once 'dataAcess.php';
 ?>
-<form action="studentAcc_changePass_validation.php" method="post" novalidate>
+<form action="../controller/studentAcc_changePass_validation.php" method="post" novalidate>
 	<span>
 		<?php 
 		$errors = $_SESSION['p_errors'] ?? [];

@@ -1,6 +1,5 @@
 <?php
 require_once 'dataAcessType.php';
-set_type("f","students.json");
 function readData($filename){
 	$fr = "";
 	$handle = fopen($filename,'r');
@@ -36,7 +35,7 @@ function set_studentData($data){
 		$data['id'] = 1;
 		$data_arr[] = $data;
 		$data_arr = json_encode($data_arr);
-		fwrite($handle, $data_arr);
+		writeData($data_arr,$filename);
 	}
 	else{
 		$data['id'] = $arr[count($arr)-1]->id;
@@ -163,7 +162,7 @@ function delete_account($id){
 }
 
 
-function getTaskData($uid,$filename){
+function getAllTaskData($uid,$filename){
 	$json_data = readData($filename) ?? '';
 	if(empty($json_data)){
 		return [];
@@ -180,6 +179,16 @@ function getTaskData($uid,$filename){
 	}
 	else{
 		return [];
+	}
+}
+
+function getTaskData($uid,$tid,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
+			return $arr[$i];
+		}
 	}
 }
 
@@ -200,4 +209,18 @@ function setTaskData($data,$filename){
 		$arr= json_encode($arr);
 		writeData($arr,$filename);
 	}
+}
+
+function updateTaskData($uid,$tid,$data,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
+			$arr[$i]->tname = $data['tname'];
+			$arr[$i]->stime = $data['stime'];
+			$arr[$i]->etime = $data['etime'];
+		}
+	}
+	$arr = json_encode($arr);
+	writeData($arr,$filename);
 }

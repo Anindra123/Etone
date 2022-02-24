@@ -1,23 +1,10 @@
 <?php 
 session_start();
 $_SESSION['page_name'] = 'Delete Account Page';
-$id = $_SESSION['id'] ?? '';
 require_once 'header.php';
-require_once 'dataAcess.php';
-if(isset($_GET['submit'])){
-	if($_GET['submit'] === "yes"){
-		delete_account($id);
-		header("Location: logout.php");
-		exit();
-	}
-	else{
-		header("Location: student_tasks.php");
-		exit();
-	}
-}
 ?>
 
-<form>
+<form action="../controller/deleteStudentData.php" novalidate>
 	<fieldset>
 		<legend>Delete Confirmation :</legend>
 		<br>

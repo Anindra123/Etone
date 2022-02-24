@@ -1,15 +1,15 @@
 <?php
 session_start();
 require_once 'validations.php';
-require_once 'dataAcess.php';
-$fname = $lname =$mname =$mail = $uname = $pass = $cpass =$loe = $ins_name = "";
+require_once '../model/dataAcess.php';
+require_once '../model/dataAcessType.php';
+set_type("f","../model/students.json");
+$fname = $lname =$mname =$mail = $uname = $pass = $cpass =$loe= $ins_name = "";
 $errors = [];
 $validated = false;
 
 //perform the required validation and checking whether request method is post
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    global $mail,$pass,$fname,$lname,$mname,
-    $cpass,$uname,$pass,$loe,$ins_name,$errors;
     $mail = $_POST['mail'];
     $pass = $_POST['pass'];
     $uname = $_POST['uname'];
@@ -34,12 +34,14 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     }
     $validated = true;
 }
-
+else{
+    $_SESSION['m_errors'] = get_failure("Cannot process get request ");
+    header('Location: ../view/student_register.php');
+    exit();
+}
 // if all validation done and no errors found then save
 // the data in json file
 if(count($errors) === 0 && $validated === true ){
-    global $mail,$pass,$fname,$lname,$mname,$cpass,
-    $uname,$pass,$loe,$ins_name;
     $data = array('id'=>Null,
         'mail' => $mail,
         'pass' => $pass,
@@ -59,25 +61,22 @@ if(count($errors) === 0 && $validated === true ){
         unset($_SESSION['r_errors']);
         unset($_SESSION['r_data']);
     }
-    header("Location: student_register.php");
+    header("Location: ../view/student_register.php");
     exit();
 }   
 else{
-
-    global $mail,$pass,$fname,$lname,$mname,$cpass,
-    $uname,$pass,$loe,$ins_name,$errors;
-    $data = array('id'=>Null,
-        'mail' => $mail,
-        'pass' => $pass,
-        'uname' => $uname,
-        'fname' => $fname,
-        'lname' => $lname,
-        'mname' => $mname,
-        'loe' => $loe,
-        'ins_name' => $ins_name
-    );
-    $_SESSION['r_errors'] = $errors;
-    $_SESSION['r_data'] = $data;
-    header("Location: student_register.php");
-    exit();
+ $data = array('id'=>Null,
+    'mail' => $mail,
+    'pass' => $pass,
+    'uname' => $uname,
+    'fname' => $fname,
+    'lname' => $lname,
+    'mname' => $mname,
+    'loe' => $loe,
+    'ins_name' => $ins_name
+);
+ $_SESSION['r_errors'] = $errors;
+ $_SESSION['r_data'] = $data;
+ header("Location: ../view/student_register.php");
+ exit();
 }

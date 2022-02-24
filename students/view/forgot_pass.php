@@ -10,13 +10,18 @@ session_start();
 	<link rel="icon" type="image/x-icon" href="../public/img/notes3.ico">
 </head>
 <body>
-	<form action="forgot_pass_validation.php" method="post">
+	<form action="../controller/forgot_pass_validation.php" method="post">
 		<span>
 			<?php 
 
 			$errors = $_SESSION['p_errors'] ?? [];
 			$data = $_SESSION['p_data'] ?? [];
-
+			if(isset($_SESSION['m_errors'])){
+				echo '<br>';
+				echo $_SESSION['m_errors'];
+				echo '<br><br>';
+				unset($_SESSION['m_errors']);
+			}
 			?>
 		</span>
 		<fieldset>

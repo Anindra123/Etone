@@ -1,13 +1,17 @@
 <?php
 session_start();
 $_SESSION['page_name'] = 'Daily tasks page';
-
+$task_data = [];
+if(isset($_SESSION['t_id'])){
+	unset($_SESSION['t_id']);
+}
+if(!isset($_SESSION['t_data'])){
+	header('Location: ../controller/viewTaskData.php');
+}
+else{
+	$task_data = $_SESSION['t_data'];
+}
 require_once 'header.php'; 
-require_once 'dataAcess.php';
-require_once 'dataAcessType.php';
-set_type("f","student_taskData.json");
-$id = $_SESSION['id'] ?? '';
-$task_data = getTaskData($id,get_fileName()) ?? [];
 ?>
 
 <h3>Today's tasks for <?php echo $_SESSION['full_name'];?></h3>
@@ -18,6 +22,7 @@ $task_data = getTaskData($id,get_fileName()) ?? [];
 if(count($task_data) === 0){
 	echo '<strong>No task added for today</strong>';
 	require_once 'footer.php';
+	exit();
 }
 ?>
 
@@ -53,9 +58,9 @@ if(count($task_data) === 0){
 			echo $task_data[$i]->date;
 			echo '</td>';
 			echo '<td>';
-			echo "<a href=student_taskUpdate.php?id=$id>Update</a>";
+			echo "<a href=student_taskUpdate.php?t_id=$id>Update</a>";
 			echo '&nbsp;';
-			echo "<a href=student_taskDelete.php?id=$id>Delete</a>";
+			echo "<a href=student_taskDelete.php?t_id=$id>Delete</a>";
 			echo '&nbsp;';
 			echo '</td>';
 			echo '</tr>';
@@ -65,5 +70,10 @@ if(count($task_data) === 0){
 </table>
 
 <?php
+if(isset($_SESSION['t_data'])){
+	unset($_SESSION['t_data']);
+}
+
 require_once 'footer.php';
+
 ?>
