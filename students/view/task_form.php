@@ -6,8 +6,8 @@
 				echo '<br>';
 				echo $_SESSION['success'];
 				echo '<br><br>';
-				unset($_SESSION['success']);
-			}?>
+			}
+			?>
 		</span>
 		<legend><?php echo $page_title;?></legend>
 		<label for="tname">Task Title *:</label>
@@ -20,14 +20,14 @@
 		<label for="stime">Start time *:</label>
 		<br><br>
 		<input type="time" name="stime"id="stime" 
-		value= "<?php echo $data['stime'] ?? '';?>">
+		value= "<?php echo date('H:i',strtotime($data['stime'])) ?? '';?>">
 		<br>
 		<span><?php echo $errors['stime_err'] ?? ''; ?></span>
 		<br><br>
 		<label for="etime">End time *:</label>
 		<br><br>
 		<input type="time" name="etime"id="etime" 
-		value= "<?php echo $data['etime'] ?? '';?>">
+		value= "<?php echo date('H:i',strtotime($data['etime'])) ?? '';?>">
 		<br>
 		<span><?php echo $errors['etime_err'] ?? ''; ?></span>
 		<br><br>

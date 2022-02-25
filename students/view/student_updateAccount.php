@@ -15,7 +15,6 @@ require_once 'header.php';
         <?php 
         
         $errors = $_SESSION['u_errors'] ?? [];
-        $id = $_SESSION['id'] ?? '';
         if(isset($_SESSION['u_data'])){
             if(count($errors) === 0 && isset($_SESSION['success'])){
                 echo '<br>';
