@@ -11,8 +11,13 @@ require_once 'task_form.php';
 
 require_once 'footer.php';
 
-if(isset($_SESSION['t_errors']) && isset($_SESSION['t_data'])){
+if(isset($_SESSION['t_errors'])){
 	unset($_SESSION['t_errors']);
+}
+if(isset($_SESSION['t_data'])){
 	unset($_SESSION['t_data']);
+}
+if(isset($_SESSION['success'])){
+	unset($_SESSION['success']);
 }
 ?>  

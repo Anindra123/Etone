@@ -13,7 +13,7 @@ else{
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Etone : note management and planning app</title>
-	<link rel="icon" type="image/x-icon" href="../public/img/notes3.ico">
+	<link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
 </head>
 <body>
 	<form action="../controller/reset_pass_validation.php" method="post" novalidate>

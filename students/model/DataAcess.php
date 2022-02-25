@@ -221,6 +221,44 @@ function updateTaskData($uid,$tid,$data,$filename){
 			$arr[$i]->etime = $data['etime'];
 		}
 	}
-	$arr = json_encode($arr);
-	writeData($arr,$filename);
+	$data = json_encode($arr);
+	writeData($data,$filename);
+}
+
+function checkValidTaskID($uid,$tid,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
+			return $arr[$i];
+		}
+	}
+	return [];
+}
+
+function deleteTask($uid,$tid,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	$out = [];
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
+			continue;
+		}
+		else{
+			$out[] = $arr[$i];
+		}
+	}
+	$data = json_encode($out);
+	writeData($data,$filename);
+}
+function changeTaskStatus($uid,$tid,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
+			$arr[$i]->status = "Completed";
+		}
+	}
+	$data = json_encode($arr);
+	writeData($data,$filename);
 }

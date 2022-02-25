@@ -5,8 +5,8 @@ require_once 'routeTaskPage.php';
 require_once '../model/dataAcess.php';
 require_once '../model/dataAcessType.php';
 set_type("f","../model/student_taskData.json");
-$title = $stime = $etime = $status = $date = $uid= "";
-$udata = [];
+$title = $stime = $etime = $status = $date =  "";
+$uid= $_SESSION['id'];
 $errors = [];
 $validated = false;
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -26,8 +26,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 }
 
 if(count($errors) === 0 && $validated === true){
-	$stime = date('h:i',strtotime($stime));
-	$etime = date('h:i',strtotime($etime));
+	$stime = date('h:i A',strtotime($stime));
+	$etime = date('h:i A',strtotime($etime));
 	$data = [
 		'id' => Null,
 		'tname' => $title,
@@ -43,18 +43,20 @@ if(count($errors) === 0 && $validated === true){
 			'stime' => $stime,
 			'etime' => $etime
 		];
-		$tid = +$_SESSION['t_id'];
+		$tid = $_SESSION['t_id'];
 		updateTaskData($uid,$tid,$udata,get_fileName());
 		$_SESSION['success'] = get_sucess("Task updated succesfully ");
+		$_SESSION['tu_data'] = $udata;
 	}
 	else{
 		setTaskData($data,get_fileName());
 		$_SESSION['success'] = get_sucess("Task created succesfully ");
+		if(isset($_SESSION['t_errors']) && isset($_SESSION['t_data'])){
+			unset($_SESSION['t_errors']);
+			unset($_SESSION['t_data']);
+		}
 	}
-	if(isset($_SESSION['t_errors']) && isset($_SESSION['t_data'])){
-		unset($_SESSION['t_errors']);
-		unset($_SESSION['t_data']);
-	}
+	
 	header(getRouteUrl());
 	exit(); 
 }
@@ -62,7 +64,12 @@ else{
 	$_SESSION['t_errors'] = $errors;
 	$data = [ 'tname' => $title,'stime' => $stime , 
 	'etime' => $etime];
-	$_SESSION['t_data'] = $data;
+	if($_SESSION['page_name'] === 'Update Task Page'){
+		$_SESSION['tu_data'] = $data;
+	}	
+	else{
+		$_SESSION['t_data'] = $data;
+	}
 	header(getRouteUrl());
 	exit(); 
 }
