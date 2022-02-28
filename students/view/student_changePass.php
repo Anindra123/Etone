@@ -3,7 +3,7 @@ session_start();
 $_SESSION['page_name'] = 'Change Password Page';
 $id = $_SESSION['id'] ?? ""; 
 
-require_once 'header.php';
+require_once 'includes/header.php';
 ?>
 <form action="../controller/studentAcc_changePass_validation.php" method="post" novalidate>
 	<span>
@@ -49,7 +49,7 @@ require_once 'header.php';
 </form>
 
 <?php
-require_once 'footer.php';
+require_once 'includes/footer.php';
 if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){
 	unset($_SESSION['p_errors']);
 	unset($_SESSION['p_data']);

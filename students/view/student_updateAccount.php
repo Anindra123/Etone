@@ -2,13 +2,18 @@
 session_start();
 $_SESSION['page_name'] = 'Update Account Info Page';
 $data = [];
+if(!isset($_SESSION['id'])){
+    header('Location: index.php');
+    $_SESSION['m_errors'] = get_failure('Error in login ');
+    exit();
+}
 if(!isset($_SESSION['u_data'])){
     header('Location: ../controller/viewStudentData.php');
 }
 else{
     $data =(array)$_SESSION['u_data'];
 }
-require_once 'header.php';
+require_once 'includes/header.php';
 ?>
 <form action="../controller/studentAcc_update_validation.php" method="post" novalidate>
     <span>
@@ -89,7 +94,7 @@ require_once 'header.php';
 </form>
 <br><br>
 <?php
-require_once 'footer.php';
+require_once 'includes/footer.php';
 if(isset($_SESSION['u_errors'])){
     unset($_SESSION['u_errors']);
 }

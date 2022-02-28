@@ -3,6 +3,11 @@ session_start();
 $_SESSION['page_name'] = "View Profile Page";
 $id = $_SESSION['id'] ?? ""; 
 $data = Null;
+if(!isset($_SESSION['id'])){
+	header('Location: index.php');
+	$_SESSION['m_errors'] = get_failure('Error in login ');
+	exit();
+}
 
 if(!isset($_SESSION['u_data'])){
     header('Location: ../controller/viewStudentData.php');
@@ -10,7 +15,7 @@ if(!isset($_SESSION['u_data'])){
 else{
     $data =$_SESSION['u_data'];
 }
-require_once 'header.php';
+require_once 'includes/header.php';
 ?>
 <h3>Your account information :</h3>
 <table border="1">
@@ -46,6 +51,6 @@ require_once 'header.php';
 </table>
 
 <?php
-require_once 'footer.php';
+require_once 'includes/footer.php';
 ?>
 
