@@ -2,14 +2,19 @@
 session_start();
 $_SESSION['page_name'] = 'Create Task Page';
 $page_title = "Create New Task";
-require_once 'header.php';
+if(!isset($_SESSION['id'])){
+	header('Location: index.php');
+	$_SESSION['m_errors'] = get_failure('Error in login ');
+	exit();
+}
+require_once 'includes/header.php';
 
 $errors = $_SESSION['t_errors'] ?? [];
 $data = $_SESSION['t_data'] ?? [];
 
-require_once 'task_form.php'; 
+require_once 'includes/task_form.php'; 
 
-require_once 'footer.php';
+require_once 'includes/footer.php';
 
 if(isset($_SESSION['t_errors'])){
 	unset($_SESSION['t_errors']);

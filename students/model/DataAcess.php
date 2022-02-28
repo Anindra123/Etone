@@ -236,6 +236,25 @@ function checkValidTaskID($uid,$tid,$filename){
 	return [];
 }
 
+
+function checkValidID($uid,$id,$filename,$pid=0){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($pid !== 0){
+			if($arr[$i]->uid === $uid && $arr[$i]->id === $id && $arr[$i]->pid === $pid){
+				return $arr[$i];
+			}
+		}
+		else{
+			if($arr[$i]->uid === $uid && $arr[$i]->id === $id){
+				return $arr[$i];
+			}
+		}
+	}
+	return [];
+}
+
 function deleteTask($uid,$tid,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -251,6 +270,39 @@ function deleteTask($uid,$tid,$filename){
 	$data = json_encode($out);
 	writeData($data,$filename);
 }
+function deleteJsonData($uid,$id,$filename,$pid=0,$flag=false){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	$out = [];
+	for ($i=0; $i < count($arr); $i++) { 
+		if($pid !== 0){
+			if($arr[$i]->uid === $uid && $arr[$i]->id === $id && $arr[$i]->pid === $pid){
+				continue;
+			}
+			else{
+				$out[] = $arr[$i];
+			}
+		}else{
+			if($flag === false){
+				if($arr[$i]->uid === $uid && $arr[$i]->id === $id){
+					continue;
+				}else{
+					$out[] = $arr[$i];
+				}
+			}else{
+				if($arr[$i]->uid === $uid && $arr[$i]->pid === $id){
+					continue;
+				}else{
+					$out[] = $arr[$i];
+				}
+			}
+			
+		}
+	}
+	$data = json_encode($out);
+	writeData($data,$filename);
+}
+
 function changeTaskStatus($uid,$tid,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -261,4 +313,99 @@ function changeTaskStatus($uid,$tid,$filename){
 	}
 	$data = json_encode($arr);
 	writeData($data,$filename);
+}
+
+
+function getAllJsonData($uid,$filename,$pid = 0){
+
+	$json_data = readData($filename) ?? '';
+	if(empty($json_data)){
+		return [];
+	}
+	$arr = json_decode($json_data);
+	$out = array();
+	for ($i=0; $i < count($arr); $i++) { 
+		if($pid !== 0){
+
+			if($arr[$i]->uid === $uid && $arr[$i]->pid === $pid){
+				$out[] = $arr[$i];
+			}
+			
+		}
+		else{
+			if($arr[$i]->uid === $uid){
+				$out[] = $arr[$i];
+			} 
+		}
+
+	}
+	if(count($out) > 0){
+		return $out;
+	}
+	else{
+		return [];
+	}
+}
+
+function setJsonData($data,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	if(!isset($arr)){
+		$data_arr = [];
+		$data['id'] = 1;
+		$data_arr[] = $data;
+		$data_arr = json_encode($data_arr);
+		writeData($data_arr,$filename);
+	}
+	else{
+		$data['id'] = $arr[count($arr)-1]->id;
+		$data['id']++;
+		$arr[] = $data;
+		$arr= json_encode($arr);
+		writeData($arr,$filename);
+	}
+}
+
+function updateLecturePlanData($uid,$tid,$data,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
+			$arr[$i]->sname = $data['sname'];
+			$arr[$i]->topics = $data['topics'];
+		}
+	}
+	$data = json_encode($arr);
+	writeData($data,$filename);
+}
+function updateLectureNoteData($uid,$pid,$id,$data,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->pid === $pid && $arr[$i]->id === $id){
+			$arr[$i]->tname = $data['tname'];
+			$arr[$i]->ltime = $data['ltime'];
+			$arr[$i]->ldate = $data['ldate'];
+			$arr[$i]->notes = $data['notes'];
+		}
+	}
+	$data = json_encode($arr);
+	writeData($data,$filename);
+}
+
+function getSingleJsonData($uid,$id,$filename,$pid=0){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($pid !== 0){
+			if($arr[$i]->uid === $uid && $arr[$i]->id === $id && $arr[$i]->pid === $pid){
+				return $arr[$i];
+			}
+		}
+		else{
+			if($arr[$i]->uid === $uid && $arr[$i]->id === $id){
+				return $arr[$i];
+			}
+		}
+	}
 }

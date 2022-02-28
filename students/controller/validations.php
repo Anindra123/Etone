@@ -5,8 +5,8 @@ require_once '../model/dataAcess.php';
 $errors = array();
 $cross_emote = "&#10060;";
 $ok_emote = "&#9989;";
-$name_pattern = "/^[a-zA-Z-' ]*$/";
-$time_pattern = "/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/";
+$name_pattern = "/^[a-zA-Z0-9-' ]*$/";
+$time_pattern = "/^(0?[1-9]|1[0-2]):([0-5]\d)\s?((?:A|P)\.?M\.?)$/i";
 
 //remove hackable material
 function sanitize_input($data){
@@ -102,8 +102,10 @@ function required_check($text,$key,$msg){
 		$errors[$key] = $msg.$GLOBALS['cross_emote'];
 	}
 }
+//check for empty string
 function empty_check($text,$key,$msg){
 	global $errors;
+	$text = sanitize_input($text);
 	if(!isset($text)){
 		$errors[$key] = $msg.$GLOBALS['cross_emote'];
 	}
@@ -136,7 +138,6 @@ function login_validation($email,$pass){
 	if($out === []){
 		$errors['mail_err'] = "Invalid mail or user doesn't exist ".$cross_emote;
 		$errors['pass_err'] = "Invalid password or user doesn't exist ".$cross_emote;
-
 	}
 	else{
 		return $out;
@@ -156,6 +157,7 @@ function check_duplicate($uname,$pass,$mail){
 
 function check_validPass($pass,$id){
 	global $errors,$cross_emote;
+	$pass = sanitize_input($pass);
 	if(!valid_pass($pass,$id)){
 		$errors['pass_err'] = "Given password doesn't match ".$cross_emote;
 	}
@@ -163,6 +165,8 @@ function check_validPass($pass,$id){
 
 function resetpass_validation($uname,$email){
 	global $errors,$cross_emote;
+	$uname= sanitize_input($uname);
+	$email = sanitize_input($email);
 	$out = passwordReset_validation($uname,$email);
 	if($out < 0){
 		$errors['uname_err'] = "Invalid username or account doesnt't exist ".$cross_emote;
@@ -174,10 +178,29 @@ function resetpass_validation($uname,$email){
 
 function validate_time($stime,$etime){
 	global $errors,$cross_emote;
+	$stime = sanitize_input($stime);
+	$etime = sanitize_input($etime);
 	if(!empty($stime) && !empty($etime)){
 		if(strtotime($stime) >= strtotime($etime)){
 			$errors['stime_err'] = "Start time is greater or equal to end time ".$cross_emote;
 			$errors['etime_err'] = "Start time is greater or equal to end time ".$cross_emote;
 		}
+	}
+}
+
+function valid_time_check($time,$key,$msg){
+	global $errors,$cross_emote,$time_pattern;
+	$time = sanitize_input($time);
+	if(!preg_match($time_pattern,$time)){
+		$errors[$key] = $msg.$cross_emote;
+	}
+}
+
+function valid_date_check($date,$key,$msg){
+	global $errors,$cross_emote;
+	$date = sanitize_input($date);
+	$date = date_parse($date);
+	if($date['error_count'] !== 0){
+		$errors[$key] = $msg.$cross_emote;
 	}
 }

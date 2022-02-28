@@ -8,9 +8,7 @@ $mail = $pass = "";
 $errors = [];
 $validate = false;
 $data = [];
-if(isset($_COOKIE['count'])){
-    setcookie('count','',time()-3600);
-}
+
 if($_SERVER['REQUEST_METHOD'] === "POST"){
    $mail = $_POST['mail'];
    $pass = $_POST['pass'];

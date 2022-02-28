@@ -1,7 +1,7 @@
 <?php 
 session_start();
 $_SESSION['page_name'] = 'Delete Account Page';
-require_once 'header.php';
+require_once 'includes/header.php';
 ?>
 
 <form action="../controller/deleteStudentData.php" novalidate>
@@ -18,5 +18,5 @@ require_once 'header.php';
 	
 </form>
 <?php
-require_once 'footer.php';
+require_once 'includes/footer.php';
 ?>  

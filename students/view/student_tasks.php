@@ -1,5 +1,13 @@
 <?php
 session_start();
+
+require_once '../controller/validations.php';
+if(!isset($_SESSION['id'])){
+	header('Location: index.php');
+	$_SESSION['m_errors'] = get_failure('Error in login ');
+	exit();
+}
+
 $_SESSION['page_name'] = 'Daily tasks page';
 
 $task_data = [];
@@ -9,7 +17,7 @@ if(!isset($_SESSION['t_data'])){
 }else{
 	$task_data = $_SESSION['t_data'];
 }
-require_once 'header.php'; 
+require_once 'includes/header.php'; 
 ?>
 
 <h3>Today's tasks for <?php echo $_SESSION['full_name'];?></h3>
@@ -96,6 +104,6 @@ if(isset($_SESSION['success'])){
 if(isset($_SESSION['m_errors'])){
 	unset($_SESSION['m_errors']);
 }
-require_once 'footer.php';
+require_once 'includes/footer.php';
 
 ?>
