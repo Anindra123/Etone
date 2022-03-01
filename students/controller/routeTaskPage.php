@@ -32,5 +32,14 @@ function getRouteUrl(){
 	else if($_SESSION['page_name'] === 'Show Lecture Notes Page'){
 		$url = 'Location: ../view/student_lectureNoteShow.php';
 	}
+	else if($_SESSION['page_name'] === 'Create Schedule Week Page'){
+		$url = 'Location: ../view/student_scheduleCreate.php';
+	}
+	else if($_SESSION['page_name'] === 'Update Schedule Week Page'){
+		$url = 'Location: ../view/student_scheduleUpdate.php';
+	}
+	else if($_SESSION['page_name'] === 'Class Scheduler Page'){
+		$url = 'Location: ../view/student_scheduler.php';
+	}
 	return $url;
 }

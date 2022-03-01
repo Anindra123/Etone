@@ -409,3 +409,15 @@ function getSingleJsonData($uid,$id,$filename,$pid=0){
 		}
 	}
 }
+
+function updateWeeklyScheduleData($uid,$id,$data,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->id === $id){
+			$arr[$i]->wname = $data['wname'];
+		}
+	}
+	$data = json_encode($arr);
+	writeData($data,$filename);
+}
