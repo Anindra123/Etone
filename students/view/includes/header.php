@@ -40,8 +40,8 @@
 				&nbsp;
 				<a href="student_tasks.php">Daily Tasks</a>&nbsp;
 				<a href="student_lecturePlanner.php">Lecture Planner</a>&nbsp;
-				<a href="">Menu 3</a>&nbsp;
-				<a href="">Menu 4</a>&nbsp;
+				<a href="student_scheduler.php">Class Scheduler</a>&nbsp;
+				
 			</nav>
 			<br>
 			<hr>
