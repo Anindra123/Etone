@@ -35,6 +35,10 @@ require_once 'includes/header.php';
 &nbsp;
 <a href="student_lecturePlanner.php">Go Back</a>
 <hr>
+<form action="../controller/noteSearch.php" method="get" novalidate>
+	<label for="n_name">Search for a note by name :</label>
+	<input type="search" name="n_name" value="">
+</form>
 <?php 
 if(isset($_SESSION['success'])){
 	echo '<br>';

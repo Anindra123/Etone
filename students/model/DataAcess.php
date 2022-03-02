@@ -421,3 +421,18 @@ function updateWeeklyScheduleData($uid,$id,$data,$filename){
 	$data = json_encode($arr);
 	writeData($data,$filename);
 }
+function updateClassScheduleData($uid,$pid,$id,$data,$filename){
+	$json_data = readData($filename);
+	$arr = json_decode($json_data);
+	for ($i=0; $i < count($arr); $i++) { 
+		if($arr[$i]->uid === $uid && $arr[$i]->pid === $pid && $arr[$i]->id === $id){
+			$arr[$i]->cname = $data['cname'];
+			$arr[$i]->rname = $data['rname'];
+			$arr[$i]->stime = $data['stime'];
+			$arr[$i]->etime = $data['etime'];
+			$arr[$i]->weekday = $data['weekday'];
+		}
+	}
+	$data = json_encode($arr);
+	writeData($data,$filename);
+}

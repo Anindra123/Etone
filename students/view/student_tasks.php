@@ -43,7 +43,7 @@ if(count($task_data) === 0){
 		unset($_SESSION['m_errors']);
 	}
 	echo '<strong>No task added for today</strong>';
-	require_once 'footer.php';
+	require_once 'includes/footer.php';
 	exit();
 }
 

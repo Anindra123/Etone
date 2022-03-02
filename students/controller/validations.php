@@ -204,3 +204,8 @@ function valid_date_check($date,$key,$msg){
 		$errors[$key] = $msg.$cross_emote;
 	}
 }
+
+function setErrorMsg($key,$msg){
+	global $errors,$cross_emote;
+	$errors[$key] = $msg.$cross_emote;
+}

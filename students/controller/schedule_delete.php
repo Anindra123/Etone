@@ -8,10 +8,15 @@ set_type("f","../model/scheduleWeek.json");
 $uid = $_SESSION['id'];
 $sw_id = $_SESSION['sw_id'];
 $sw = checkValidID($uid,$sw_id,get_fileName()) ?? [];
-if(count($sw) > 0 ){
+if(isset($_GET['clear'])){
+	set_type("f","../model/scheduleClass.json");
+	deleteJsonData($uid,$sw_id,get_fileName(),0,true);
+	$_SESSION['success'] = get_sucess('Weekly schedule for week '.$sw->wname.' cleared sucessfully ');
+}
+else if(count($sw) > 0 ){
 	deleteJsonData($uid,$sw_id,get_fileName());
-	// set_type("f","../model/scheduleClass.json");
-	// deleteJsonData($uid,$sw_id,get_fileName(),0,true);
+	set_type("f","../model/scheduleClass.json");
+	deleteJsonData($uid,$sw_id,get_fileName(),0,true);
 	$_SESSION['success'] = get_sucess('Weekly schedule for week '.$sw->wname.' deleted sucessfully ');
 }
 else{

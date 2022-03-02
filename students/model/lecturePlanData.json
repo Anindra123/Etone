@@ -1,8 +1,1 @@
-[
-    {
-        "id": 1,
-        "sname": "Physics",
-        "topics": "Some text",
-        "uid": 1
-    }
-]
+[{"id":1,"sname":"Physics","topics":"Thermodynamics,friction","uid":1}]

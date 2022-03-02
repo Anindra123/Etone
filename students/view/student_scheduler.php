@@ -8,15 +8,31 @@ if(!isset($_SESSION['id'])){
 }
 $sw_data = Null;
 $sc_data = Null;
-if(!isset($_SESSION['sw_data'])){
+if(!isset($_SESSION['sw_data']) && !isset($_SESSION['sc_data'])){
 	header('Location: ../controller/viewWeeklyScheduleData.php');
 	exit();
 }
 else{
 	$sw_data = $_SESSION['sw_data'];
+	$sc_data = $_SESSION['sc_data'];
 }
-// var_dump($sw_data);
-// exit();
+function showClassSchedule($data){
+	$id = $data->id;
+	echo '<td>';
+	echo '<i>'.$data->cname.'</i>';
+	echo '<br>';
+	echo 'Remainder : '.$data->rname;
+	echo '<br>';
+	echo '<b>Start time</b>: '.date('h:i A',strtotime($data->stime)) ?? '';
+	echo '<br>';
+	echo '<b>End time</b>: '.date('h:i A',strtotime($data->etime)) ?? '';
+	echo '<br>';
+	echo "<a href=student_classScheduleUpdate.php?sc_id=$id>Update</a>";
+	echo '&nbsp;';
+	echo "<a href=../controller/classSchedule_delete.php?sc_id=$id>Delete</a>";
+	echo '</td>';
+}
+
 require_once 'includes/header.php';
 ?>
 <h3>Showing this weeks schedule for <?php echo $_SESSION['full_name'];?></h3>
@@ -38,7 +54,7 @@ if(count($sw_data) > 0){
 	echo '<tbody>';
 	echo '<tr>';
 	echo '<td>';
-	echo '<a href="">Add Class Schedule</a>';
+	echo '<a href="student_classScheduleCreate.php">Add Class Schedule</a>';
 	echo '</td>';
 	echo '<td>';
 	echo '<b>Week :</b>'.$sw_data[0]->wname ?? '';
@@ -81,31 +97,69 @@ if(count($sw_data) > 0){
 	echo 'Saturday';
 	echo '</th>';
 	echo '</tr>';
-	if(isset($sc_data)){
+	if(count($sc_data) > 0){
+		for ($j=0; $j < count($sc_data); $j++) { 
+			echo '<tr>';
+			$weekday =(array)$sc_data[$j]->weekday;
+			$k = 0;
+			for ($i=1; $i < 8; $i++) {
 
+// 				if($k < count($weekday) 
+// 					&& $weekday[$k] === 'Sun' 
+// 					&& $i === 1){
+// 					showClassSchedule($sc_data[$j]);
+// 				$k++;
+// 			}
+// 			else if($k < count($weekday)
+// 				&& $weekday[$k] === 'Mon'&& $i === 2){
+// 				showClassSchedule($sc_data[$j]);
+// 			$k++;
+// 		}
+// 		else if($k < count($weekday) 
+// 			&& $weekday[$k] === 'Tue'&& $i === 3){
+// 			showClassSchedule($sc_data[$j]);
+// 		$k++;
+// 	}
+// 	else if($k < count($weekday) 
+// 		&& $weekday[$k] === 'Wed'&& $i === 4){
+// 		showClassSchedule($sc_data[$j]);
+// 	$k++;
+// }
+// else if($k < count($weekday) 
+// 	&& $weekday[$k] === 'Thu'&& $i === 5){
+// 	showClassSchedule($sc_data[$j]);
+// $k++;
+// }
+// else if($k < count($weekday) 
+// 	&& $weekday[$k] === 'Fri'&& $i === 6){
+// 	showClassSchedule($sc_data[$j]);
+// $k++;
+// }
+// else if($k < count($weekday) 
+// 	&& $weekday[$k] === 'Sat'&& $i === 7){
+// 	showClassSchedule($sc_data[$j]);
+// $k++;
+// }			
+				if(array_key_exists($i, $weekday)){
+					showClassSchedule($sc_data[$j]);
+				}
+				else{
+					echo '<td>';
+					echo 'None';
+					echo '</td>';
+				}
+
+
+			}
+			echo'</tr>';
+		}
 	}else{
 		echo '<tr>';
-		echo '<td>';
-		echo 'None';
-		echo '</td>';
-		echo '<td>';
-		echo 'None';
-		echo '</td>';
-		echo '<td>';
-		echo 'None';
-		echo '</td>';
-		echo '<td>';
-		echo 'None';
-		echo '</td>';
-		echo '<td>';
-		echo 'None';
-		echo '</td>';
-		echo '<td>';
-		echo 'None';
-		echo '</td>';
-		echo '<td>';
-		echo 'None';
-		echo '</td>';
+		for ($i=0; $i < 7; $i++) { 
+			echo '<td>';
+			echo 'None';
+			echo '</td>';
+		}
 		echo '</tr>';
 	}
 	echo '<tbody>';
