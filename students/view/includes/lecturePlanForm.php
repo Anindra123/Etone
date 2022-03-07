@@ -19,9 +19,7 @@
 		<br><br>
 		<label for="topics">Add topics covered :</label>
 		<br><br>
-		<textarea name="topics" id="topics">
-		<?php echo $data['topics'] ?? '';?>
-		</textarea>
+		<textarea name="topics" id="topics"><?php echo $data['topics'] ?? '';?></textarea>
 		<br>
 		<span><?php echo $errors['topics_err'] ?? ''; ?></span>
 	</fieldset>

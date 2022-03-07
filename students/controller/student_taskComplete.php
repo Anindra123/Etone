@@ -7,7 +7,7 @@ require_once '../model/dataAcessType.php';
 set_type("f","../model/student_taskData.json");
 $uid = $_SESSION['id'];
 $tid = +$_GET['t_id'] ?? -1;
-$task = checkValidTaskID($uid,$tid,get_fileName());
+$task = checkValidID($uid,$tid,get_fileName());
 if(count($task) > 0 ){
 	if($task->status === "Completed"){
 		$_SESSION['m_errors'] = get_failure('Task already completed ');

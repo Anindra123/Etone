@@ -1,8 +1,13 @@
 <?php 
 session_start();
 $_SESSION['page_name'] = 'Change Password Page';
-$id = $_SESSION['id'] ?? ""; 
 
+if(!isset($_SESSION['id'])){
+	header('Location: index.php');
+	$_SESSION['m_errors'] = get_failure('Error in login ');
+	exit();
+}
+$id = $_SESSION['id'] ?? ""; 
 require_once 'includes/header.php';
 ?>
 <form action="../controller/studentAcc_changePass_validation.php" method="post" novalidate>

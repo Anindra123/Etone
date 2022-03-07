@@ -1,6 +1,11 @@
 <?php 
 session_start();
 $_SESSION['page_name'] = 'Delete Account Page';
+if(!isset($_SESSION['id'])){
+	header('Location: index.php');
+	$_SESSION['m_errors'] = get_failure('Error in login ');
+	exit();
+}
 require_once 'includes/header.php';
 ?>
 

@@ -9,11 +9,11 @@ $errors = [];
 $validated = false;
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $mname = $_POST['mname'];
-    $loe = $_POST['loe'] ?? '';
-    $ins_name = $_POST['ins_name'];
+    $fname = sanitize_input($_POST['fname']);
+    $lname = sanitize_input($_POST['lname']);
+    $mname = sanitize_input($_POST['mname']);
+    $loe = sanitize_input($_POST['loe'] ?? '');
+    $ins_name = sanitize_input($_POST['ins_name']);
     
     name_validation($fname,$lname,$mname);
     required_check($loe,"loe_err","Please select a level of education ");

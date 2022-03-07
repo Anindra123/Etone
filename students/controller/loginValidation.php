@@ -10,8 +10,8 @@ $validate = false;
 $data = [];
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-   $mail = $_POST['mail'];
-   $pass = $_POST['pass'];
+   $mail = sanitize_input($_POST['mail']);
+   $pass = sanitize_input($_POST['pass']);
    email_validation($mail);
    password_validation($pass);
 

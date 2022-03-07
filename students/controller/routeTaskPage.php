@@ -41,5 +41,11 @@ function getRouteUrl(){
 	else if($_SESSION['page_name'] === 'Class Scheduler Page'){
 		$url = 'Location: ../view/student_scheduler.php';
 	}
+	else if($_SESSION['page_name'] === 'Create Class Schedule Page'){
+		$url = 'Location: ../view/student_classScheduleCreate.php';
+	}
+	else if($_SESSION['page_name'] === 'Update Class Schedule Page'){
+		$url = 'Location: ../view/student_classScheduleUpdate.php';
+	}
 	return $url;
 }

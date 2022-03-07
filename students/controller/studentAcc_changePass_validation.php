@@ -13,9 +13,9 @@ $id = $_SESSION['id'] ?? '';
 
 //perform the required validation and checking whether request method is post
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-	$pass = $_POST['pass'];
-	$npass = $_POST['npass'];
-	$cpass = $_POST['cpass'];
+	$pass = sanitize_input($_POST['pass']);
+	$npass = sanitize_input($_POST['npass']);
+	$cpass = sanitize_input($_POST['cpass']);
 	
 	password_validation($pass);
 	

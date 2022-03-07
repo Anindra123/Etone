@@ -119,17 +119,22 @@ function valid_name_check($text,$key,$msg){
 	}
 }
 
+//return the errors associative array
 function get_errors(){
 	return $GLOBALS['errors'];
 }
 
+//returns a message for sucessful operation
 function get_sucess($msg){
 	return $msg.$GLOBALS['ok_emote'];
 }
+
+//returns a message for error in operation
 function get_failure($msg){
 	return $msg.$GLOBALS['cross_emote'];
 }
 
+//all login related validation
 function login_validation($email,$pass){
 	global $cross_emote,$errors;
 	$email = sanitize_input($email);
@@ -143,6 +148,9 @@ function login_validation($email,$pass){
 		return $out;
 	}
 }
+//check whether user is creating an account 
+// using same username,password or mail 
+//for seconnd time
 function check_duplicate($uname,$pass,$mail){
 	global $cross_emote,$errors;
 	$uname = sanitize_input($uname);
@@ -155,6 +163,9 @@ function check_duplicate($uname,$pass,$mail){
 	}
 }
 
+//check whether old password matches
+//when updating password
+//else give error message
 function check_validPass($pass,$id){
 	global $errors,$cross_emote;
 	$pass = sanitize_input($pass);
@@ -163,6 +174,9 @@ function check_validPass($pass,$id){
 	}
 }
 
+//check whether username and email matches
+//when reseting password
+//else print error message
 function resetpass_validation($uname,$email){
 	global $errors,$cross_emote;
 	$uname= sanitize_input($uname);
@@ -176,6 +190,8 @@ function resetpass_validation($uname,$email){
 	}
 }	
 
+//checks whether starttime is less than
+//end time
 function validate_time($stime,$etime){
 	global $errors,$cross_emote;
 	$stime = sanitize_input($stime);
@@ -188,6 +204,8 @@ function validate_time($stime,$etime){
 	}
 }
 
+//checks whether the time given follows valid
+//time format
 function valid_time_check($time,$key,$msg){
 	global $errors,$cross_emote,$time_pattern;
 	$time = sanitize_input($time);
@@ -196,6 +214,8 @@ function valid_time_check($time,$key,$msg){
 	}
 }
 
+//checks whether the date given follows valid
+//date format
 function valid_date_check($date,$key,$msg){
 	global $errors,$cross_emote;
 	$date = sanitize_input($date);
@@ -203,4 +223,12 @@ function valid_date_check($date,$key,$msg){
 	if($date['error_count'] !== 0){
 		$errors[$key] = $msg.$cross_emote;
 	}
+}
+
+//set custom error message 
+//for the error array
+//with a key and a message
+function setErrorMsg($key,$msg){
+	global $errors,$cross_emote;
+	$errors[$key] = $msg.$cross_emote;
 }
