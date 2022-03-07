@@ -49,7 +49,7 @@ if(count($errors) === 0 && $validated === true){
 		$_SESSION['tu_data'] = $udata;
 	}
 	else{
-		setTaskData($data,get_fileName());
+		setJsonData($data,get_fileName());
 		$_SESSION['success'] = get_sucess("Task created succesfully ");
 		if(isset($_SESSION['t_errors']) && isset($_SESSION['t_data'])){
 			unset($_SESSION['t_errors']);

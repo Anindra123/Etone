@@ -26,6 +26,7 @@ else{
 	$ln_data = $_SESSION['ln_data'];
 }
 
+$errors = $_SESSION['ln_errors'] ?? [];
 require_once 'includes/header.php';
 ?>
 
@@ -38,7 +39,13 @@ require_once 'includes/header.php';
 <form action="../controller/noteSearch.php" method="get" novalidate>
 	<label for="n_name">Search for a note by name :</label>
 	<input type="search" name="n_name" value="">
+	&nbsp;
+	<input type="submit" name="search" value="search">
+	&nbsp;
+	<span><?php echo $errors['search_err'] ?? ''; ?></span>
 </form>
+<hr>
+<br>
 <?php 
 if(isset($_SESSION['success'])){
 	echo '<br>';
@@ -59,6 +66,9 @@ if(count($ln_data) === 0){
 	}
 	if(isset($_SESSION['ln_data'])){
 		unset($_SESSION['ln_data']);
+	}
+	if(isset($_SESSION['ln_errors'])){
+		unset($_SESSION['ln_errors']);
 	}	
 	echo '<strong>No lecture notes added</strong>';
 	require_once 'includes/footer.php';
@@ -104,6 +114,9 @@ if(isset($_SESSION['success'])){
 }
 if(isset($_SESSION['m_errors'])){
 	unset($_SESSION['m_errors']);
+}
+if(isset($_SESSION['ln_errors'])){
+	unset($_SESSION['ln_errors']);
 }
 require_once 'includes/footer.php';
 

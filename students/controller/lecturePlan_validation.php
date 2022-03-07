@@ -10,8 +10,8 @@ $uid= $_SESSION['id'];
 $errors = [];
 $validated = false;
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-	$sname = $_POST['sname'];
-	$topics = $_POST['topics'];
+	$sname = sanitize_input($_POST['sname']);
+	$topics = sanitize_input($_POST['topics']);
 	required_check($sname,"sname_err","Task title cannot be empty");
 	valid_name_check($sname,"sname_err","Not a proper task title");
 	$topics = sanitize_input($topics);

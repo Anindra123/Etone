@@ -10,15 +10,15 @@ $validated = false;
 
 //perform the required validation and checking whether request method is post
 if($_SERVER['REQUEST_METHOD'] === "POST"){
-    $mail = $_POST['mail'];
-    $pass = $_POST['pass'];
-    $uname = $_POST['uname'];
-    $cpass = $_POST['cpass'];
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $mname = $_POST['mname'];
-    $loe = $_POST['loe'] ?? '';
-    $ins_name = $_POST['ins_name'];
+    $mail = sanitize_input($_POST['mail']);
+    $pass = sanitize_input($_POST['pass']);
+    $uname = sanitize_input($_POST['uname']);
+    $cpass = sanitize_input($_POST['cpass']);
+    $fname = sanitize_input($_POST['fname']);
+    $lname = sanitize_input($_POST['lname']);
+    $mname = sanitize_input($_POST['mname']);
+    $loe = sanitize_input($_POST['loe'] ?? '');
+    $ins_name = sanitize_input($_POST['ins_name']);
     email_validation($mail);
     password_validation($pass);
     name_validation($fname,$lname,$mname);

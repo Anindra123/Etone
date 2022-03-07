@@ -11,8 +11,8 @@ $validated = false;
 
 if($_SERVER['REQUEST_METHOD'] === "POST"){
 	global $uname,$mail,$errors,$validated;
-	$uname = $_POST['uname'];
-	$mail = $_POST['mail'];
+	$uname = sanitize_input($_POST['uname']);
+	$mail = sanitize_input($_POST['mail']);
 
 	email_validation($mail);
 	username_validation($uname);

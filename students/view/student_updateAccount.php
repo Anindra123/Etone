@@ -86,7 +86,7 @@ require_once 'includes/header.php';
 <br>
 <form action="delete_account.php">
     <fieldset>
-        <legend>Danger Zone</legend>
+        <legend>&#9940; Danger Zone &#9940;</legend>
         <br>
         <button type="submit">Delete Account</button>
         <br><br>

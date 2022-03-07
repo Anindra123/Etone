@@ -1,9 +1,13 @@
 <?php
 require_once 'dataAcessType.php';
+
+// read contents from file and 
+//return json data
 function readData($filename){
 	$fr = "";
 	$handle = fopen($filename,'r');
 	$flen = filesize($filename);
+	//check if the file has content
 	if($flen > 0){
 		$fr = fread($handle,$flen);
 	}
@@ -11,26 +15,26 @@ function readData($filename){
 	return $fr;
 }
 
+//write json data to a file
 function writeData($data,$filename){
 	$fw = "";
 	$handle = fopen($filename,'w');
 	$fw = fwrite($handle, $data);
 	$fc = fclose($handle);
+	// check if the data has been written to
+	// the file
 	if($fw === false){
 		echo "<h3>Cannot write to file</h3>";
 		exit();
 	}
 }
 
+//set student registration data
 function set_studentData($data){
 	$filename = get_fileName();
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
-	$handle = fopen($filename, 'w');
 	$data_arr = array();
-	if($handle === false){
-		die("<h3>Cannot open file</h3>");
-	}
 	if($arr === NULL){
 		$data['id'] = 1;
 		$data_arr[] = $data;
@@ -42,11 +46,12 @@ function set_studentData($data){
 		$data['id']++; 
 		$arr[] = $data;
 		$arr = json_encode($arr);
-		fwrite($handle, $arr);
+		writeData($arr,$filename);
 	}
-	$fc = fclose($handle);
 }
 
+//check whether user has given
+//correct username and pass when login
 function validate_login($email,$pass){
 	$json_data = readData(get_fileName());
 	$arr = json_decode($json_data) ?? [];
@@ -68,6 +73,8 @@ function validate_login($email,$pass){
 
 }
 
+//returns all data for a student
+// with a unique id
 function get_studentAccData($id){
 	$json_data = readData(get_fileName());
 	$out = json_decode($json_data) ?? [];
@@ -78,6 +85,8 @@ function get_studentAccData($id){
 	}
 }
 
+//check for duplicate username,password or mail
+//during registering
 function validate_registration($uname,$pass,$mail){
 	$json_data = readData(get_fileName());
 	$arr = json_decode($json_data) ?? [];
@@ -93,6 +102,7 @@ function validate_registration($uname,$pass,$mail){
 	return False;
 }
 
+//update student current account information
 function update_studentData($data,$id){
 	$json_data = readData(get_fileName());
 	$arr = json_decode($json_data);
@@ -111,6 +121,8 @@ function update_studentData($data,$id){
 
 }
 
+//check whether old password
+//given when changing password is valid
 function valid_pass($pass,$id){
 	$data = get_studentAccData($id);
 	if($data->pass === $pass){
@@ -118,6 +130,8 @@ function valid_pass($pass,$id){
 	}
 	return False;
 }
+
+//update user password
 function update_password($data,$id){
 	$json_data = readData(get_fileName());
 	$arr = json_decode($json_data);
@@ -132,6 +146,8 @@ function update_password($data,$id){
 
 }
 
+//checks whether user has given
+//correct username and email when reseting password
 function passwordReset_validation($uname,$email){
 	$json_data = readData(get_fileName());
 	$arr  = json_decode($json_data);
@@ -144,17 +160,27 @@ function passwordReset_validation($uname,$email){
 	return -1;
 }
 
-
-function delete_account($id){
-	$json_data = readData(get_fileName());
+//delete account and its related data
+function delete_account($uid,$filename,$flag=false){
+	$json_data = readData($filename);
 	$arr  = json_decode($json_data);
 	$new_arr = array();
 	for ($i=0; $i < count($arr); $i++) { 
-		if($arr[$i]->id === $id){
-			continue;
+		if($flag === true){
+			if($arr[$i]->id === $uid){
+				continue;
+			}
+			else{
+				$new_arr[] = $arr[$i];
+			}
 		}
 		else{
-			$new_arr[] = $arr[$i];
+			if($arr[$i]->uid === $uid){
+				continue;
+			}
+			else{
+				$new_arr[] = $arr[$i];
+			}
 		}
 	}
 	$new_arr = json_encode($new_arr);
@@ -162,55 +188,10 @@ function delete_account($id){
 }
 
 
-function getAllTaskData($uid,$filename){
-	$json_data = readData($filename) ?? '';
-	if(empty($json_data)){
-		return [];
-	}
-	$arr = json_decode($json_data);
-	$out = array();
-	for ($i=0; $i < count($arr); $i++) { 
-		if($arr[$i]->uid === $uid){
-			$out[] = $arr[$i];
-		}
-	}
-	if(count($out) > 0){
-		return $out;
-	}
-	else{
-		return [];
-	}
-}
 
-function getTaskData($uid,$tid,$filename){
-	$json_data = readData($filename);
-	$arr = json_decode($json_data);
-	for ($i=0; $i < count($arr); $i++) { 
-		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
-			return $arr[$i];
-		}
-	}
-}
 
-function setTaskData($data,$filename){
-	$json_data = readData($filename);
-	$arr = json_decode($json_data);
-	if(!isset($arr)){
-		$data_arr = [];
-		$data['id'] = 1;
-		$data_arr[] = $data;
-		$data_arr = json_encode($data_arr);
-		writeData($data_arr,$filename);
-	}
-	else{
-		$data['id'] = $arr[count($arr)-1]->id;
-		$data['id']++;
-		$arr[] = $data;
-		$arr= json_encode($arr);
-		writeData($arr,$filename);
-	}
-}
 
+//update daily task data
 function updateTaskData($uid,$tid,$data,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -225,18 +206,11 @@ function updateTaskData($uid,$tid,$data,$filename){
 	writeData($data,$filename);
 }
 
-function checkValidTaskID($uid,$tid,$filename){
-	$json_data = readData($filename);
-	$arr = json_decode($json_data);
-	for ($i=0; $i < count($arr); $i++) { 
-		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
-			return $arr[$i];
-		}
-	}
-	return [];
-}
 
 
+//check the selected data id
+//for deleting or updating status
+//reusable method
 function checkValidID($uid,$id,$filename,$pid=0){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -255,21 +229,8 @@ function checkValidID($uid,$id,$filename,$pid=0){
 	return [];
 }
 
-function deleteTask($uid,$tid,$filename){
-	$json_data = readData($filename);
-	$arr = json_decode($json_data);
-	$out = [];
-	for ($i=0; $i < count($arr); $i++) { 
-		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
-			continue;
-		}
-		else{
-			$out[] = $arr[$i];
-		}
-	}
-	$data = json_encode($out);
-	writeData($data,$filename);
-}
+//delete user any user related data
+//reusable method 
 function deleteJsonData($uid,$id,$filename,$pid=0,$flag=false){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -303,6 +264,7 @@ function deleteJsonData($uid,$id,$filename,$pid=0,$flag=false){
 	writeData($data,$filename);
 }
 
+//change task status from todo to complete
 function changeTaskStatus($uid,$tid,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -315,7 +277,8 @@ function changeTaskStatus($uid,$tid,$filename){
 	writeData($data,$filename);
 }
 
-
+//get all user related data
+//reusable method
 function getAllJsonData($uid,$filename,$pid = 0){
 
 	$json_data = readData($filename) ?? '';
@@ -346,7 +309,8 @@ function getAllJsonData($uid,$filename,$pid = 0){
 		return [];
 	}
 }
-
+//set user related data
+//reusable method
 function setJsonData($data,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -366,6 +330,7 @@ function setJsonData($data,$filename){
 	}
 }
 
+//update lecture planner related data
 function updateLecturePlanData($uid,$tid,$data,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -378,6 +343,7 @@ function updateLecturePlanData($uid,$tid,$data,$filename){
 	$data = json_encode($arr);
 	writeData($data,$filename);
 }
+//update lecture note related data
 function updateLectureNoteData($uid,$pid,$id,$data,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -392,7 +358,8 @@ function updateLectureNoteData($uid,$pid,$id,$data,$filename){
 	$data = json_encode($arr);
 	writeData($data,$filename);
 }
-
+//returns only a single user related data
+// reusable method
 function getSingleJsonData($uid,$id,$filename,$pid=0){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -409,7 +376,28 @@ function getSingleJsonData($uid,$id,$filename,$pid=0){
 		}
 	}
 }
+//search for some data and return single data
+//reusable method
+function searchJsonData($uid,$key,$name,$filename,$pid=0){
+	$data = getAllJsonData($uid,$filename,$pid);
+	$found = false;
+	$out = [];
+	for ($i=0; $i < count($data); $i++) {
+		$arr = (array)$data[$i]; 
+		if(strtolower($arr[$key]) === strtolower($name)){
+			$out = $arr;
+			$found = true;
+		}
+	}
 
+	if($found){
+		return $out;
+	}
+	else{
+		return [];
+	}
+}
+//update weekly scheduler related data 
 function updateWeeklyScheduleData($uid,$id,$data,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
@@ -421,6 +409,7 @@ function updateWeeklyScheduleData($uid,$id,$data,$filename){
 	$data = json_encode($arr);
 	writeData($data,$filename);
 }
+//update class schedule data for weekly scheduler
 function updateClassScheduleData($uid,$pid,$id,$data,$filename){
 	$json_data = readData($filename);
 	$arr = json_decode($json_data);
