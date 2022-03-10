@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'validations.php';
+require_once 'includes/validations.php';
 require_once '../model/dataAcess.php';
 require_once '../model/dataAcessType.php';
 set_type("f","../model/students.json");
@@ -54,7 +54,9 @@ if(count($errors) === 0 && $validated === true ){
     );
 
 
-    set_studentData($data);
+    //set_studentData($data);
+
+    setJsonData($data,get_fileName());
 
     $_SESSION['success'] = get_sucess("Signed up sucessfully");
     if(isset($_SESSION['r_errors']) && isset($_SESSION['r_data'])){

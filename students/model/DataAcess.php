@@ -29,26 +29,6 @@ function writeData($data,$filename){
 	}
 }
 
-//set student registration data
-function set_studentData($data){
-	$filename = get_fileName();
-	$json_data = readData($filename);
-	$arr = json_decode($json_data);
-	$data_arr = array();
-	if($arr === NULL){
-		$data['id'] = 1;
-		$data_arr[] = $data;
-		$data_arr = json_encode($data_arr);
-		writeData($data_arr,$filename);
-	}
-	else{
-		$data['id'] = $arr[count($arr)-1]->id;
-		$data['id']++; 
-		$arr[] = $data;
-		$arr = json_encode($arr);
-		writeData($arr,$filename);
-	}
-}
 
 //check whether user has given
 //correct username and pass when login
@@ -279,7 +259,7 @@ function changeTaskStatus($uid,$tid,$filename){
 
 //get all user related data
 //reusable method
-function getAllJsonData($uid,$filename,$pid = 0){
+function getAllJsonData($uid,$filename,$pid = 0,$flag = false){
 
 	$json_data = readData($filename) ?? '';
 	if(empty($json_data)){
@@ -288,17 +268,24 @@ function getAllJsonData($uid,$filename,$pid = 0){
 	$arr = json_decode($json_data);
 	$out = array();
 	for ($i=0; $i < count($arr); $i++) { 
-		if($pid !== 0){
-
-			if($arr[$i]->uid === $uid && $arr[$i]->pid === $pid){
-				$out[] = $arr[$i];
+		if($flag === true){
+			if($arr[$i]->id === $uid){
+				return $arr[$i];
 			}
-			
 		}
 		else{
-			if($arr[$i]->uid === $uid){
-				$out[] = $arr[$i];
-			} 
+			if($pid !== 0){
+
+				if($arr[$i]->uid === $uid && $arr[$i]->pid === $pid){
+					$out[] = $arr[$i];
+				}
+
+			}
+			else{
+				if($arr[$i]->uid === $uid){
+					$out[] = $arr[$i];
+				} 
+			}
 		}
 
 	}

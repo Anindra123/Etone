@@ -1,7 +1,7 @@
 <?php 
 session_start();
-require_once 'validations.php';
-require_once 'routeTaskPage.php';
+require_once 'includes/validations.php';
+require_once 'includes/routeTaskPage.php';
 require_once '../model/dataAcess.php';
 require_once '../model/dataAcessType.php';
 set_type("f","../model/lecturePlanData.json");

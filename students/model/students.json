@@ -5,15 +5,15 @@
         "pass": "1234",
         "uname": "bivas",
         "fname": "Anindra",
-        "lname": "Das",
-        "mname": "",
+        "lname": "Bivas",
+        "mname": "Das",
         "loe": "College",
         "ins_name": "AIUB"
     },
     {
         "id": 2,
         "mail": "sue@mail.com",
-        "pass": "4444",
+        "pass": "5555",
         "uname": "sue",
         "fname": "Sue",
         "lname": "Storm",

@@ -5,7 +5,7 @@
 	set_type("f","../model/students.json");
 	$id = $_SESSION['id'];
 	if(!isset($_SESSION['u_data'])){
-		$_SESSION['u_data'] = get_studentAccData($id);
+		$_SESSION['u_data'] = getAllJsonData($id,get_fileName(),0,true);
 		
 	}
 	if($_SESSION['page_name'] === 'Update Account Info Page'){
