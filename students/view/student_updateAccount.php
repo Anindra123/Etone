@@ -98,4 +98,7 @@ require_once 'includes/footer.php';
 if(isset($_SESSION['u_errors'])){
     unset($_SESSION['u_errors']);
 }
+if(isset($_SESSION['u_data'])){
+    unset($_SESSION['u_data']);
+}
 ?>  

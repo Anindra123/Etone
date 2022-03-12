@@ -30,6 +30,7 @@ function email_validation($mail){
 
 }
 
+
 //validate passwords
 function password_validation($pass,$key="pass_err"){
 	global $errors;

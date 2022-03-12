@@ -65,6 +65,49 @@ function get_studentAccData($id){
 	}
 }
 
+function get_AllNoteGroupData($filename){
+	$json_data = readData(get_fileName());
+	$out = json_decode($json_data) ?? [];
+	return $out;
+}
+
+function updateNoteGroupData($id,$data,$filename){
+	$json_data = readData(get_fileName());
+	$out = json_decode($json_data) ?? [];
+	for ($i=0; $i < count($out); $i++) { 
+		if($out[$i]->id === $id){
+			$out[$i]->gname = $data['gname'];
+			$out[$i]->con_per = $data['con_per'];
+			$out[$i]->shared_notes = $data['shared_notes'];
+			$out[$i]->note_viewers = $data['note_viewers'];
+		}
+	}
+	$data = json_encode($out);
+	writeData($data,$filename);
+}
+
+function search_studentData($mail,$filename){
+	$json_data = readData($filename) ?? '';
+	if(empty($json_data)){
+		return [];
+	}
+	$data = json_decode($json_data);
+	$out = Null;
+	$found = false;
+	for ($i=0; $i < count($data); $i++) { 
+		if($data[$i]->mail === $mail){
+			$out = $data[$i];
+			$found = true;
+		}
+	}
+	if($found){
+		return $out;
+	}else{
+		return [];
+	}
+
+}
+
 //check for duplicate username,password or mail
 //during registering
 function validate_registration($uname,$pass,$mail){
@@ -411,4 +454,40 @@ function updateClassScheduleData($uid,$pid,$id,$data,$filename){
 	}
 	$data = json_encode($arr);
 	writeData($data,$filename);
+}
+
+function discardNoteGroup($id,$filename){
+	$json_data = readData($filename);
+	$data = json_decode($json_data) ?? [];
+	$out = [];
+	for ($i=0; $i < count($data); $i++) { 
+		if($data[$i]->id !== $id){
+			$out[] = $data[$i];
+		}
+	}
+	$out = json_encode($out);
+	writeData($out,$filename);
+}
+
+function userMemberOfGroup($mail,$filename){
+	$json_data = readData($filename);
+	$data = json_decode($json_data) ?? [];
+	$flag = false;
+	for ($i=0; $i < count($data); $i++) { 
+
+		$note_viewers = $data[$i]->note_viewers;
+		for ($j=0; $j < count($note_viewers); $j++) { 
+			if($note_viewers[$j]->mail === $mail){
+				$flag = true;
+			}
+		}
+	}
+	if($flag){
+		return True;
+	}
+	else{
+		return False;
+	}
+	
+
 }

@@ -54,7 +54,7 @@ if(count($errors) === 0 && $validated === true){
 }
 else{
 	$_SESSION['lp_errors'] = $errors;
-	$lpdata = [
+	$data = [
 			'sname' => $sname,
 			'topics' => $topics
 		];

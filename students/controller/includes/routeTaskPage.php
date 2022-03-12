@@ -4,6 +4,24 @@ function getRouteUrl(){
 	$url = "";
 
 	switch ($_SESSION['page_name']) {
+		case 'Update Note Group Page':
+			$url = 'Location: ../view/student_updateNoteGroup.php';
+			break;
+		case 'Show Shared Lecture Notes Page':
+			$url = 'Location: ../view/student_sharedNoteShow.php';
+			break;
+		case 'Shared Lecture Notes Page':
+			$url = 'Location: ../view/student_sharedNote.php';
+			break;
+		case 'Note Group Users Page':
+			$url = 'Location: ../view/student_noteGroupUsers.php';
+			break;
+		case 'Note Group Page':
+			$url = 'Location: ../view/student_noteGroup.php';
+			break;
+		case 'Create Note Group Page':
+			$url = 'Location: ../view/student_createNoteGroup.php';
+			break;
 		case 'Update Task Page':
 			$url = 'Location: ../view/student_taskUpdate.php';
 			break;

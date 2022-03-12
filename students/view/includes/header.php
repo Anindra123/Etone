@@ -41,7 +41,7 @@
 				<a href="student_tasks.php">Daily Tasks</a>&nbsp;
 				<a href="student_lecturePlanner.php">Lecture Planner</a>&nbsp;
 				<a href="student_scheduler.php">Class Scheduler</a>&nbsp;
-				
+				<a href="student_noteGroup.php">Note Group</a>&nbsp;
 			</nav>
 			<br>
 			<hr>
