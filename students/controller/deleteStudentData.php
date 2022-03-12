@@ -17,6 +17,17 @@ if(isset($_GET['submit'])){
 		delete_account($id,get_fileName());
 		set_type("f","../model/student_taskData.json");
 		delete_account($id,get_fileName());
+		set_type("f","../model/noteGroup.json");
+		if(isset($_SESSION['g_id'])){
+			if($_SESSION['user_type'] === 'gc'){
+				$uid = $_SESSION['g_id'];
+				discardNoteGroup($uid,get_fileName());
+			}
+			else{
+				$_SESSION['uid'] = $id;
+				require_once 'includes/removeUserData.php';
+			}
+		}
 		set_type("f","../model/students.json");
 		delete_account($id,get_fileName(),true);
 		header("Location: ../view/logout.php");

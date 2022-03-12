@@ -29,26 +29,6 @@ function writeData($data,$filename){
 	}
 }
 
-//set student registration data
-function set_studentData($data){
-	$filename = get_fileName();
-	$json_data = readData($filename);
-	$arr = json_decode($json_data);
-	$data_arr = array();
-	if($arr === NULL){
-		$data['id'] = 1;
-		$data_arr[] = $data;
-		$data_arr = json_encode($data_arr);
-		writeData($data_arr,$filename);
-	}
-	else{
-		$data['id'] = $arr[count($arr)-1]->id;
-		$data['id']++; 
-		$arr[] = $data;
-		$arr = json_encode($arr);
-		writeData($arr,$filename);
-	}
-}
 
 //check whether user has given
 //correct username and pass when login
@@ -83,6 +63,49 @@ function get_studentAccData($id){
 			return $out[$i];
 		}
 	}
+}
+
+function get_AllNoteGroupData($filename){
+	$json_data = readData(get_fileName());
+	$out = json_decode($json_data) ?? [];
+	return $out;
+}
+
+function updateNoteGroupData($id,$data,$filename){
+	$json_data = readData(get_fileName());
+	$out = json_decode($json_data) ?? [];
+	for ($i=0; $i < count($out); $i++) { 
+		if($out[$i]->id === $id){
+			$out[$i]->gname = $data['gname'];
+			$out[$i]->con_per = $data['con_per'];
+			$out[$i]->shared_notes = $data['shared_notes'];
+			$out[$i]->note_viewers = $data['note_viewers'];
+		}
+	}
+	$data = json_encode($out);
+	writeData($data,$filename);
+}
+
+function search_studentData($mail,$filename){
+	$json_data = readData($filename) ?? '';
+	if(empty($json_data)){
+		return [];
+	}
+	$data = json_decode($json_data);
+	$out = Null;
+	$found = false;
+	for ($i=0; $i < count($data); $i++) { 
+		if($data[$i]->mail === $mail){
+			$out = $data[$i];
+			$found = true;
+		}
+	}
+	if($found){
+		return $out;
+	}else{
+		return [];
+	}
+
 }
 
 //check for duplicate username,password or mail
@@ -279,7 +302,7 @@ function changeTaskStatus($uid,$tid,$filename){
 
 //get all user related data
 //reusable method
-function getAllJsonData($uid,$filename,$pid = 0){
+function getAllJsonData($uid,$filename,$pid = 0,$flag = false){
 
 	$json_data = readData($filename) ?? '';
 	if(empty($json_data)){
@@ -288,17 +311,24 @@ function getAllJsonData($uid,$filename,$pid = 0){
 	$arr = json_decode($json_data);
 	$out = array();
 	for ($i=0; $i < count($arr); $i++) { 
-		if($pid !== 0){
-
-			if($arr[$i]->uid === $uid && $arr[$i]->pid === $pid){
-				$out[] = $arr[$i];
+		if($flag === true){
+			if($arr[$i]->id === $uid){
+				return $arr[$i];
 			}
-			
 		}
 		else{
-			if($arr[$i]->uid === $uid){
-				$out[] = $arr[$i];
-			} 
+			if($pid !== 0){
+
+				if($arr[$i]->uid === $uid && $arr[$i]->pid === $pid){
+					$out[] = $arr[$i];
+				}
+
+			}
+			else{
+				if($arr[$i]->uid === $uid){
+					$out[] = $arr[$i];
+				} 
+			}
 		}
 
 	}
@@ -424,4 +454,40 @@ function updateClassScheduleData($uid,$pid,$id,$data,$filename){
 	}
 	$data = json_encode($arr);
 	writeData($data,$filename);
+}
+
+function discardNoteGroup($id,$filename){
+	$json_data = readData($filename);
+	$data = json_decode($json_data) ?? [];
+	$out = [];
+	for ($i=0; $i < count($data); $i++) { 
+		if($data[$i]->id !== $id){
+			$out[] = $data[$i];
+		}
+	}
+	$out = json_encode($out);
+	writeData($out,$filename);
+}
+
+function userMemberOfGroup($mail,$filename){
+	$json_data = readData($filename);
+	$data = json_decode($json_data) ?? [];
+	$flag = false;
+	for ($i=0; $i < count($data); $i++) { 
+
+		$note_viewers = $data[$i]->note_viewers;
+		for ($j=0; $j < count($note_viewers); $j++) { 
+			if($note_viewers[$j]->mail === $mail){
+				$flag = true;
+			}
+		}
+	}
+	if($flag){
+		return True;
+	}
+	else{
+		return False;
+	}
+	
+
 }

@@ -73,6 +73,8 @@ if(count($lp_data) === 0){
 			echo '&nbsp;';
 			echo "<a href=../controller/lecturePlan_delete.php?lp_id=$id>Delete</a>";
 			echo '&nbsp;';
+			echo "<a href=../controller/share_lectureNote.php?lp_id=$id>Share</a>";
+			echo '&nbsp;';
 			echo '</td>';
 			echo '</tr>';
 		}

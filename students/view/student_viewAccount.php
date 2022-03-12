@@ -11,6 +11,7 @@ if(!isset($_SESSION['id'])){
 
 if(!isset($_SESSION['u_data'])){
     header('Location: ../controller/viewStudentData.php');
+    exit();
 }
 else{
     $data =$_SESSION['u_data'];

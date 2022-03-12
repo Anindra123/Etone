@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-require_once '../controller/validations.php';
 if(!isset($_SESSION['id'])){
 	header('Location: index.php');
 	$_SESSION['m_errors'] = get_failure('Error in login ');
