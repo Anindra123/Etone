@@ -38,8 +38,8 @@ function password_validation($pass,$key="pass_err"){
 	if(empty($pass)){
 		$errors[$key] = "Password cannot be empty ".$GLOBALS['cross_emote'];
 	}
-	else if(strlen($pass) > 8){
-		$errors[$key] = "Password can be maximum 8 characters long ".$GLOBALS['cross_emote'];
+	else if(strlen($pass) < 6 || strlen($pass) > 10){
+		$errors[$key] = "Password must be minimum 6 characters and maximum 10 characters ".$GLOBALS['cross_emote'];
 	}
 
 }
@@ -51,8 +51,8 @@ function confirm_pass_validation($cpass,$pass){
 	if(empty($cpass)){
 		$errors["cpass_err"] = "Confirm Password Feild cannot be empty ".$GLOBALS['cross_emote'];
 	}
-	else if(strlen($pass) > 8){
-		$errors["cpass_err"] = "Confirm Password Feild can be maximum 8 characters long ".$GLOBALS['cross_emote'];
+	else if(strlen($pass) < 6 || strlen($pass) > 10){
+		$errors[$key] = "Password must be minimum 6 characters and maximum 10 characters ".$GLOBALS['cross_emote'];
 	}
 	else if($cpass !== $pass){
 		$errors["cpass_err"] = "Password does not match ".$GLOBALS['cross_emote'];

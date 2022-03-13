@@ -2,6 +2,7 @@
 $id = $_SESSION['id'];
 
 $gdata = null;
+
 if(count($ng_data) > 0){
 	for ($j=0; $j < count($ng_data); $j++) { 
 		$gid = $ng_data[$j]->id;

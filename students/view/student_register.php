@@ -60,7 +60,7 @@ session_start()
         <label>Level of education * :</label>
         <input type="radio" name="loe" value="Elementary"
         id="elem">
-        <label for="elem">Elementary(1-6)</label>
+        <label for="elem">Elementary(1-5)</label>
         <input type="radio" name="loe" value="Middle School"
         id="ms">
         <label for="ms">Middle School(5-9)</label>
