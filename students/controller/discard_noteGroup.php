@@ -5,6 +5,7 @@ require_once 'includes/routeTaskPage.php';
 require_once '../model/dataAcess.php';
 require_once '../model/dataAcessType.php';
 set_type("f","../model/noteGroup.json");
+
 if(isset($_SESSION['g_id'])){
 	$id = $_SESSION['g_id'];
 	discardNoteGroup($id,get_fileName());
