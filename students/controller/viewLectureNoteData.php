@@ -1,17 +1,44 @@
 <?php 
 session_start();
 require_once 'includes/routeTaskPage.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/lectureNoteData.json");
+require_once '../model/dbDataAcess.php';
+// require_once '../model/dataAcessType.php';
+// set_type("f","../model/lectureNoteData.json");
 $id = $_SESSION['id'] ?? '';
 $pid = $_SESSION['pid'] ?? '';
 if($_SESSION['page_name'] === 'Update Lecture Notes Page'){
 	$lnid = $_SESSION['ln_id'];
-	$_SESSION['lnu_data'] = getSingleJsonData($id,$lnid,get_fileName(),$pid);
+	// $_SESSION['lnu_data'] = getSingleJsonData($id,$lnid,get_fileName(),$pid);
+	$result = getLectureNoteData($id,$pid,$lnid);
+	if($result !== null){
+		$dataResult = $result->get_result();
+		if($dataResult->num_rows >= 1){
+			$_SESSION['lnu_data'] = $dataResult->fetch_assoc();
+		}
+		$result->close();
+		$conn->close();
+	}
 }
 else if($_SESSION['page_name'] === 'Lecture Notes Page'){
-	$_SESSION['ln_data']  = getAllJsonData($id,get_fileName(),$pid);
+	// $_SESSION['ln_data']  = getAllJsonData($id,get_fileName(),$pid);
+
+	$result = getAllLectureNoteData($id,$pid);
+	if($result !== null){
+		$dataResult = $result->get_result();
+		$out = [];
+		$data = [];
+		if($dataResult->num_rows >= 1){
+				while($data = $dataResult->fetch_assoc()){
+					$out[] = $data;
+				}
+				$_SESSION['ln_data'] = $out;
+				
+		}else{
+			$_SESSION['ln_data'] = [];
+		}
+		$result->close();
+		$conn->close();
+	}
 }
 else if($_SESSION['page_name'] === 'Shared Lecture Notes Page'){
 	$uid = $_SESSION['uid'];
@@ -19,7 +46,16 @@ else if($_SESSION['page_name'] === 'Shared Lecture Notes Page'){
 }
 else if($_SESSION['page_name'] === 'Show Lecture Notes Page'){
 	$lnid = $_SESSION['ln_id'];
-	$_SESSION['lns_data']  = getSingleJsonData($id,$lnid,get_fileName(),$pid);
+	// s
+	$result = getLectureNoteData($id,$pid,$lnid);
+	if($result !== null){
+		$dataResult = $result->get_result();
+		if($dataResult->num_rows >= 1){
+			$_SESSION['lns_data']  = $dataResult->fetch_assoc();
+		}
+		$result->close();
+		$conn->close();
+	}
 }
 else if($_SESSION['page_name'] === 'Show Shared Lecture Notes Page'){
 	$uid = $_SESSION['uid'];

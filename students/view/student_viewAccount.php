@@ -21,32 +21,32 @@ require_once 'includes/header.php';
 <h3>Your account information :</h3>
 <table border="1">
 	<tr>
-		<th>First Name :</th>
-		<td><?php echo $data->fname;?></td>
+		<th>First Name </th>
+		<td><?php echo $data['fname'];?></td>
 	</tr>
 	<tr>
-		<th>Middle Name :</th>
-		<td><?php echo $data->mname;?></td>
+		<th>Middle Name </th>
+		<td><?php echo $data['mname'];?></td>
 	</tr>
 	<tr>
-		<th>Last Name :</th>
-		<td><?php echo $data->lname;?></td>
+		<th>Last Name </th>
+		<td><?php echo $data['lname'];?></td>
 	</tr>
 	<tr>
-		<th>User Name :</th>
-		<td><?php echo $data->uname;?></td>
+		<th>User Name </th>
+		<td><?php echo $data['uname'];?></td>
 	</tr>
 	<tr>
 		<th>Email :</th>
-		<td><?php echo $data->mail;?></td>
+		<td><?php echo $data['mail'];?></td>
 	</tr>
 	<tr>
-		<th>Level of education :</th>
-		<td><?php echo $data->loe;?></td>
+		<th>Level of education </th>
+		<td><?php echo $data['loe'];?></td>
 	</tr>
 	<tr>
-		<th>Institution :</th>
-		<td><?php echo $data->ins_name;?></td>
+		<th>Institution </th>
+		<td><?php echo $data['ins_name'];?></td>
 	</tr>
 
 </table>

@@ -56,15 +56,15 @@ if(count($lp_data) === 0){
 	<tbody>
 		<?php 
 		for ($i=0; $i < count($lp_data); $i++) { 
-			$id = $lp_data[$i]->id;
-			$sname = $lp_data[$i]->sname;
+			$id = $lp_data[$i]['id'];
+			$sname = $lp_data[$i]['sname'];
 			//$q1 = $
 			echo '<tr>';
 			echo '<td>';
-			echo $lp_data[$i]->sname;
+			echo $lp_data[$i]['sname'];
 			echo '</td>';
 			echo '<td>';
-			echo $lp_data[$i]->topics;
+			echo $lp_data[$i]['topics'];
 			echo '</td>';
 			echo '<td>';
 			echo "<a href=student_lectureNotes.php?lpid=$id&name=$sname>Check notes</a>";

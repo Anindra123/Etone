@@ -108,41 +108,41 @@ function search_studentData($mail,$filename){
 
 }
 
-//check for duplicate username,password or mail
-//during registering
-function validate_registration($uname,$pass,$mail){
-	$json_data = readData(get_fileName());
-	$arr = json_decode($json_data) ?? [];
-	for($i=0;$i<count($arr);$i++){
-		if($arr[$i]->uname === $uname || 
-			$arr[$i]->pass === $pass ||
-			$arr[$i]->mail === $mail
-		)
-		{
-			return True;
-		}
-	}
-	return False;
-}
+// //check for duplicate username,password or mail
+// //during registering
+// function validate_registration($uname,$pass,$mail){
+// 	$json_data = readData(get_fileName());
+// 	$arr = json_decode($json_data) ?? [];
+// 	for($i=0;$i<count($arr);$i++){
+// 		if($arr[$i]->uname === $uname || 
+// 			$arr[$i]->pass === $pass ||
+// 			$arr[$i]->mail === $mail
+// 		)
+// 		{
+// 			return True;
+// 		}
+// 	}
+// 	return False;
+// }
 
 //update student current account information
-function update_studentData($data,$id){
-	$json_data = readData(get_fileName());
-	$arr = json_decode($json_data);
-	for($i=0;$i<count($data);$i++){
-		if($arr[$i]->id === $id){
-			$arr[$i]->fname = $data['fname'];
-			$arr[$i]->lname = $data['lname'];
-			$arr[$i]->mname = $data['mname'];
-			$arr[$i]->ins_name = $data['ins_name'];
-			$arr[$i]->loe = $data['loe'];
-			break;
-		}
-	}
-	$data = json_encode($arr);
-	writeData($data,get_fileName());
+// function update_studentData($data,$id){
+// 	$json_data = readData(get_fileName());
+// 	$arr = json_decode($json_data);
+// 	for($i=0;$i<count($data);$i++){
+// 		if($arr[$i]->id === $id){
+// 			$arr[$i]->fname = $data['fname'];
+// 			$arr[$i]->lname = $data['lname'];
+// 			$arr[$i]->mname = $data['mname'];
+// 			$arr[$i]->ins_name = $data['ins_name'];
+// 			$arr[$i]->loe = $data['loe'];
+// 			break;
+// 		}
+// 	}
+// 	$data = json_encode($arr);
+// 	writeData($data,get_fileName());
 
-}
+// }
 
 //check whether old password
 //given when changing password is valid
@@ -155,19 +155,19 @@ function valid_pass($pass,$id){
 }
 
 //update user password
-function update_password($data,$id){
-	$json_data = readData(get_fileName());
-	$arr = json_decode($json_data);
-	for($i=0;$i<count($arr);$i++){
-		if($arr[$i]->id === $id){
-			$arr[$i]->pass = $data['pass'];
-			break;
-		}
-	}
-	$data = json_encode($arr);
-	writeData($data,get_fileName());
+// function update_password($data,$id){
+// 	$json_data = readData(get_fileName());
+// 	$arr = json_decode($json_data);
+// 	for($i=0;$i<count($arr);$i++){
+// 		if($arr[$i]->id === $id){
+// 			$arr[$i]->pass = $data['pass'];
+// 			break;
+// 		}
+// 	}
+// 	$data = json_encode($arr);
+// 	writeData($data,get_fileName());
 
-}
+// }
 
 //checks whether user has given
 //correct username and email when reseting password
@@ -234,23 +234,23 @@ function updateTaskData($uid,$tid,$data,$filename){
 //check the selected data id
 //for deleting or updating status
 //reusable method
-function checkValidID($uid,$id,$filename,$pid=0){
-	$json_data = readData($filename);
-	$arr = json_decode($json_data);
-	for ($i=0; $i < count($arr); $i++) { 
-		if($pid !== 0){
-			if($arr[$i]->uid === $uid && $arr[$i]->id === $id && $arr[$i]->pid === $pid){
-				return $arr[$i];
-			}
-		}
-		else{
-			if($arr[$i]->uid === $uid && $arr[$i]->id === $id){
-				return $arr[$i];
-			}
-		}
-	}
-	return [];
-}
+// function checkValidID($uid,$id,$filename,$pid=0){
+// 	$json_data = readData($filename);
+// 	$arr = json_decode($json_data);
+// 	for ($i=0; $i < count($arr); $i++) { 
+// 		if($pid !== 0){
+// 			if($arr[$i]->uid === $uid && $arr[$i]->id === $id && $arr[$i]->pid === $pid){
+// 				return $arr[$i];
+// 			}
+// 		}
+// 		else{
+// 			if($arr[$i]->uid === $uid && $arr[$i]->id === $id){
+// 				return $arr[$i];
+// 			}
+// 		}
+// 	}
+// 	return [];
+// }
 
 //delete user any user related data
 //reusable method 
@@ -287,18 +287,18 @@ function deleteJsonData($uid,$id,$filename,$pid=0,$flag=false){
 	writeData($data,$filename);
 }
 
-//change task status from todo to complete
-function changeTaskStatus($uid,$tid,$filename){
-	$json_data = readData($filename);
-	$arr = json_decode($json_data);
-	for ($i=0; $i < count($arr); $i++) { 
-		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
-			$arr[$i]->status = "Completed";
-		}
-	}
-	$data = json_encode($arr);
-	writeData($data,$filename);
-}
+// //change task status from todo to complete
+// function changeTaskStatus($uid,$tid,$filename){
+// 	$json_data = readData($filename);
+// 	$arr = json_decode($json_data);
+// 	for ($i=0; $i < count($arr); $i++) { 
+// 		if($arr[$i]->uid === $uid && $arr[$i]->id === $tid){
+// 			$arr[$i]->status = "Completed";
+// 		}
+// 	}
+// 	$data = json_encode($arr);
+// 	writeData($data,$filename);
+// }
 
 //get all user related data
 //reusable method

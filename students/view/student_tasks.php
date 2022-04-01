@@ -14,6 +14,8 @@ if(!isset($_SESSION['t_data'])){
 	header('Location: ../controller/viewTaskData.php');
 	exit();
 }else{
+	// var_dump($_SESSION['t_data']);
+	// exit();
 	$task_data = $_SESSION['t_data'];
 }
 require_once 'includes/header.php'; 
@@ -62,22 +64,22 @@ if(count($task_data) === 0){
 	<tbody>
 		<?php 
 		for ($i=0; $i < count($task_data); $i++) { 
-			$id = $task_data[$i]->id;
+			$id = $task_data[$i]['id'];
 			echo '<tr>';
 			echo '<td>';
-			echo $task_data[$i]->tname;
+			echo $task_data[$i]['tname'];
 			echo '</td>';
 			echo '<td>';
-			echo $task_data[$i]->stime;
+			echo date('g:i a',strtotime($task_data[$i]['stime']));
 			echo '</td>';
 			echo '<td>';
-			echo $task_data[$i]->etime;
+			echo date('g:i a',strtotime($task_data[$i]['etime']));
 			echo '</td>';
 			echo '<td>';
-			echo $task_data[$i]->status;
+			echo $task_data[$i]['status'];
 			echo '</td>';
 			echo '<td>';
-			echo $task_data[$i]->date;
+			echo date('d-m-y',strtotime($task_data[$i]['date']));
 			echo '</td>';
 			echo '<td>';
 			echo "<a href=../controller/student_taskComplete.php?t_id=$id>Complete</a>";

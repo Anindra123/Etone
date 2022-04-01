@@ -1,6 +1,6 @@
 <?php 
 
-require_once '../model/dataAcess.php';
+require_once '../model/dbDataAcess.php';
 
 $errors = array();
 $cross_emote = "&#10060;";
@@ -137,31 +137,49 @@ function get_failure($msg){
 
 //all login related validation
 function login_validation($email,$pass){
-	global $cross_emote,$errors;
+	global $cross_emote,$errors,$conn;
 	$email = sanitize_input($email);
 	$pass = sanitize_input($pass);
-	$out = validate_login($email,$pass);
-	if($out === []){
-		$errors['mail_err'] = "Invalid mail or user doesn't exist ".$cross_emote;
-		$errors['pass_err'] = "Invalid password or user doesn't exist ".$cross_emote;
+	$result = validate_login($email,$pass);
+	if($result !== Null){
+		$data = $result->get_result();
+
+		if($data->num_rows == 0){
+			$errors['mail_err'] = "Invalid mail or user doesn't exist ".$cross_emote;
+			$errors['pass_err'] = "Invalid password or user doesn't exist ".$cross_emote;
+		}
+		else{
+
+			$data = $data->fetch_assoc();
+			$result->close();
+			$conn->close();
+			return $data;
+		}
+		
 	}
-	else{
-		return $out;
-	}
+
+	
 }
 //check whether user is creating an account 
 // using same username,password or mail 
 //for seconnd time
 function check_duplicate($uname,$pass,$mail){
-	global $cross_emote,$errors;
+	global $cross_emote,$errors,$conn;
 	$uname = sanitize_input($uname);
 	$mail = sanitize_input($mail);
 	$pass = sanitize_input($pass);
-	if(validate_registration($uname,$pass,$mail) === true){
+	$result = validate_registration($uname,$pass,$mail);
+	if($result !== Null){
+    	$data = $result->get_result();
+    	if($data->num_rows >= 1){
 		$errors['uname_err'] = "Account with same username or email or password already exists ".$cross_emote;
 		$errors['mail_err'] = "Account with same username or email or password already exists ".$cross_emote;
 		$errors['pass_err'] = "Account with same username or email or password already exists ".$cross_emote;
-	}
+		}
+		$result->close();
+    	$conn->close();
+    }
+
 }
 
 //check whether old password matches
@@ -170,8 +188,12 @@ function check_duplicate($uname,$pass,$mail){
 function check_validPass($pass,$id){
 	global $errors,$cross_emote;
 	$pass = sanitize_input($pass);
-	if(!valid_pass($pass,$id)){
-		$errors['pass_err'] = "Given password doesn't match ".$cross_emote;
+	$result = valid_pass($id,$pass);
+	if($result !== Null){
+		$data = $result->get_result();
+		if($data->num_rows == 0){
+			$errors['pass_err'] = "Given password doesn't match ".$cross_emote;
+		}
 	}
 }
 

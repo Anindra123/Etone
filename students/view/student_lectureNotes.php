@@ -86,10 +86,10 @@ if(count($ln_data) === 0){
 	<tbody>
 		<?php 
 		for ($i=0; $i < count($ln_data); $i++) { 
-			$id = $ln_data[$i]->id;
+			$id = $ln_data[$i]['id'];
 			echo '<tr>';
 			echo '<td>';
-			echo $ln_data[$i]->tname;
+			echo $ln_data[$i]['tname'];
 			echo '</td>';
 			echo '<td>';
 			echo "<a href=student_lectureNoteShow.php?ln_id=$id>View</a>";

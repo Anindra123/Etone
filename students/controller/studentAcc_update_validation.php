@@ -1,9 +1,9 @@
 <?php
 session_start();
 require_once 'includes/validations.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/students.json");
+require_once '../model/dbDataAcess.php';
+/*require_once '../model/dataAcessType.php';
+set_type("f","../model/students.json");*/
 $fname = $lname =$mname =$mail = $uname =$loe = $ins_name = "";
 $errors = [];
 $validated = false;
@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 
 
 
-if(count($errors) === 0 && $validated === true ){
+if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true ){
     $data = array(
         'fname' => $fname,
         'lname' => $lname,
@@ -39,15 +39,20 @@ if(count($errors) === 0 && $validated === true ){
     );
 
     $id = $_SESSION['id'] ?? '';
-    update_studentData($data,$id);
-
-    $_SESSION['success'] = get_sucess("Updated sucessfully");
-    $_SESSION['full_name'] = $fname.' '.$mname.' '.$lname;
-    if(isset($_SESSION['u_data'])){
-        unset($_SESSION['u_data']);
+    //update_studentData($data,$id);
+    $result = update_studentData($id,$data);
+    if($result !== Null){
+       $_SESSION['success'] = get_sucess("Updated sucessfully");
+       $_SESSION['full_name'] = $fname.' '.$mname.' '.$lname;
+        if(isset($_SESSION['u_data'])) {
+             unset($_SESSION['u_data']);
+        }
+        $result->close();
+        $conn->close();
+        header("Location: ../view/student_updateAccount.php");
+        exit();
     }
-    header("Location: ../view/student_updateAccount.php");
-    exit();
+
 }
 else{
     $data = array('id'=>Null,    

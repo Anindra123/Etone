@@ -7,6 +7,12 @@
 				echo $_SESSION['success'];
 				echo '<br><br>';
 			}
+			if(isset($_SESSION['m_errors']))
+			{
+				echo '<br>';
+				echo $_SESSION['m_errors'];
+				echo '<br><br>';
+			}
 			?>
 		</span>
 		<legend><?php echo $page_title;?></legend>

@@ -49,7 +49,7 @@ if(isset($_SESSION['m_errors'])){
 	echo '<br><br>';
 }
 if(count($sw_data) > 0){
-	$_SESSION['sw_id'] = $sw_data[0]->id;
+	$_SESSION['sw_id'] = $sw_data[0]['id'];
 	echo '<table border=1>';
 	echo '<tbody>';
 	echo '<tr>';
@@ -57,12 +57,12 @@ if(count($sw_data) > 0){
 	echo '<a href="student_classScheduleCreate.php">Add Class Schedule</a>';
 	echo '</td>';
 	echo '<td>';
-	echo '<b>Week :</b>'.$sw_data[0]->wname ?? '';
+	echo '<b>Week :</b>'.$sw_data[0]['wname'] ?? '';
 	echo '</td>';
 	echo '<td colspan="2">';
-	echo '<b>Start date :</b>'.$sw_data[0]->sdate.'&nbsp;&nbsp;&nbsp;' ?? '';
+	echo '<b>Start date :</b>'.date('Y-m-d',strtotime($sw_data[0]['sdate'])).'&nbsp;&nbsp;&nbsp;' ?? '';
 
-	echo '<b>End date :</b>'.$sw_data[0]->edate ?? '';
+	echo '<b>End date :</b>'.date('Y-m-d',strtotime($sw_data[0]['edate'])) ?? '';
 	echo '</td>';
 	echo '<td>';
 	echo '<a href="student_scheduleUpdate.php">Update Schedule</a>';
@@ -102,44 +102,7 @@ if(count($sw_data) > 0){
 			echo '<tr>';
 			$weekday =(array)$sc_data[$j]->weekday;
 			$k = 0;
-			for ($i=1; $i < 8; $i++) {
-
-// 				if($k < count($weekday) 
-// 					&& $weekday[$k] === 'Sun' 
-// 					&& $i === 1){
-// 					showClassSchedule($sc_data[$j]);
-// 				$k++;
-// 			}
-// 			else if($k < count($weekday)
-// 				&& $weekday[$k] === 'Mon'&& $i === 2){
-// 				showClassSchedule($sc_data[$j]);
-// 			$k++;
-// 		}
-// 		else if($k < count($weekday) 
-// 			&& $weekday[$k] === 'Tue'&& $i === 3){
-// 			showClassSchedule($sc_data[$j]);
-// 		$k++;
-// 	}
-// 	else if($k < count($weekday) 
-// 		&& $weekday[$k] === 'Wed'&& $i === 4){
-// 		showClassSchedule($sc_data[$j]);
-// 	$k++;
-// }
-// else if($k < count($weekday) 
-// 	&& $weekday[$k] === 'Thu'&& $i === 5){
-// 	showClassSchedule($sc_data[$j]);
-// $k++;
-// }
-// else if($k < count($weekday) 
-// 	&& $weekday[$k] === 'Fri'&& $i === 6){
-// 	showClassSchedule($sc_data[$j]);
-// $k++;
-// }
-// else if($k < count($weekday) 
-// 	&& $weekday[$k] === 'Sat'&& $i === 7){
-// 	showClassSchedule($sc_data[$j]);
-// $k++;
-// }			
+			for ($i=1; $i < 8; $i++) {		
 				if(array_key_exists($i, $weekday)){
 					showClassSchedule($sc_data[$j]);
 				}
@@ -148,8 +111,6 @@ if(count($sw_data) > 0){
 					echo 'None';
 					echo '</td>';
 				}
-
-
 			}
 			echo'</tr>';
 		}

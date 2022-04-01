@@ -11,7 +11,7 @@ if(!isset($_SESSION['u_data'])){
     header('Location: ../controller/viewStudentData.php');
 }
 else{
-    $data =(array)$_SESSION['u_data'];
+    $data =$_SESSION['u_data'];
 }
 require_once 'includes/header.php';
 ?>

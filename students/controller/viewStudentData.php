@@ -1,12 +1,18 @@
 <?php 
 session_start();
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/students.json");
+require_once '../model/dbDataAcess.php';
+// require_once '../model/dataAcessType.php';
+// set_type("f","../model/students.json");
 $id = $_SESSION['id'];
 
 if($_SESSION['page_name'] === 'Update Account Info Page'){
-	$_SESSION['u_data'] = getAllJsonData($id,get_fileName(),0,true);
+	$result = getStudentData($id);
+	if($result != Null){
+		$data  = $result->get_result();
+		if($data->num_rows >= 1){
+			$_SESSION['u_data'] = $data->fetch_assoc();
+		}
+	}
 	header('Location: ../view/student_updateAccount.php');
 	exit();
 }
@@ -19,7 +25,13 @@ else if($_SESSION['page_name'] === 'Create Note Group Page'){
 	exit();
 }
 else if($_SESSION['page_name'] === 'View Profile Page'){
-	$_SESSION['u_data'] = getAllJsonData($id,get_fileName(),0,true);
+	$result = getStudentData($id);
+	if($result != Null){
+		$data  = $result->get_result();
+		if($data->num_rows >= 1){
+			$_SESSION['u_data'] = $data->fetch_assoc();
+		}
+	}
 	header('Location: ../view/student_viewAccount.php');
 	exit();
 }

@@ -20,7 +20,7 @@
 		<label for="ldate">Lecture Date :</label>
 		<br><br>
 		<input type="date" name="ldate"id="ldate"
-		value= "<?php echo $data['ldate'] ?? '';?>">
+		value= "<?php echo date('Y-m-d',strtotime($data['ldate'])) ?? '';?>">
 		<br>
 		<span><?php echo $errors['ldate_err'] ?? ''; ?></span>
 		<br><br>

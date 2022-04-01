@@ -24,10 +24,10 @@ require_once 'includes/header.php';
 <span><b>Title :</b> <?php echo $data['tname'] ?? '';?></span>
 <br><br>
 
-<span><b>Lecture Date : </b><?php echo $data['ldate'] ?? '';?></span>
+<span><b>Lecture Date : </b><?php echo date('Y-m-d',strtotime($data['ldate'])) ?? '';?></span>
 <br><br>
 
-<span><b>Lecture Time :</b> <?php echo $data['ltime'] ?? '';?></span>
+<span><b>Lecture Time :</b> <?php echo date('g:i A',strtotime($data['ltime'])) ?? '';?></span>
 <br><br>
 <b><i>Note :</i></b>
 <pre><?php echo $data['notes'] ?? '';?></pre>

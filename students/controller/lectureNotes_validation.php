@@ -2,9 +2,9 @@
 session_start();
 require_once 'includes/validations.php';
 require_once 'includes/routeTaskPage.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/lectureNoteData.json");
+require_once '../model/dbDataAcess.php';
+// require_once '../model/dataAcessType.php';
+// set_type("f","../model/lectureNoteData.json");
 $tname = $ltime = $ldate = $notes = $uid = $pid ="";
 $uid= $_SESSION['id'];
 $pid = $_SESSION['pid'];
@@ -19,8 +19,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	valid_name_check($tname,"tname_err","Not a proper lecture topic name ");
 	required_check($notes,'notes_err','Please enter a note ');
 	if(!empty($ltime)){
-		$ltime = date('h:i A',strtotime($ltime));
-		valid_time_check($ltime,'ltime_err','Not a valid time ');
+		valid_time_check(date('g:i a',strtotime($ltime)),'ltime_err','Not a valid time ');
 
 	}
 	if(!empty($ldate)){
@@ -35,7 +34,7 @@ else{
 	exit();
 }
 
-if(count($errors) === 0 && $validated === true){
+if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true){
 	if($_SESSION['page_name'] === 'Update Lecture Notes Page'){
 		$lndata = [
 			'tname' => $tname,
@@ -44,13 +43,16 @@ if(count($errors) === 0 && $validated === true){
 			'notes' => $notes
 		];
 		$lnid = $_SESSION['ln_id'];
-		updateLectureNoteData($uid,$pid,$lnid,$lndata,get_fileName());
-		$_SESSION['success'] = get_sucess("Lecture note updated succesfully ");
-		$_SESSION['lnu_data'] = $lndata;
+		$result = updateLectureNoteData($uid,$pid,$lnid,$lndata);
+		if($result !== null){
+			$_SESSION['success'] = get_sucess("Lecture note updated succesfully ");
+			$_SESSION['lnu_data'] = $lndata;
+			$result->close();
+			$conn->close();
+		}
 	}
 	else{
 		$lndata = [
-			'id' => Null,
 			'tname' => $tname,
 			'ltime' => $ltime,
 			'ldate' => $ldate,
@@ -58,11 +60,15 @@ if(count($errors) === 0 && $validated === true){
 			'uid' => $uid,
 			'pid' => $pid
 		];
-		setJsonData($lndata,get_fileName());
-		$_SESSION['success'] = get_sucess("Lecture note created succesfully ");
-		if(isset($_SESSION['ln_errors']) && isset($_SESSION['ln_data'])){
-			unset($_SESSION['ln_errors']);
-			unset($_SESSION['ln_data']);
+		$result = setLectureNoteData($lndata);
+		if($result !== null){
+			$_SESSION['success'] = get_sucess("Lecture note created succesfully ");
+			if(isset($_SESSION['ln_errors']) && isset($_SESSION['ln_data'])){
+				unset($_SESSION['ln_errors']);
+				unset($_SESSION['ln_data']);
+			}
+			$result->close();
+			$conn->close();
 		}
 	}
 	

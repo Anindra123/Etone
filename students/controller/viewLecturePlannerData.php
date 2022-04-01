@@ -1,14 +1,22 @@
 <?php 
 session_start();
 require_once 'includes/routeTaskPage.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/lecturePlanData.json");
+require_once '../model/dbDataAcess.php';
+// require_once '../model/dataAcessType.php';
+// set_type("f","../model/lecturePlanData.json");
 $id = $_SESSION['id'] ?? '';
 
 if($_SESSION['page_name'] === 'Update Lecture Plan Page'){
 	$lpid = $_SESSION['lp_id'];
-	$_SESSION['lpu_data'] = getSingleJsonData($id,$lpid,get_fileName());
+	$result = getLecturePlanData($id,$lpid);
+	if($result !== null){
+		$dataResult = $result->get_result();
+		if($dataResult->num_rows >= 1){
+			$_SESSION['lpu_data'] = $dataResult->fetch_assoc();
+		}
+		$result->close();
+		$conn->close();
+	}
 }
 else if($_SESSION['page_name'] === 'Note Group Page'){
 	set_type("f","../model/noteGroup.json");
@@ -33,7 +41,24 @@ else if($_SESSION['page_name'] === 'Note Group Page'){
 	$_SESSION['slp_data'] = $shared;
 }
 else{
-	$_SESSION['lp_data']  = getAllJsonData($id,get_fileName());
+	$result = getAllLecturePlanData($id);
+	if($result !== null){
+		$dataResult = $result->get_result();
+		$out = [];
+		$data = [];
+		if($dataResult->num_rows >= 1){
+				while($data = $dataResult->fetch_assoc()){
+					$out[] = $data;
+				}
+				$_SESSION['lp_data'] = $out;
+				
+		}else{
+			$_SESSION['lp_data']= [];
+		}
+		$result->close();
+		$conn->close();
+	}
+
 }
 header(getRouteUrl());
 exit();

@@ -51,7 +51,6 @@ if(count($errors) === 0 && $validated === true){
 	}
 	else{
 		$scdata = [
-			'id' => Null,
 			'cname' => $cname,
 			'rname' => $rname,
 			'stime' => $stime,
