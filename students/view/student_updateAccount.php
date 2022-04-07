@@ -15,8 +15,7 @@ else{
 }
 require_once 'includes/header.php';
 ?>
-<form action="../controller/studentAcc_update_validation.php" method="post" novalidate>
-    <span>
+
         <?php 
         
         $errors = $_SESSION['u_errors'] ?? [];
@@ -35,7 +34,10 @@ require_once 'includes/header.php';
             }
         }
         ?>
-    </span>
+
+<br><br> 
+<form action="../controller/studentAcc_update_validation.php" method="post" onsubmit="return updateAccValidation(this)" novalidate>
+   
     <fieldset>
         <legend>Your current information :</legend>
         <label for="fname">First Name *:</label>
@@ -43,23 +45,24 @@ require_once 'includes/header.php';
         <input type="text" name="fname"id="fname" autofocus 
         value= "<?php echo $data['fname'] ?? '';?>">
         <br>
-        <span><?php echo $errors['fname_err'] ?? ''; ?></span>
+        <span class="err fn"><?php echo $errors['fname_err'] ?? ''; ?></span>
         <br><br>
         <label for="mname">Middle Name:</label>
         <br>
         <input type="text" name="mname"id="mname" 
         value= "<?php echo $data['mname'] ?? '';?>">
         <br>
-        <span><?php echo $errors['mname_err'] ?? ''; ?></span>
+        <span class="err mn"><?php echo $errors['mname_err'] ?? ''; ?></span>
         <br><br>
         <label for="lname">Last Name *:</label>
         <br>
         <input type="text" name="lname" id="lname" 
         value= "<?php echo $data['lname'] ?? '';?>"> 
         <br>
-        <span><?php echo $errors['lname_err'] ?? ''; ?></span>
+        <span class="err ln"><?php echo $errors['lname_err'] ?? ''; ?></span>
         <br><br>    
         <label>Level of education * :</label>
+        <br><br> 
         <input type="radio" name="loe" value="Elementary"
         id="elem">
         <label for="elem">Elementary(1-6)</label>
@@ -72,33 +75,37 @@ require_once 'includes/header.php';
         <input type="radio" name="loe" value="College"
         id="clge">
         <label for="clge">College(University)</label>
-        <span><?php echo $errors['loe_err'] ?? ''; ?></span>
+        <br>
+        <span class="err loe"><?php echo $errors['loe_err'] ?? ''; ?></span>
         <br><br>
         <label for="ins_name">Institution name :</label>
         <br><br>
         <input type="text" name="ins_name" id="ins_name" 
         value="<?php echo $data['ins_name'] ?? '';?>">
+        <br><br>
+        <input type="submit" value="Update">
+        <br><br>
     </fieldset>
-    <br>
-    <button type="submit">Update</button>
-    <br><br>
 </form>
-<br>
+<br><br> 
+<br><br>
+
 <form action="delete_account.php">
-    <fieldset>
+    <fieldset style="text-align: center;">
         <legend>&#9940; Danger Zone &#9940;</legend>
         <br>
-        <button type="submit">Delete Account</button>
+        <button style="background-color: indianred;" type="submit">Delete Account</button>
         <br><br>
     </fieldset>
 </form>
 <br><br>
+<script src="scripts/updateAcc.js"></script>
 <?php
 require_once 'includes/footer.php';
 if(isset($_SESSION['u_errors'])){
     unset($_SESSION['u_errors']);
 }
-if(isset($_SESSION['u_data'])){
-    unset($_SESSION['u_data']);
-}
+// if(isset($_SESSION['u_data'])){
+//     unset($_SESSION['u_data']);
+// }
 ?>  

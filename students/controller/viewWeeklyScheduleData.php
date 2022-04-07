@@ -5,9 +5,10 @@ require_once '../model/dbDataAcess.php';
 // require_once '../model/dataAcessType.php';
 // set_type("f","../model/scheduleWeek.json");
 $uid = $_SESSION['id'];
-$sw_id = $_SESSION['sw_id'];
-$scid = $_SESSION['sc_id'];
+
 if($_SESSION['page_name'] === 'Update Schedule Week Page'){
+	$sw_id = $_SESSION['sw_id'];
+	$scid = $_SESSION['sc_id'];
 	// $_SESSION['swu_data']  = getSingleJsonData($uid,$sw_id,get_fileName());
 	$result = getWeeklyScheduleData($uid,$sw_id);
 	if($result !== null){
@@ -21,15 +22,25 @@ if($_SESSION['page_name'] === 'Update Schedule Week Page'){
 
 }
 else if($_SESSION['page_name'] === 'Update Class Schedule Page'){
-	set_type("f","../model/scheduleClass.json");
-	$_SESSION['scu_data']  = getSingleJsonData($uid,$scid,get_fileName(),$sw_id);
+	$sw_id = $_SESSION['sw_id'];
+	$scid = $_SESSION['sc_id'];
+	// set_type("f","../model/scheduleClass.json");
+	// $_SESSION['scu_data']  = getSingleJsonData($uid,$scid,get_fileName(),$sw_id);
+	$result = getClassSchedule($uid,$sw_id,$scid);
+	if($result !== null){
+		$dataResult = $result->get_result();
+		if($dataResult->num_rows >= 1){
+			$_SESSION['scu_data'] = $dataResult->fetch_assoc();
+		}
+		else{
+			$_SESSION['scu_data'] = [];
+		}
+		$result->close();
+		$conn->close();
+	}
 }
 else{
-	// $_SESSION['sw_data'] = getAllJsonData($uid,get_fileName());
-	// set_type("f","../model/scheduleClass.json");
-	// $sw_data = $_SESSION['sw_data'];
-	// $sw_id = $sw_data[0]->id;
-	// $_SESSION['sc_data'] = getAllJsonData($uid,get_fileName(),$sw_id);
+	$sw_id =$sc_id = "";
 	$result = getAllWeeklyScheduleData($uid);
 	$_SESSION['sc_data'] = [];
 	if($result !== null){
@@ -38,14 +49,54 @@ else{
 		if($dataResult->num_rows >= 1){
 			$out[] = $dataResult->fetch_assoc();
 			$_SESSION['sw_data'] = $out;
-		}
-		else{
+			$sw_id = $out[0]['id'];
+		}else{
 			$_SESSION['sw_data'] = [];
 		}
 		$result->close();
 		$conn->close();
 	}
+	$cresult = getAllClassSchedule($uid,$sw_id);
 
+	if($cresult !== null){
+		$dataResult = $cresult->get_result();
+		$out = [];
+		
+		$weekday = [];
+		if($dataResult->num_rows >= 1){
+			while($data = $dataResult->fetch_assoc()){
+				$out[] = $data;
+				$sc_id = $data['id'];
+				$wresult = getAllWeekDays($sc_id);
+				
+				if($wresult !== null){
+					$wdataResult = $wresult->get_result();
+
+					if($wdataResult->num_rows >= 1){
+						$week = [];
+						while ($data = $wdataResult->fetch_assoc()) {
+							$week[$data['id']] = $data['wname'];
+
+						}
+						$weekday[$sc_id] = $week;
+						$_SESSION['week_data'] = $weekday;
+					}
+					else{
+						$_SESSION['week_data'] = [];
+					}
+					
+					$wresult->close();
+				}
+			}
+			$_SESSION['sc_data'] = $out;
+		}
+		else{
+			$_SESSION['sc_data'] = [];
+		}
+
+		$cresult->close();
+		$conn->close();
+	}
 }
 
 header(getRouteUrl());

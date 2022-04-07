@@ -22,9 +22,7 @@ require_once 'includes/header.php';
 ?>
 
 <h3>Today's tasks for <?php echo $_SESSION['full_name'];?></h3>
-<hr>
-<a href="student_taskCreate.php">Create Task</a>
-<hr>
+<a style="pointer-events: initial;display: block; margin: 20px;" href="student_taskCreate.php"><button>Create Task</button></a>
 <?php 
 if(isset($_SESSION['success'])){
 	echo '<br>';
@@ -50,7 +48,7 @@ if(count($task_data) === 0){
 
 ?>
 
-<table border="1">
+<table>
 	<thead>
 		<tr>
 			<th>Title</th>
@@ -82,11 +80,11 @@ if(count($task_data) === 0){
 			echo date('d-m-y',strtotime($task_data[$i]['date']));
 			echo '</td>';
 			echo '<td>';
-			echo "<a href=../controller/student_taskComplete.php?t_id=$id>Complete</a>";
+			echo "<a style='pointer-events: initial;' href=../controller/student_taskComplete.php?t_id=$id><button>Complete</button></a>";
 			echo '&nbsp;';
-			echo "<a href=student_taskUpdate.php?t_id=$id>Update</a>";
+			echo "<a style='pointer-events: initial;' href=student_taskUpdate.php?t_id=$id><button>Update</button></a>";
 			echo '&nbsp;';
-			echo "<a href=../controller/student_taskDelete.php?t_id=$id>Delete</a>";
+			echo "<a style='pointer-events: initial;' href=../controller/student_taskDelete.php?t_id=$id><button style='background-color: indianred;'>Delete</button></a>";
 			echo '&nbsp;';
 			echo '</td>';
 			echo '</tr>';

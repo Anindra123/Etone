@@ -30,28 +30,28 @@ function writeData($data,$filename){
 }
 
 
-//check whether user has given
-//correct username and pass when login
-function validate_login($email,$pass){
-	$json_data = readData(get_fileName());
-	$arr = json_decode($json_data) ?? [];
-	$found = false;
-	for($i = 0;$i<count($arr);$i++){
-		if($arr[$i]->mail === $email && $arr[$i]->pass === $pass){
-			$found = true;
-			$idx = $i;
-			break;
-		}
-	}
+// //check whether user has given
+// //correct username and pass when login
+// function validate_login($email,$pass){
+// 	$json_data = readData(get_fileName());
+// 	$arr = json_decode($json_data) ?? [];
+// 	$found = false;
+// 	for($i = 0;$i<count($arr);$i++){
+// 		if($arr[$i]->mail === $email && $arr[$i]->pass === $pass){
+// 			$found = true;
+// 			$idx = $i;
+// 			break;
+// 		}
+// 	}
 
-	if($found === true){
-		return $arr[$idx];
-	}
-	else{
-		return [];
-	}
+// 	if($found === true){
+// 		return $arr[$idx];
+// 	}
+// 	else{
+// 		return [];
+// 	}
 
-}
+// }
 
 //returns all data for a student
 // with a unique id
@@ -144,15 +144,15 @@ function search_studentData($mail,$filename){
 
 // }
 
-//check whether old password
-//given when changing password is valid
-function valid_pass($pass,$id){
-	$data = get_studentAccData($id);
-	if($data->pass === $pass){
-		return True;
-	}
-	return False;
-}
+// //check whether old password
+// //given when changing password is valid
+// function valid_pass($pass,$id){
+// 	$data = get_studentAccData($id);
+// 	if($data->pass === $pass){
+// 		return True;
+// 	}
+// 	return False;
+// }
 
 //update user password
 // function update_password($data,$id){
@@ -171,17 +171,17 @@ function valid_pass($pass,$id){
 
 //checks whether user has given
 //correct username and email when reseting password
-function passwordReset_validation($uname,$email){
-	$json_data = readData(get_fileName());
-	$arr  = json_decode($json_data);
-	for ($i=0; $i < count($arr); $i++) { 
-		if($arr[$i]->uname === $uname && 
-			$arr[$i]->mail === $email ){
-			return $arr[$i]->id;
-		}
-	}
-	return -1;
-}
+// function passwordReset_validation($uname,$email){
+// 	$json_data = readData(get_fileName());
+// 	$arr  = json_decode($json_data);
+// 	for ($i=0; $i < count($arr); $i++) { 
+// 		if($arr[$i]->uname === $uname && 
+// 			$arr[$i]->mail === $email ){
+// 			return $arr[$i]->id;
+// 		}
+// 	}
+// 	return -1;
+// }
 
 //delete account and its related data
 function delete_account($uid,$filename,$flag=false){

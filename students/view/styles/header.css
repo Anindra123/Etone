@@ -1,0 +1,45 @@
+
+#title{
+	width: 100%;
+	margin: auto;
+	border: 5px solid white;
+	box-sizing: border-box;
+	padding: 50px 0;
+	text-align: center;
+	margin-bottom: 10px;
+}
+#title > img{
+	vertical-align: middle;
+	display: inline-block;
+}
+#title h1{
+	vertical-align: middle;
+	display: inline;
+}
+
+nav{
+	width: 100%;
+	margin: auto;
+	box-sizing: border-box;
+	border: 5px solid white;
+}
+
+nav b{
+	color: orangered;
+	display: inline-block;
+	margin-left: 70px;
+	margin-top: 10px;
+}
+nav > a{
+
+	display: block;
+	float: left;
+	padding: 10px;
+
+}	
+
+nav::after{
+	content: "";
+	clear: both;
+	display: table;
+}

@@ -18,9 +18,9 @@ require_once 'includes/header.php';
 ?>
 
 <h3>Showing all lecture plan of <?php echo $_SESSION['full_name'];?></h3>
-<hr>
-<a href="student_lecturePlanCreate.php">Add new lecture plan</a>
-<hr>
+
+<a href="student_lecturePlanCreate.php" style="pointer-events:initial;display: block; margin: 20px;"><button>Add new lecture plan</button></a>
+
 <?php 
 if(isset($_SESSION['success'])){
 	echo '<br>';
@@ -45,7 +45,7 @@ if(count($lp_data) === 0){
 }
 
 ?>
-<table border="1">
+<table>
 	<thead>
 		<tr>
 			<th>Subject Name</th>

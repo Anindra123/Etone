@@ -36,7 +36,7 @@
 		<br>
 		<span><?php echo $errors['etime_err'] ?? ''; ?></span>
 		<br><br>
-		<label for="cname">Remainder :</label>
+		<label for="rname">Remainder :</label>
 		<br><br>
 		<input type="text" name="rname"id="rname" autofocus 
 		value= "<?php echo $data['rname'] ?? '';?>">

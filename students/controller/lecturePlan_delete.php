@@ -41,7 +41,7 @@ if($result !== null){
 	$task = $result->get_result();
 	if($task->num_rows > 0 ){
 		$task= $task->fetch_assoc();
-		$lnresult = deleteAllLectureNoteData($uid,$lpid);
+		$lnresult = deleteAllLectureNoteData($uid);
 		$lpresult = deleteLecturePlanData($uid,$lpid);
 		if($lnresult !== null && $lpresult !== null){
 			$_SESSION['success'] = get_sucess($task['sname'].' deleted sucessfully ');

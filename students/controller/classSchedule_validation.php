@@ -2,14 +2,14 @@
 session_start();
 require_once 'includes/validations.php';
 require_once 'includes/routeTaskPage.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/scheduleClass.json");
+require_once '../model/dbDataAcess.php';
+// require_once '../model/dataAcessType.php';
+// set_type("f","../model/scheduleClass.json");
 $cname = $rname = $stime = $etime = $uid = $pid = '';
 $weekday = [];
 $uid = $_SESSION['id'];
 $pid = $_SESSION['sw_id'];
-$sc_id = $_SESSION['sc_id'];
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$cname = sanitize_input($_POST['cname']);
 	$rname = sanitize_input($_POST['rname']);
@@ -36,18 +36,28 @@ else{
 	header(getRouteUrl());
 	exit();
 }
-if(count($errors) === 0 && $validated === true){
+if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true){
 	if($_SESSION['page_name'] === 'Update Class Schedule Page'){
+		$sc_id = $_SESSION['sc_id'];
 		$scdata = [
 			'cname' => $cname,
 			'rname' => $rname,
 			'stime' => $stime,
-			'etime' => $etime,
- 			'weekday' => $weekday
- 		];
-		updateClassScheduleData($uid,$pid,$sc_id,$scdata,get_fileName());
-		$_SESSION['success'] = get_sucess("Schedule updated succesfully ");
-		$_SESSION['scu_data'] = $swdata;
+			'etime' => $etime
+		];
+		$weeks = getWeekID($weekday);
+		// updateClassScheduleData($uid,$pid,$sc_id,$scdata,get_fileName());
+		$dwresult = deleteWeekDays($sc_id);
+		$uwresult = setWeekDays($sc_id,$weeks);
+		$result = updateClassSchedule($uid,$pid,$sc_id,$scdata);
+		if($dwresult !== null && $uwresult !== null && !$result !== null){
+			$_SESSION['success'] = get_sucess("Schedule updated succesfully ");
+			$_SESSION['scu_data'] = $swdata;
+			$uwresult->close();
+			$result->close();
+			$conn->close();
+		}
+		
 	}
 	else{
 		$scdata = [
@@ -55,28 +65,41 @@ if(count($errors) === 0 && $validated === true){
 			'rname' => $rname,
 			'stime' => $stime,
 			'etime' => $etime,
- 			'weekday' => $weekday,
- 			'uid' => $uid,
- 			'pid' => $pid
- 		];
-		setJsonData($scdata,get_fileName());
-		$_SESSION['success'] = get_sucess("Schedule created succesfully ");
-		if(isset($_SESSION['sc_errors']) && isset($_SESSION['sc_data'])){
-			unset($_SESSION['sc_errors']);
-			unset($_SESSION['sc_data']);
-		}
+			'uid' => $uid,
+			'pid' => $pid
+		];
+		//setJsonData($scdata,get_fileName());
+		$sc_id = "";
+		$weeks = getWeekID($weekday);
+		$result = setClassSchedule($scdata);
+		
+		
+		if($result !== null ){
+			$sc_id = $result->insert_id;
+			$wresult = setWeekDays($sc_id,$weeks);
+			if($wresult !== null){
+				$_SESSION['success'] = get_sucess("Schedule created succesfully ");
+				if(isset($_SESSION['sc_errors']) && isset($_SESSION['sc_data'])){
+					unset($_SESSION['sc_errors']);
+					unset($_SESSION['sc_data']);
+				}
+				$wresult->close();
+				$result->close();
+				$conn->close();
+			}
+		}		
 	}
 	header(getRouteUrl());
 	exit();
 }
 else{
 	$scdata = [
-			'cname' => $cname,
-			'rname' => $rname,
-			'stime' => $stime,
-			'etime' => $etime,
- 			'weekday' => $weekday
- 		];
+		'cname' => $cname,
+		'rname' => $rname,
+		'stime' => $stime,
+		'etime' => $etime,
+		'weekday' => $weekday
+	];
 	$_SESSION['sc_errors'] = $errors;
 	if($_SESSION['page_name'] === 'Update Class Schedule Page'){
 		$_SESSION['scu_date'] = $scdata;

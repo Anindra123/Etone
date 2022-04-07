@@ -18,39 +18,18 @@ else{
 }
 require_once 'includes/header.php';
 ?>
-<h3>Your account information :</h3>
-<table border="1">
-	<tr>
-		<th>First Name </th>
-		<td><?php echo $data['fname'];?></td>
-	</tr>
-	<tr>
-		<th>Middle Name </th>
-		<td><?php echo $data['mname'];?></td>
-	</tr>
-	<tr>
-		<th>Last Name </th>
-		<td><?php echo $data['lname'];?></td>
-	</tr>
-	<tr>
-		<th>User Name </th>
-		<td><?php echo $data['uname'];?></td>
-	</tr>
-	<tr>
-		<th>Email :</th>
-		<td><?php echo $data['mail'];?></td>
-	</tr>
-	<tr>
-		<th>Level of education </th>
-		<td><?php echo $data['loe'];?></td>
-	</tr>
-	<tr>
-		<th>Institution </th>
-		<td><?php echo $data['ins_name'];?></td>
-	</tr>
+<h3>Your Profile</h3>
 
-</table>
-
+<div id="profileBox">
+<img src="../../public/img/profile-icon.png" alt="profile icon" width="120" height="120">
+<ul>
+	<li><b>First Name :</b> <?php echo $data['fname'];?></li>
+	<li><b>Middle Name :</b>  <?php echo $data['mname'];?></li>
+	<li><b>Last Name :</b>  <?php echo $data['lname'];?></li>
+	<li><b>Level of Education :</b>  <?php echo $data['loe'];?></li>
+	<li><b>Institution Name :</b> <?php echo $data['ins_name'];?></li>
+</ul>
+</div>
 <?php
 require_once 'includes/footer.php';
 ?>

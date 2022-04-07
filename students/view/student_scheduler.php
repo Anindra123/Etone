@@ -1,31 +1,34 @@
 <?php 
 session_start();
+
 $_SESSION['page_name'] = 'Class Scheduler Page';
 if(!isset($_SESSION['id'])){
 	header('Location: index.php');
 	$_SESSION['m_errors'] = get_failure('Error in login ');
 	exit();
 }
-$sw_data = Null;
-$sc_data = Null;
-if(!isset($_SESSION['sw_data']) && !isset($_SESSION['sc_data'])){
+$sw_data = [];
+$sc_data = [];
+$w_data = [];
+if(!isset($_SESSION['sw_data']) && !isset($_SESSION['sc_data']) && !isset($_SESSION['week_data'])){
 	header('Location: ../controller/viewWeeklyScheduleData.php');
 	exit();
 }
 else{
 	$sw_data = $_SESSION['sw_data'];
 	$sc_data = $_SESSION['sc_data'];
+	$w_data = $_SESSION['week_data'] ?? [];
 }
 function showClassSchedule($data){
-	$id = $data->id;
+	$id = $data['id'];
 	echo '<td>';
-	echo '<i>'.$data->cname.'</i>';
+	echo '<i>'.$data['cname'].'</i>';
 	echo '<br>';
-	echo 'Remainder : '.$data->rname;
+	echo 'Remainder : '.$data['rname'];
 	echo '<br>';
-	echo '<b>Start time</b>: '.date('h:i A',strtotime($data->stime)) ?? '';
+	echo '<b>Start time</b>: '.date('h:i A',strtotime($data['stime'])) ?? '';
 	echo '<br>';
-	echo '<b>End time</b>: '.date('h:i A',strtotime($data->etime)) ?? '';
+	echo '<b>End time</b>: '.date('h:i A',strtotime($data['etime'])) ?? '';
 	echo '<br>';
 	echo "<a href=student_classScheduleUpdate.php?sc_id=$id>Update</a>";
 	echo '&nbsp;';
@@ -48,6 +51,7 @@ if(isset($_SESSION['m_errors'])){
 	echo $_SESSION['m_errors'];
 	echo '<br><br>';
 }
+
 if(count($sw_data) > 0){
 	$_SESSION['sw_id'] = $sw_data[0]['id'];
 	echo '<table border=1>';
@@ -100,7 +104,7 @@ if(count($sw_data) > 0){
 	if(count($sc_data) > 0){
 		for ($j=0; $j < count($sc_data); $j++) { 
 			echo '<tr>';
-			$weekday =(array)$sc_data[$j]->weekday;
+			$weekday = $w_data[$sc_data[$j]['id']];
 			$k = 0;
 			for ($i=1; $i < 8; $i++) {		
 				if(array_key_exists($i, $weekday)){
@@ -144,6 +148,9 @@ if(isset($_SESSION['sw_data'])){
 }
 if(isset($_SESSION['sc_data'])){
 	unset($_SESSION['sc_data']);
+}
+if(isset($_SESSION['week_data'])){
+	unset($_SESSION['week_data']);
 }
 require_once 'includes/footer.php';
 ?>

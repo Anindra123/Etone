@@ -14,12 +14,12 @@ else{
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Etone : note management and planning app</title>
 	<link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
+	<link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-	<form action="../controller/reset_pass_validation.php" method="post" novalidate>
+	<form action="../controller/reset_pass_validation.php" method="post" onsubmit="return validateResetPass()" novalidate>
 		<fieldset>
-			<span>
-				<?php 
+				<?php
 				$errors = $_SESSION['p_errors'] ?? [];
 				$data = $_SESSION['p_data'] ?? [];
 				
@@ -44,27 +44,27 @@ else{
 					unset($_SESSION['m_errors']);
 				}
 				?>
-			</span>
 			<legend>Reset Password :</legend>
 			<label for="pass">Enter a new password *:</label>
 			<br><br>
 			<input type="password" name="pass" id="pass" 
 			value="<?php echo $data['pass'] ?? '';?>">
 			<br>
-			<span><?php echo $errors['pass_err'] ?? '';?></span>
+			<span class="err ps"><?php echo $errors['pass_err'] ?? '';?></span>
 			<br><br>
 			<label for="cpass">Confirm Password *:</label>
 			<br><br>
 			<input type="password" name="cpass" id="cpass" 
 			value="<?php echo $data['cpass'] ?? '';?>">
 			<br>
-			<span><?php echo $errors['cpass_err'] ?? '';?></span>
+			<span class="err cps"><?php echo $errors['cpass_err'] ?? '';?></span>
 			<br><br>
-			<button type="submit">Reset Password</button> &nbsp; <a href="logout.php">Go back to login page</a>
+			<input type="submit" value="Rest Password"> &nbsp; <a href="logout.php">Go back to login page</a>
 			<br><br>
 		</fieldset>
 	</form>
 </body>
+<script src="scripts/resetpass.js"></script>
 </html>
 <?php 
 if(isset($_SESSION['p_data']) && 

@@ -1,9 +1,9 @@
 <?php 
 session_start();
 require_once 'includes/validations.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/students.json");
+require_once '../model/dbDataAcess.php';
+// require_once '../model/dataAcessType.php';
+// set_type("f","../model/students.json");
 $uname = $mail = $u_id = "";
 $errors = [];
 $validated = false;
@@ -28,7 +28,7 @@ else{
 	header('Location: ../view/forgot_pass.php');
 	exit();
 }
-if(count($errors) === 0 && $validated === true){
+if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true){
 	global $uname,$mail,$u_id;
 	$u_id = resetpass_validation($uname,$mail);
 	$_SESSION['u_id'] = $u_id;
@@ -39,7 +39,7 @@ if(count($errors) === 0 && $validated === true){
 		unset($_SESSION['p_data']);
 		unset($_SESSION['p_errors']);
 	}
-	header('Location: ../view/reset_pass.php'); 
+	header('Location: ../view/authorizeUser.php'); 
 	exit();
 }
 else{
