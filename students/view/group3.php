@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Etone : note management and planning app</title>
 	<link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
+	<link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 <h1><i>Designed and developed by group 3.</i></h1>
@@ -38,17 +39,6 @@
 		</tr>
 		<tr>
 			<td>
-				<b>SHAHRIAR IBNE YUSUF</b>
-			</td>
-			<td>
-				19-40710-1
-			</td>
-			<td>
-				Professionals role
-			</td>
-		</tr>
-		<tr>
-			<td>
 				<b>SUMONA ALAM</b>
 			</td>
 			<td>
@@ -72,6 +62,6 @@
 	</tbody>
 </table>
 <br>
-<a href="student_tasks.php">Go back</a>
+<a href="student_tasks.php" style="pointer-events:initial;"><button type="button">Go back</button></a>
 </body>
 </html>

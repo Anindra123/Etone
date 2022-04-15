@@ -20,11 +20,16 @@ if(isset($_SESSION['NoOfTokens'])){
 	<title>Etone : note management and planning app</title>
 	<link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
 	<link rel="stylesheet" href="styles/style.css">
+	<style>
+    input[type=email],input[type=password],input[type=text]{
+    width: 90%;
+    padding: 10px;
+    margin: auto;
+    font-size: 1vw;
+	}
+	</style>
 </head>
-<body>
-	<form action="../controller/forgot_pass_validation.php" method="post" onsubmit="return validateForgotPass(this)" novalidate>
-		<span>
-			<?php 
+<?php 
 
 			$errors = $_SESSION['p_errors'] ?? [];
 			$data = $_SESSION['p_data'] ?? [];
@@ -34,8 +39,10 @@ if(isset($_SESSION['NoOfTokens'])){
 				echo '<br><br>';
 				unset($_SESSION['m_errors']);
 			}
-			?>
-		</span>
+?>
+<body>
+	<br><br>
+	<form action="../controller/forgot_pass_validation.php" method="post" onsubmit="return validateForgotPass(this)" novalidate>
 		<fieldset>
 			<legend>Forgot password :</legend>
 			<label for="uname">Enter your username *:</label>
@@ -52,7 +59,7 @@ if(isset($_SESSION['NoOfTokens'])){
 			<br>
 			<span class="err ms"><?php echo $errors['mail_err'] ?? ''; ?></span>
 			<br><br>
-			<input type="submit"> &nbsp; <a href="index.php">Go back to login page</a>
+			<input type="submit"> &nbsp; <a href="index.php" style="pointer-events:initial"><button type="button">Go back to login page</button></a>
 			<br><br>
 		</fieldset>
 	</form>

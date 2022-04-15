@@ -67,14 +67,14 @@ if(count($lp_data) === 0){
 			echo $lp_data[$i]['topics'];
 			echo '</td>';
 			echo '<td>';
-			echo "<a href=student_lectureNotes.php?lpid=$id&name=$sname>Check notes</a>";
+			echo "<a href='student_lectureNotes.php?lpid=$id&name=$sname' style='pointer-events: initial;'><button>Check notes</button></a>";
 			echo '&nbsp;';
-			echo "<a href=student_lecturePlanUpdate.php?lp_id=$id>Update</a>";
+			echo "<a href='student_lecturePlanUpdate.php?lp_id=$id' style='pointer-events: initial;'><button>Update</button></a>";
 			echo '&nbsp;';
-			echo "<a href=../controller/lecturePlan_delete.php?lp_id=$id>Delete</a>";
+			echo "<a href='../controller/lecturePlan_delete.php?lp_id=$id' style='pointer-events: initial;'><button style='background-color: indianred;'>Delete</button></a>";
 			echo '&nbsp;';
-			echo "<a href=../controller/share_lectureNote.php?lp_id=$id>Share</a>";
-			echo '&nbsp;';
+			// echo "<a href='../controller/share_lectureNote.php?lp_id=$id' style='pointer-events: initial;'>Share</a>";
+			// echo '&nbsp;';
 			echo '</td>';
 			echo '</tr>';
 		}

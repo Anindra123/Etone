@@ -20,12 +20,16 @@ if(isset($_SESSION['NoOfTokens'])){
   <title>Etone : note management and planning app</title>
   <link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
   <link rel="stylesheet" href="styles/style.css">
- 
+<style>
+    input[type=email],input[type=password],input[type=text]{
+    width: 90%;
+    padding: 10px;
+    margin: auto;
+    font-size: 1vw;
+}
+</style>
 </head>
-
-<body>
-    <span>
-        <?php 
+<?php 
         $errors = $_SESSION['l_errors'] ?? [];
         $data = $_SESSION['l_data'] ?? [];
         if(isset($_SESSION['m_errors'])){
@@ -34,8 +38,9 @@ if(isset($_SESSION['NoOfTokens'])){
             echo '<br><br>';
             unset($_SESSION['m_errors']);
         }
-        ?>
-    </span>
+?>
+<body>
+  <br><br>
   <form action="../controller/loginValidation.php" method="post" onsubmit="return validateLogin(this)" novalidate>
     <fieldset>
         <legend>Student Sign In :</legend>

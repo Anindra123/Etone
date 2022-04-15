@@ -3,8 +3,7 @@ session_start();
 require_once 'includes/validations.php';
 require_once 'includes/routeTaskPage.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/scheduleWeek.json");
+
 
 $wname = $sdate = $edate = $uid = '';
 $uid = $_SESSION['id'];

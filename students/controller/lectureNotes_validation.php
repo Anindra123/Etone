@@ -3,8 +3,7 @@ session_start();
 require_once 'includes/validations.php';
 require_once 'includes/routeTaskPage.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/lectureNoteData.json");
+
 $tname = $ltime = $ldate = $notes = $uid = $pid ="";
 $uid= $_SESSION['id'];
 $pid = $_SESSION['pid'];

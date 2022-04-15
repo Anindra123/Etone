@@ -644,3 +644,26 @@ function deleteStudentData($sid){
 	return $stmt;
 }
 
+function searchNoteData($id,$pid,$data){
+	$conn = setConnection();
+	if($conn->connect_error){
+		$_SESSION['m_errors'] = $GLOBALS['err'];
+		return Null;
+	}
+	$stmt = $conn->prepare("select * from student_lecture_note where tname=? and lp_id=? and sid=? ");
+	$stmt->bind_param("sii",$data,$pid,$id);
+	$stmt->execute();
+	return $stmt;
+}
+
+function getTaskByStatus($id,$status){
+	$conn = setConnection();
+	if($conn->connect_error){
+		$_SESSION['m_errors'] = $GLOBALS['err'];
+		return Null;
+	}
+	$stmt = $conn->prepare("select * from student_task where status=? and sid=? ");
+	$stmt->bind_param("ss",$status,$id);
+	$stmt->execute();
+	return $stmt;
+}

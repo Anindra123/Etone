@@ -14,8 +14,6 @@ if(!isset($_SESSION['t_data'])){
 	header('Location: ../controller/viewTaskData.php');
 	exit();
 }else{
-	// var_dump($_SESSION['t_data']);
-	// exit();
 	$task_data = $_SESSION['t_data'];
 }
 require_once 'includes/header.php'; 
@@ -47,7 +45,16 @@ if(count($task_data) === 0){
 }
 
 ?>
-
+<form action="">
+	<label>Filter Task By :</label>
+	<select name="task_type" onchange="filterTask(this.value);">
+	<option value="default">Default</option>
+	<option value="Completed">Completed</option>
+	<option value="To Do">To Do</option>
+	</select>
+</form>
+<script src="scripts/filterTask.js"></script>
+<div class="tasks">
 <table>
 	<thead>
 		<tr>
@@ -92,6 +99,7 @@ if(count($task_data) === 0){
 		?>
 	</tbody>
 </table>
+</div>
 
 <?php
 if(isset($_SESSION['t_data'])){

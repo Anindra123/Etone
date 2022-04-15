@@ -16,19 +16,10 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 	$npass = sanitize_input($_POST['npass']);
 	$cpass = sanitize_input($_POST['cpass']);
 	
-	password_validation($pass);
-	
-	$errors = get_errors();
-	if(count($errors) === 0){
+
 		check_validPass($pass,$id);
 		$errors = get_errors();
-		if(count($errors) === 0){
-			password_validation($npass,"npass_err");
-			confirm_pass_validation($cpass,$npass);
-			$errors = get_errors();
-		}
-	}
-	
+
 	$validated = true;
 }
 
@@ -41,26 +32,18 @@ if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true)
 
 	$result = update_password($id,$data);
 	if($result !== null){
-		$_SESSION['success'] = get_sucess("Password changed sucessfully");
+		
 		if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){
 			unset($_SESSION['p_errors']);
 			unset($_SESSION['p_data']);
 		}
 		$result->close();
 		$conn->close();
-		header("Location: ../view/student_changePass.php");
-		exit();
+		echo '<br>Password changed sucessfully<br><br>';
 	}
 	
 }
 else{
-	$data = array(
-		'npass' => $npass,
-		'pass' => $pass,
-		'cpass' => $cpass
-	);
-	$_SESSION['p_errors'] = $errors;
-	$_SESSION['p_data'] = $data;
-	header("Location: ../view/student_changePass.php");
-	exit();
+	echo '';
+
 }

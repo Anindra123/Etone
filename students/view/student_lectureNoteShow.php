@@ -15,24 +15,49 @@ if(isset($_SESSION['ln_id']) && !isset($_SESSION['lns_data'])){
 	exit();
 }
 else{
-	$data = (array) $_SESSION['lns_data'];
+	$data = $_SESSION['lns_data'];
 }
+
+
+
 require_once 'includes/header.php';
 
 ?>
-
+<br><br>
+<div id="lectureInfo">
 <span><b>Title :</b> <?php echo $data['tname'] ?? '';?></span>
 <br><br>
-
-<span><b>Lecture Date : </b><?php echo date('Y-m-d',strtotime($data['ldate'])) ?? '';?></span>
+<span><b>Lecture Date : </b><?php 
+	if(explode('-', $data['ldate'])[0] !== "0000"){
+		echo date('d-m-Y',strtotime($data['ldate']));
+	}	
+	else{
+		echo '';
+	}
+?></span>
 <br><br>
 
-<span><b>Lecture Time :</b> <?php echo date('g:i A',strtotime($data['ltime'])) ?? '';?></span>
+<span><b>Lecture Time :</b> <?php 
+	$time = explode(":",$data['ltime']);
+	if($time[0] === "00" && $time[1] === "00" && $time[2] === "00"){
+		echo '';
+	}
+	else{
+		echo date('g:i A',strtotime($data['ltime']));
+	}
+?></span>
 <br><br>
+</div>
+<br><br>
+<div id="lectureInfo">
 <b><i>Note :</i></b>
 <pre><?php echo $data['notes'] ?? '';?></pre>
 <br>
-<a href="student_lectureNotes.php">Go Back</a>
+</div>
+<br><br>
+<div id="goBack">
+<a href="student_lectureNotes.php" style="pointer-events:initial;" ><button>Go Back</button></a>
+</div>
 <?php
 require_once 'includes/footer.php';
 if(isset($_SESSION['lns_data'])){

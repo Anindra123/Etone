@@ -3,8 +3,7 @@ session_start();
 require_once 'includes/validations.php';
 require_once 'includes/routeTaskPage.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/lecturePlanData.json");
+
 $sname = $topics =  "";
 $uid= $_SESSION['id'];
 $errors = [];
@@ -44,7 +43,7 @@ if(count($errors) === 0 && $validated === true){
 			'topics' => $topics,
 			'uid' => $uid
 		];
-		//setJsonData($lpdata,get_fileName());
+		
 		$result = setLecturePlanData($lpdata);
 		if($result !== null){
 			$_SESSION['success'] = get_sucess("Lecture plan created succesfully ");

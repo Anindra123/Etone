@@ -2,14 +2,13 @@
 session_start();
 require_once 'includes/routeTaskPage.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/scheduleWeek.json");
+
 $uid = $_SESSION['id'];
 
 if($_SESSION['page_name'] === 'Update Schedule Week Page'){
 	$sw_id = $_SESSION['sw_id'];
 	$scid = $_SESSION['sc_id'];
-	// $_SESSION['swu_data']  = getSingleJsonData($uid,$sw_id,get_fileName());
+	
 	$result = getWeeklyScheduleData($uid,$sw_id);
 	if($result !== null){
 		$dataResult = $result->get_result();
@@ -24,8 +23,7 @@ if($_SESSION['page_name'] === 'Update Schedule Week Page'){
 else if($_SESSION['page_name'] === 'Update Class Schedule Page'){
 	$sw_id = $_SESSION['sw_id'];
 	$scid = $_SESSION['sc_id'];
-	// set_type("f","../model/scheduleClass.json");
-	// $_SESSION['scu_data']  = getSingleJsonData($uid,$scid,get_fileName(),$sw_id);
+
 	$result = getClassSchedule($uid,$sw_id,$scid);
 	if($result !== null){
 		$dataResult = $result->get_result();

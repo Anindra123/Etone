@@ -2,8 +2,7 @@
 session_start();
 require_once 'includes/routeTaskPage.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/student_taskData.json");
+
 $id = $_SESSION['id'] ?? '';
 if($_SESSION['page_name'] === 'Update Task Page'){
 	$tid = $_SESSION['t_id'];

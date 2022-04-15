@@ -2,8 +2,7 @@
 session_start();
 require_once 'includes/routeTaskPage.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/lecturePlanData.json");
+
 $id = $_SESSION['id'] ?? '';
 
 if($_SESSION['page_name'] === 'Update Lecture Plan Page'){

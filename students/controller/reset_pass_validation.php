@@ -2,8 +2,7 @@
 session_start();
 require_once 'includes/validations.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/students.json");
+
 $pass = $cpass = $u_id = "";
 $errors = [];
 $validated = false;

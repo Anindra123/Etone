@@ -3,11 +3,10 @@ session_start();
 require_once 'includes/validations.php';
 require_once 'includes/routeTaskPage.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/student_taskData.json");
+
 $uid = $_SESSION['id'];
 $tid = +$_GET['t_id'] ?? -1;
-//$task = checkValidID($uid,$tid,get_fileName());
+
 $result = checkValidID($uid,$tid);
 if($result !== null){
 	$task = $result->get_result();

@@ -3,8 +3,7 @@ session_start();
 require_once 'includes/validations.php';
 require_once 'includes/routeTaskPage.php';
 require_once '../model/dbDataAcess.php';
-// require_once '../model/dataAcessType.php';
-// set_type("f","../model/scheduleClass.json");
+
 $cname = $rname = $stime = $etime = $uid = $pid = '';
 $weekday = [];
 $uid = $_SESSION['id'];
@@ -46,7 +45,6 @@ if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true)
 			'etime' => $etime
 		];
 		$weeks = getWeekID($weekday);
-		// updateClassScheduleData($uid,$pid,$sc_id,$scdata,get_fileName());
 		$dwresult = deleteWeekDays($sc_id);
 		$uwresult = setWeekDays($sc_id,$weeks);
 		$result = updateClassSchedule($uid,$pid,$sc_id,$scdata);
@@ -68,7 +66,6 @@ if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true)
 			'uid' => $uid,
 			'pid' => $pid
 		];
-		//setJsonData($scdata,get_fileName());
 		$sc_id = "";
 		$weeks = getWeekID($weekday);
 		$result = setClassSchedule($scdata);

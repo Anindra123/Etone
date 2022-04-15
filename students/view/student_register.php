@@ -9,12 +9,16 @@ session_start()
   <title>Etone : note management and planning app</title>
   <link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
   <link rel="stylesheet" href="styles/style.css">
+  <style>
+    input[type=email],input[type=password],input[type=text]{
+    width: 90%;
+    padding: 10px;
+    margin: auto;
+    font-size: 1vw;
+}
+</style>
 </head>
-
-<body>
-    <form action="../controller/studentAcc_info_validation.php" method="post" onsubmit="return validateRegistration(this)" novalidate>
-    <span>
-        <?php 
+ <?php 
         
         $errors = $_SESSION['r_errors'] ?? [];
         $data = $_SESSION['r_data'] ?? [];
@@ -32,9 +36,10 @@ session_start()
             unset($_SESSION['m_errors']);
         }
         
-        ?>
-    </span>
-
+?>
+<body>
+    <br><br>
+    <form action="../controller/studentAcc_info_validation.php" method="post" onsubmit="return validateRegistration(this)" novalidate>
     <fieldset>
         <legend>Student Sign Up :</legend>
         <label for="fname">First Name *:</label>

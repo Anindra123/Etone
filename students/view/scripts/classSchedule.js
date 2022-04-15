@@ -1,15 +1,31 @@
-function taskValidation(form){
-	let tname = form['tname'].value;
-	let stime = form['stime'].value;
-	let etime = form['etime'].value;
-	let flag = true;
+function validateClassSchedule(form) {
+	let weekdays = form.querySelectorAll('input[type=checkbox]');
+	let cname = form['cname'].value.trim();
+	let stime = form['stime'].value.trim();
+	let etime = form['etime'].value.trim();
 
-	if(tname === ""){
-		document.getElementsByClassName("err tn")[0].innerHTML = "Task title cannot be empty	"; 
+	let flag = true;
+	let isChecked = false;
+	for(let i=0;i<weekdays.length;i++){
+		if(weekdays[i].checked === true){
+			isChecked = true;
+		}
+	}	
+
+	if(isChecked === false){
+		document.getElementsByClassName("err wd")[0].innerHTML = "Please select a weekday";
 		flag = false;
 	}
 	else{
-		document.getElementsByClassName("err tn")[0].innerHTML = "";
+		document.getElementsByClassName("err wd")[0].innerHTML = ""
+	}
+
+	if(cname === ""){
+		document.getElementsByClassName("err cn")[0].innerHTML = "Please enter class name";
+		flag = false;	
+	}
+	else{
+		document.getElementsByClassName("err cn")[0].innerHTML = ""	
 	}
 
 	if(stime === ""){

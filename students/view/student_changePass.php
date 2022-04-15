@@ -10,6 +10,7 @@ if(!isset($_SESSION['id'])){
 $id = $_SESSION['id'] ?? ""; 
 require_once 'includes/header.php';
 ?>
+<span class="msg">
 <?php 
 		$errors = $_SESSION['p_errors'] ?? [];
 		$data = $_SESSION['p_data'] ?? [];
@@ -20,8 +21,9 @@ require_once 'includes/header.php';
 			unset($_SESSION['success']);
 		}
 ?>
+</span>
 <br><br>
-<form action="../controller/studentAcc_changePass_validation.php" method="post" onsubmit="return changePassValidation(this)" novalidate>
+<form action="../controller/studentAcc_changePass_validation.php" method="post" onsubmit="changePassValidationAndUpdate(this);return false;" novalidate>
 	<fieldset>
 		<legend>Change Password :</legend>
 		<br>

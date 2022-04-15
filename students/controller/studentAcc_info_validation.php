@@ -52,9 +52,6 @@ if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true 
     );
 
 
-    //set_studentData($data);
-
-    //setJsonData($data,get_fileName());
     $result  = setStudentData($data);
     if($result !== Null){
        $_SESSION['success'] = get_sucess("Signed up sucessfully");
@@ -83,8 +80,6 @@ else{
 );
    $_SESSION['r_errors'] = $errors;
    $_SESSION['r_data'] = $data;
- // $result->close();
- // $conn->close();
    header("Location: ../view/student_register.php");
    exit();
 }

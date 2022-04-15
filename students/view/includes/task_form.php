@@ -40,7 +40,7 @@
 	</fieldset>
 	<br>
 	<input type="submit">
-	&nbsp; <a href="student_tasks.php">Go back</a>
+	&nbsp; <a href="student_tasks.php" style="pointer-events:initial;"><button type="button">Go back</button></a>
 	<br>
 </form>
 <script src="scripts/tasks.js"></script>
