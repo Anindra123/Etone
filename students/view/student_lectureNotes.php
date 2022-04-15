@@ -31,22 +31,23 @@ require_once 'includes/header.php';
 ?>
 
 <h3>Showing all notes for <?php echo $_SESSION['sname'];?></h3>
-<hr>
-<a href="student_lectureNoteCreate.php">Add new note</a>
+<a href="student_lectureNoteCreate.php" style="pointer-events:initial"><button>Add new note</button></a>
 &nbsp;
-<a href="student_lecturePlanner.php">Go Back</a>
-<hr>
-<form action="../controller/noteSearch.php" method="get" novalidate>
+<a href="student_lecturePlanner.php" style="pointer-events:initiall"><button>Go Back</button></a>
+<br><br>
+<form action="../controller/noteSearch.php" method="get" onsubmit="validateAndSearchNote(this);return false;" novalidate>
 	<label for="n_name">Search for a note by name :</label>
 	<input type="search" name="n_name" value="">
 	&nbsp;
 	<input type="submit" name="search" value="search">
 	&nbsp;
-	<span><?php echo $errors['search_err'] ?? ''; ?></span>
+	<br><br>
 </form>
-<hr>
-<br>
-<?php 
+<span class="err ns"><?php echo $errors['search_err'] ?? ''; ?></span>
+<script src="scripts/searchNote.js"></script>
+<br><br>
+<?php
+
 if(isset($_SESSION['success'])){
 	echo '<br>';
 	echo $_SESSION['success'];
@@ -76,7 +77,8 @@ if(count($ln_data) === 0){
 }
 
 ?>
-<table border="1">
+<div id="noteData">
+<table>
 	<thead>
 		<tr>
 			<th>Notes</th>
@@ -85,25 +87,28 @@ if(count($ln_data) === 0){
 	</thead>
 	<tbody>
 		<?php 
+		$j = 0;
 		for ($i=0; $i < count($ln_data); $i++) { 
-			$id = $ln_data[$i]->id;
-			echo '<tr>';
-			echo '<td>';
-			echo $ln_data[$i]->tname;
-			echo '</td>';
-			echo '<td>';
-			echo "<a href=student_lectureNoteShow.php?ln_id=$id>View</a>";
-			echo '&nbsp;';
-			echo "<a href=student_lectureNoteUpdate.php?ln_id=$id>Update</a>";
-			echo '&nbsp;';
-			echo "<a href=../controller/lectureNote_delete.php?ln_id=$id>Delete</a>";
-			echo '&nbsp;';
-			echo '</td>';
-			echo '</tr>';
-		}
+				echo '<tr>';
+				$id = $ln_data[$i]['id'];
+				echo '<td>';
+				echo $ln_data[$i]['tname'];
+				echo '</td>';
+				echo '<td>';
+				echo "<a href='student_lectureNoteShow.php?ln_id=$id' style='pointer-events: initial;'><button>View</button></a>";
+				echo '&nbsp;';
+				echo "<a href='student_lectureNoteUpdate.php?ln_id=$id' style='pointer-events: initial;'><button>Update</button></a>";
+				echo '&nbsp;';
+				echo "<a href='../controller/lectureNote_delete.php?ln_id=$id' style='pointer-events: initial;'><button style='background-color: indianred;'>Delete</button></a>";
+				echo '&nbsp;';
+				echo '</td>';
+				echo '</tr>';
+			}
+
 		?>
 	</tbody>
 </table>
+</div>
 
 <?php
 if(isset($_SESSION['ln_data'])){

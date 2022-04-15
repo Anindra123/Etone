@@ -1,0 +1,25 @@
+#profileBox{
+	width: 30%;
+	margin: auto;
+	border: 2px solid white;
+	background-color: skyblue;
+
+}
+
+#profileBox img{
+	display: block;
+	border: 5px solid grey;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	padding: 50px;
+}
+#profileBox ul{
+	font-size: 1.2vw;
+	list-style: none;
+	text-align: left;
+}
+#profileBox ul li{
+	padding: 5px;
+}

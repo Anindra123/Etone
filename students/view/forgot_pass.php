@@ -1,5 +1,16 @@
 <?php 
 session_start();
+if(isset($_COOKIE["auth_token"])){
+	unset($_COOKIE["auth_token"]);
+	setcookie("auth_token",null,-1,"/");
+
+}
+if(isset($_SESSION['otp'])){
+	unset($_SESSION['otp']);
+}
+if(isset($_SESSION['NoOfTokens'])){
+	unset($_SESSION['NoOfTokens']);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -7,12 +18,18 @@ session_start();
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Etone : note management and planning app</title>
-	<link rel="icon" type="image/x-icon" hhref="../../public/img/notes3.ico">
+	<link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
+	<link rel="stylesheet" href="styles/style.css">
+	<style>
+    input[type=email],input[type=password],input[type=text]{
+    width: 90%;
+    padding: 10px;
+    margin: auto;
+    font-size: 1vw;
+	}
+	</style>
 </head>
-<body>
-	<form action="../controller/forgot_pass_validation.php" method="post">
-		<span>
-			<?php 
+<?php 
 
 			$errors = $_SESSION['p_errors'] ?? [];
 			$data = $_SESSION['p_data'] ?? [];
@@ -22,8 +39,10 @@ session_start();
 				echo '<br><br>';
 				unset($_SESSION['m_errors']);
 			}
-			?>
-		</span>
+?>
+<body>
+	<br><br>
+	<form action="../controller/forgot_pass_validation.php" method="post" onsubmit="return validateForgotPass(this)" novalidate>
 		<fieldset>
 			<legend>Forgot password :</legend>
 			<label for="uname">Enter your username *:</label>
@@ -31,19 +50,20 @@ session_start();
 			<input type="text" name="uname"id="uname" 
 			value="<?php echo $data['uname'] ?? '';?>">
 			<br>
-			<span><?php echo $errors['uname_err'] ?? ''; ?></span>
+			<span class="err un"><?php echo $errors['uname_err'] ?? ''; ?></span>
 			<br><br>
 			<label for="mail">Enter your email *:</label>
 			<br><br>
 			<input type="text" name="mail"id="mail" 
 			value="<?php echo $data['mail'] ?? '';?>">
 			<br>
-			<span><?php echo $errors['mail_err'] ?? ''; ?></span>
+			<span class="err ms"><?php echo $errors['mail_err'] ?? ''; ?></span>
 			<br><br>
-			<input type="submit"> &nbsp; <a href="index.php">Go back to login page</a>
+			<input type="submit"> &nbsp; <a href="index.php" style="pointer-events:initial"><button type="button">Go back to login page</button></a>
 			<br><br>
 		</fieldset>
 	</form>
+<script src="scripts/forgotpass.js"></script>
 </body>
 </html>
 <?php 
@@ -54,5 +74,6 @@ if(isset($_SESSION['p_data']) &&
 	unset($_SESSION['p_data']);
 	unset($_SESSION['p_errors']);
 }
+
 
 ?>

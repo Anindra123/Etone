@@ -1,5 +1,15 @@
 <?php
 session_start();
+if(isset($_COOKIE["auth_token"])){
+    unset($_COOKIE["auth_token"]);
+    setcookie("auth_token",null,-1,"/");
+}
+if(isset($_SESSION['otp'])){
+    unset($_SESSION['otp']);
+}
+if(isset($_SESSION['NoOfTokens'])){
+    unset($_SESSION['NoOfTokens']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -9,12 +19,17 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Etone : note management and planning app</title>
   <link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
+  <link rel="stylesheet" href="styles/style.css">
+<style>
+    input[type=email],input[type=password],input[type=text]{
+    width: 90%;
+    padding: 10px;
+    margin: auto;
+    font-size: 1vw;
+}
+</style>
 </head>
-
-<body>
-  <form action="../controller/loginValidation.php" method="post" novalidate>
-    <span>
-        <?php 
+<?php 
         $errors = $_SESSION['l_errors'] ?? [];
         $data = $_SESSION['l_data'] ?? [];
         if(isset($_SESSION['m_errors'])){
@@ -23,8 +38,10 @@ session_start();
             echo '<br><br>';
             unset($_SESSION['m_errors']);
         }
-        ?>
-    </span>
+?>
+<body>
+  <br><br>
+  <form action="../controller/loginValidation.php" method="post" onsubmit="return validateLogin(this)" novalidate>
     <fieldset>
         <legend>Student Sign In :</legend>
         <br>
@@ -32,21 +49,22 @@ session_start();
         <br><br>
         <input type="email" name="mail" id="mail" autofocus value="<?php echo $data['mail'] ?? ''; ?>">
         <br>
-        <span><?php echo $errors['mail_err'] ?? '';?></span>
+        <span class="err ms"><?php echo $errors['mail_err'] ?? '';?></span>
         <br><br>
         <label for="pass">Password *:</label>
         <br><br>
         <input type="password" name="pass" id="pass" value="<?php echo $data['pass'] ?? ''; ?>">
         <br>
-        <span><?php echo $errors['pass_err'] ?? '';?></span>
+        <span class="err ps"><?php echo $errors['pass_err'] ?? '';?></span>
         <br><br>
-        <button type="submit">Log In</button>&nbsp;&nbsp;
+        <input type="submit" value="Login"></input>&nbsp;&nbsp;
         <a href="forgot_pass.php">Forgot Password ?</a>
         <br><br>
         <p>Don't have an account ? <a href="student_register.php">Sign Up</a></p>
         <br>
     </fieldset>
 </form>
+<script src="scripts/login.js"></script>
 </body>
 </html>
 <?php 

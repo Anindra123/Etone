@@ -8,7 +8,7 @@ if(!isset($_SESSION['id'])){
 }
 require_once 'includes/header.php';
 ?>
-
+<br><br>
 <form action="../controller/deleteStudentData.php" novalidate>
 	<fieldset>
 		<legend>Delete Confirmation :</legend>

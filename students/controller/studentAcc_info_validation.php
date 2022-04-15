@@ -1,9 +1,8 @@
 <?php
 session_start();
 require_once 'includes/validations.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/students.json");
+require_once '../model/dbDataAcess.php';
+
 $fname = $lname =$mname =$mail = $uname = $pass = $cpass =$loe= $ins_name = "";
 $errors = [];
 $validated = false;
@@ -40,10 +39,9 @@ else{
     exit();
 }
 // if all validation done and no errors found then save
-// the data in json file
-if(count($errors) === 0 && $validated === true ){
-    $data = array('id'=>Null,
-        'mail' => $mail,
+// the data in database
+if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true ){
+    $data = array('mail' => $mail,
         'pass' => $pass,
         'uname' => $uname,
         'fname' => $fname,
@@ -54,20 +52,23 @@ if(count($errors) === 0 && $validated === true ){
     );
 
 
-    //set_studentData($data);
-
-    setJsonData($data,get_fileName());
-
-    $_SESSION['success'] = get_sucess("Signed up sucessfully");
-    if(isset($_SESSION['r_errors']) && isset($_SESSION['r_data'])){
+    $result  = setStudentData($data);
+    if($result !== Null){
+       $_SESSION['success'] = get_sucess("Signed up sucessfully");
+       if(isset($_SESSION['r_errors']) && isset($_SESSION['r_data'])){
         unset($_SESSION['r_errors']);
         unset($_SESSION['r_data']);
-    }
+        }
+    $result->close();
+    $conn->close();
     header("Location: ../view/student_register.php");
     exit();
+   }
+
+
 }   
 else{
- $data = array('id'=>Null,
+   $data = array(
     'mail' => $mail,
     'pass' => $pass,
     'uname' => $uname,
@@ -77,8 +78,8 @@ else{
     'loe' => $loe,
     'ins_name' => $ins_name
 );
- $_SESSION['r_errors'] = $errors;
- $_SESSION['r_data'] = $data;
- header("Location: ../view/student_register.php");
- exit();
+   $_SESSION['r_errors'] = $errors;
+   $_SESSION['r_data'] = $data;
+   header("Location: ../view/student_register.php");
+   exit();
 }

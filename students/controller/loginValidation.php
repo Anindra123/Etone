@@ -1,9 +1,8 @@
 <?php 
 session_start();
 require_once 'includes/validations.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/students.json");
+require_once '../model/dbDataAcess.php';
+
 $mail = $pass = "";
 $errors = [];
 $validate = false;
@@ -30,9 +29,10 @@ $validate = true;
 
 
 
-if(count($errors) === 0 && $validate === true){
-    $_SESSION['id'] = $data->id;
-    $_SESSION['full_name'] = $data->fname." ".$data->mname." ".$data->lname; 
+if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validate === true){
+    $_SESSION['id'] = $data['id'];
+    $_SESSION['full_name'] = $data['fname']." ".$data['mname']." ".$data['lname']; 
+
     header('Location: ../view/student_tasks.php');
     exit();
 }

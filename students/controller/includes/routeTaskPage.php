@@ -67,6 +67,9 @@ function getRouteUrl(){
 		case 'Update Class Schedule Page':
 			$url = 'Location: ../view/student_classScheduleUpdate.php';
 			break;
+		case 'Daily tasks page':
+			$url = 'Location: ../view/student_tasks.php';
+			break;
 		default:
 			$url = 'Location: ../view/logout.php';
 			break;

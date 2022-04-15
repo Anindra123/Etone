@@ -16,7 +16,7 @@ if(!isset($_SESSION['scu_data'])){
 	exit();
 }
 else{
-	$data =(array)$_SESSION['scu_data'];
+	$data = $_SESSION['scu_data'];
 }
 require_once 'includes/header.php';
 $page_title = 'Update class schedule';

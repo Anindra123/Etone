@@ -20,9 +20,7 @@ require_once 'includes/header.php';
 ?>
 
 <h3>Today's tasks for <?php echo $_SESSION['full_name'];?></h3>
-<hr>
-<a href="student_taskCreate.php">Create Task</a>
-<hr>
+<a style="pointer-events: initial;display: block; margin: 20px;" href="student_taskCreate.php"><button>Create Task</button></a>
 <?php 
 if(isset($_SESSION['success'])){
 	echo '<br>';
@@ -47,8 +45,17 @@ if(count($task_data) === 0){
 }
 
 ?>
-
-<table border="1">
+<form action="">
+	<label>Filter Task By :</label>
+	<select name="task_type" onchange="filterTask(this.value);">
+	<option value="default">Default</option>
+	<option value="Completed">Completed</option>
+	<option value="To Do">To Do</option>
+	</select>
+</form>
+<script src="scripts/filterTask.js"></script>
+<div class="tasks">
+<table>
 	<thead>
 		<tr>
 			<th>Title</th>
@@ -62,29 +69,29 @@ if(count($task_data) === 0){
 	<tbody>
 		<?php 
 		for ($i=0; $i < count($task_data); $i++) { 
-			$id = $task_data[$i]->id;
+			$id = $task_data[$i]['id'];
 			echo '<tr>';
 			echo '<td>';
-			echo $task_data[$i]->tname;
+			echo $task_data[$i]['tname'];
 			echo '</td>';
 			echo '<td>';
-			echo $task_data[$i]->stime;
+			echo date('g:i a',strtotime($task_data[$i]['stime']));
 			echo '</td>';
 			echo '<td>';
-			echo $task_data[$i]->etime;
+			echo date('g:i a',strtotime($task_data[$i]['etime']));
 			echo '</td>';
 			echo '<td>';
-			echo $task_data[$i]->status;
+			echo $task_data[$i]['status'];
 			echo '</td>';
 			echo '<td>';
-			echo $task_data[$i]->date;
+			echo date('d-m-y',strtotime($task_data[$i]['date']));
 			echo '</td>';
 			echo '<td>';
-			echo "<a href=../controller/student_taskComplete.php?t_id=$id>Complete</a>";
+			echo "<a style='pointer-events: initial;' href=../controller/student_taskComplete.php?t_id=$id><button>Complete</button></a>";
 			echo '&nbsp;';
-			echo "<a href=student_taskUpdate.php?t_id=$id>Update</a>";
+			echo "<a style='pointer-events: initial;' href=student_taskUpdate.php?t_id=$id><button>Update</button></a>";
 			echo '&nbsp;';
-			echo "<a href=../controller/student_taskDelete.php?t_id=$id>Delete</a>";
+			echo "<a style='pointer-events: initial;' href=../controller/student_taskDelete.php?t_id=$id><button style='background-color: indianred;'>Delete</button></a>";
 			echo '&nbsp;';
 			echo '</td>';
 			echo '</tr>';
@@ -92,6 +99,7 @@ if(count($task_data) === 0){
 		?>
 	</tbody>
 </table>
+</div>
 
 <?php
 if(isset($_SESSION['t_data'])){

@@ -10,9 +10,8 @@ if(!isset($_SESSION['id'])){
 $id = $_SESSION['id'] ?? ""; 
 require_once 'includes/header.php';
 ?>
-<form action="../controller/studentAcc_changePass_validation.php" method="post" novalidate>
-	<span>
-		<?php 
+<span class="msg">
+<?php 
 		$errors = $_SESSION['p_errors'] ?? [];
 		$data = $_SESSION['p_data'] ?? [];
 		if(count($errors) === 0 && isset($_SESSION['success'])){
@@ -21,8 +20,10 @@ require_once 'includes/header.php';
 			echo '<br><br>';
 			unset($_SESSION['success']);
 		}
-		?>
-	</span>
+?>
+</span>
+<br><br>
+<form action="../controller/studentAcc_changePass_validation.php" method="post" onsubmit="changePassValidationAndUpdate(this);return false;" novalidate>
 	<fieldset>
 		<legend>Change Password :</legend>
 		<br>
@@ -31,28 +32,29 @@ require_once 'includes/header.php';
 		<input type="password" name="pass" id="pass" 
 		value="<?php echo $data['pass'] ?? '';?>">
 		<br>
-		<span><?php echo $errors['pass_err'] ?? '';?></span>
+		<span class="err ps"><?php echo $errors['pass_err'] ?? '';?></span>
 		<br><br>
 		<label for="npass">New Password *:</label>
 		<br><br>
 		<input type="password" name="npass" id="npass" 
 		value="<?php echo $data['npass'] ?? '';?>">
 		<br>
-		<span><?php echo $errors['npass_err'] ?? '';?></span>
+		<span class="err nps"><?php echo $errors['npass_err'] ?? '';?></span>
 		<br><br>
 		<label for="cpass">Confirm Password *:</label>
 		<br><br>
 		<input type="password" name="cpass" id="cpass" 
 		value="<?php echo $data['cpass'] ?? '';?>">
 		<br>
-		<span><?php echo $errors['cpass_err'] ?? '';?></span>
+		<span class="err cps"><?php echo $errors['cpass_err'] ?? '';?></span>
+		<br><br>
+		<br>
+		<input type="submit">
 		<br><br>
 	</fieldset>
-	<br>
-	<input type="submit">
-	<br><br>
 </form>
-
+<br><br>
+<script src="scripts/changePass.js"></script>
 <?php
 require_once 'includes/footer.php';
 if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){

@@ -1,0 +1,92 @@
+body{
+	background-color: skyblue;
+	font-family: Helvetica,Arial,sans-serif;
+	text-align: center;
+}
+
+.err{
+	color: orangered;
+}
+
+.success{
+	color: darkgreen;
+}
+.merrors{
+	color: orangered;
+}
+form{
+	margin: auto;
+	width: 50%;
+	font-size: 1vw;
+	text-align: left;
+}
+
+
+input[type=email],input[type=password],input[type=text]{
+	width: 90%;
+	padding: 10px;
+	margin: auto;
+	font-size: 1vw;
+}
+input[type=time],input[type=date]{
+	width: 20%;
+	padding: 10px;
+}
+input[type=search]{
+	width: 50%;
+	padding: 10px;
+	margin: auto;
+}
+
+
+input[type=submit],button{
+	background-color: dodgerblue;
+	color: white;
+	padding: 10px 15px 10px 15px;
+	cursor: pointer;
+}
+
+
+a{
+	text-decoration: none;
+
+}
+
+a:link{
+	color: darkslateblue;
+}
+a:visited{
+	color: darkslateblue;
+}
+a:hover{
+	color: orangered;
+}
+
+a:active{
+	color: darkcyan;
+}
+
+table{
+	width: 50%;
+	margin: auto;
+	overflow: auto;
+}
+tr{
+	background-color: #ffffff;
+	padding: 10px;
+}
+
+tr:nth-child(even){
+	background-color: #f2f2f2;
+}
+th{
+	background-color: lightseagreen;
+	padding: 10px;
+	color: white;
+	/*border-radius: 10px;*/
+	/*margin: 10px;*/
+}
+td{
+	padding: 10px;
+}
+

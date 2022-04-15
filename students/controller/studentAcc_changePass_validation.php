@@ -1,9 +1,8 @@
 <?php
 session_start();
 require_once 'includes/validations.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/students.json");
+require_once '../model/dbDataAcess.php';
+
 $pass = $cpass = $npass = "";
 $errors = [];
 $validated = false;
@@ -35,19 +34,24 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 
 // if all validation done and no errors found then save
 // the data in json file
-if(count($errors) === 0 && $validated === true){
+if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true){
 	$data = array(
 		'pass' => $npass
 	);
-	
-	update_password($data,$id);
-	$_SESSION['success'] = get_sucess("Password changed sucessfully");
-	if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){
-		unset($_SESSION['p_errors']);
-		unset($_SESSION['p_data']);
+
+	$result = update_password($id,$data);
+	if($result !== null){
+		$_SESSION['success'] = get_sucess("Password changed sucessfully");
+		if(isset($_SESSION['p_errors']) && isset($_SESSION['p_data'])){
+			unset($_SESSION['p_errors']);
+			unset($_SESSION['p_data']);
+		}
+		$result->close();
+		$conn->close();
+		header("Location: ../view/student_changePass.php");
+		exit();
 	}
-	header("Location: ../view/student_changePass.php");
-	exit();
+	
 }
 else{
 	$data = array(

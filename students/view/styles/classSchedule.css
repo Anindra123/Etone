@@ -1,0 +1,50 @@
+.classSchedule{
+	width: 100%;
+	margin: auto;
+}
+
+.schedulerMenu{
+	width: 100%;
+	border: 2px solid black;
+	border-radius: 10px;
+	margin: auto;
+	box-sizing: border-box;
+	padding: 10px;
+	margin-bottom: 5px;
+	background-color: lightgoldenrodyellow;
+}
+
+.schedulerMenu .scheduleText{
+	display: inline-block;
+	box-sizing: border-box;
+	width: 40%;
+	margin: auto;
+	padding-top: 10px;
+	height: 30px;
+}
+.schedulerMenu .scheduleText span{
+	padding: 10px;
+}
+.schedulerMenu button{
+	display: block;
+	margin-left: 5px;
+}
+
+
+.schedulerMenu::after{
+	content: "";
+	clear: both;
+	display: table;
+}
+
+.classSchedule th{
+	background-color: limegreen;
+	border-radius: 10px;
+	border: 2px solid black;
+}
+.classSchedule td{
+	background-color: powderblue;
+	border-radius: 10px;
+	border: 2px solid black;
+	padding: 10px;
+}

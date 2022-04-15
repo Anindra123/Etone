@@ -1,9 +1,8 @@
 <?php 
 session_start();
 require_once 'includes/validations.php';
-require_once '../model/dataAcess.php';
-require_once '../model/dataAcessType.php';
-set_type("f","../model/students.json");
+require_once '../model/dbDataAcess.php';
+
 $pass = $cpass = $u_id = "";
 $errors = [];
 $validated = false;
@@ -20,10 +19,10 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 
 }
 
-if(count($errors) === 0 && $validated === true){
+if(count($errors) === 0 && !isset($_SESSION['m_errors']) && $validated === true){
 	$u_id = $_SESSION['u_id'] ?? '';
 	
-	if(isset($_SESSION['count']) && $_SESSION['count'] >= 1)
+	if(isset($_SESSION['count']) && $_SESSION['count'] >=1)
 	{	
 		if(isset($_SESSION['p_data']) && 
 			isset($_SESSION['p_errors'])
@@ -42,15 +41,19 @@ if(count($errors) === 0 && $validated === true){
 	$data = array(
 		'pass' => $pass
 	);
-	update_password($data,$u_id);
-	if(isset($_SESSION['p_data']) && 
-		isset($_SESSION['p_errors'])
+	$result = update_password($u_id,$data);
+	if($result !== null){
+		if(isset($_SESSION['p_data']) && 
+			isset($_SESSION['p_errors'])
 
-	)
-	{
-		unset($_SESSION['p_data']);
-		unset($_SESSION['p_errors']);
+		)
+		{
+			unset($_SESSION['p_data']);
+			unset($_SESSION['p_errors']);
 
+		}
+		$result->close();
+		$conn->close();
 	}
 	header('Location: ../view/reset_pass.php');
 	exit();
@@ -61,6 +64,9 @@ else{
 		'pass' => $pass,
 		'cpass' => $cpass
 	);
+	if($_SESSION['count'] == 0){
+		unset($_SESSION['count']);
+	}
 	$_SESSION['p_data'] = $data;
 	$_SESSION['p_errors'] = $errors;
 	header('Location: ../view/reset_pass.php');

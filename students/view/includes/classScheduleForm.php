@@ -1,7 +1,4 @@
-<form action="../controller/classSchedule_validation.php" method="post" novalidate>	
-	<fieldset>
-		<span>
-			<?php 
+<?php 
 			if(count($errors) === 0 && isset($_SESSION['success'])){
 				echo '<br>';
 				echo $_SESSION['success'];
@@ -12,36 +9,38 @@
 				echo $_SESSION['m_errors'];
 				echo '<br><br>';
 			}
-			?>
-		</span>
+?>
+<br><br>
+<form action="../controller/classSchedule_validation.php" method="post" onsubmit="return validateClassSchedule(this)" novalidate>	
+	<fieldset>
 		<legend><?php echo $page_title;?></legend>
 		<label for="cname">Class name *:</label>
 		<br><br>
-		<input type="text" name="cname"id="cname" autofocus 
+		<input type="text" name="cname" id="cname" autofocus 
 		value= "<?php echo $data['cname'] ?? '';?>">
 		<br>
-		<span><?php echo $errors['cname_err'] ?? ''; ?></span>
+		<span class="err cn"><?php echo $errors['cname_err'] ?? ''; ?></span>
 		<br><br>
 		<label for="stime">Start time *:</label>
 		<br><br>
 		<input type="time" name="stime"id="stime" 
 		value= "<?php echo date('H:i',strtotime($data['stime'])) ?? '';?>">
 		<br>
-		<span><?php echo $errors['stime_err'] ?? ''; ?></span>
+		<span class="err st"><?php echo $errors['stime_err'] ?? ''; ?></span>
 		<br><br>
 		<label for="etime">End time *:</label>
 		<br><br>
 		<input type="time" name="etime"id="etime" 
 		value= "<?php echo date('H:i',strtotime($data['etime'])) ?? '';?>">
 		<br>
-		<span><?php echo $errors['etime_err'] ?? ''; ?></span>
+		<span class="err et"><?php echo $errors['etime_err'] ?? ''; ?></span>
 		<br><br>
-		<label for="cname">Remainder :</label>
+		<label for="rname">Remainder :</label>
 		<br><br>
 		<input type="text" name="rname"id="rname" autofocus 
 		value= "<?php echo $data['rname'] ?? '';?>">
 		<br>
-		<span><?php echo $errors['rname_err'] ?? ''; ?></span>
+		<span class="err rn"><?php echo $errors['rname_err'] ?? ''; ?></span>
 		<br><br>
 		<label for="weekday">Week days * :</label>
 		<input type="checkbox" name="weekday[1]" value=
@@ -72,11 +71,13 @@
 		"Sat" id="sat">
 		<label for="sat">Sat</label>
 		&nbsp;
-		<span><?php echo $errors['weekday_err'] ?? ''; ?></span>
+		<span class="err wd"><?php echo $errors['weekday_err'] ?? ''; ?></span>
 		<br><br>
 	</fieldset>
 	<br>
 	<input type="submit">
-	&nbsp; <a href="student_scheduler.php">Go back</a>
+	&nbsp; <a  href="student_scheduler.php" style="pointer-events:initial"><button type="button">Go back</button></a>
 	<br>
 </form>
+
+<script src="scripts/classSchedule.js"></script>

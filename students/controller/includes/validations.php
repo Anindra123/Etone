@@ -1,6 +1,6 @@
 <?php 
 
-require_once '../model/dataAcess.php';
+require_once '../model/dbDataAcess.php';
 
 $errors = array();
 $cross_emote = "&#10060;";
@@ -22,10 +22,10 @@ function email_validation($mail){
 	global $errors;
 	$mail = sanitize_input($mail);
 	if(empty($mail)){
-		$errors["mail_err"] = "Email cannot be empty ".$GLOBALS['cross_emote'];
+		$errors["mail_err"] = "Email cannot be empty ";
 	}
 	else if(!filter_var($mail,FILTER_VALIDATE_EMAIL)){
-		$errors["mail_err"] = "Not a proper email ".$GLOBALS['cross_emote'];
+		$errors["mail_err"] = "Not a proper email ";
 	}
 
 }
@@ -36,10 +36,10 @@ function password_validation($pass,$key="pass_err"){
 	global $errors;
 	$pass = sanitize_input($pass);
 	if(empty($pass)){
-		$errors[$key] = "Password cannot be empty ".$GLOBALS['cross_emote'];
+		$errors[$key] = "Password cannot be empty ";
 	}
 	else if(strlen($pass) < 6 || strlen($pass) > 10){
-		$errors[$key] = "Password must be minimum 6 characters and maximum 10 characters ".$GLOBALS['cross_emote'];
+		$errors[$key] = "Password must be minimum 6 characters and maximum 10 characters ";
 	}
 
 }
@@ -49,13 +49,13 @@ function confirm_pass_validation($cpass,$pass){
 	global $errors;
 	$cpass = sanitize_input($cpass);
 	if(empty($cpass)){
-		$errors["cpass_err"] = "Confirm Password Feild cannot be empty ".$GLOBALS['cross_emote'];
+		$errors["cpass_err"] = "Confirm Password Feild cannot be empty ";
 	}
 	else if(strlen($pass) < 6 || strlen($pass) > 10){
-		$errors[$key] = "Password must be minimum 6 characters and maximum 10 characters ".$GLOBALS['cross_emote'];
+		$errors[$key] = "Password must be minimum 6 characters and maximum 10 characters ";
 	}
 	else if($cpass !== $pass){
-		$errors["cpass_err"] = "Password does not match ".$GLOBALS['cross_emote'];
+		$errors["cpass_err"] = "Password does not match ";
 	}
 
 }
@@ -67,20 +67,20 @@ function name_validation($fname,$lname,$mname){
 	$lname = sanitize_input($lname);
 	$mname = sanitize_input($mname);
 	if(empty($fname)){
-		$errors["fname_err"] = "First name cannot be empty ".$GLOBALS['cross_emote'];
+		$errors["fname_err"] = "First name cannot be empty ";
 	}
 	else if(!preg_match($name_pattern,$fname)){
-		$errors["fname_err"] = "Not a valid first name ".$GLOBALS['cross_emote'];
+		$errors["fname_err"] = "Not a valid first name ";
 	}
 
 	if(empty($lname)){
-		$errors["lname_err"] = "Last name cannot be empty ".$GLOBALS['cross_emote'];
+		$errors["lname_err"] = "Last name cannot be empty ";
 	}else if(!preg_match($name_pattern,$lname)){
-		$errors["lname_err"] = "Not a valid last name ".$GLOBALS['cross_emote'];
+		$errors["lname_err"] = "Not a valid last name ";
 	}
 
 	if(!empty($mname) && !preg_match($name_pattern,$mname)){
-		$errors["mname_err"] = "Not a valid middle name ".$GLOBALS['cross_emote'];
+		$errors["mname_err"] = "Not a valid middle name ";
 	}
 
 }
@@ -89,9 +89,9 @@ function username_validation($uname){
 	global $errors;
 	$uname = sanitize_input($uname);
 	if(empty($uname)){
-		$errors["uname_err"] = "User name cannot be empty ".$GLOBALS['cross_emote'];
+		$errors["uname_err"] = "User name cannot be empty ";
 	}else if(strlen($uname) > 5){
-		$errors["uname_err"] = "Username can be maximum 5 characters ".$GLOBALS['cross_emote'];
+		$errors["uname_err"] = "Username can be maximum 5 characters ";
 	}
 }
 
@@ -100,7 +100,7 @@ function required_check($text,$key,$msg){
 	global $errors;
 	$text = sanitize_input($text);
 	if(empty($text)){
-		$errors[$key] = $msg.$GLOBALS['cross_emote'];
+		$errors[$key] = $msg;
 	}
 }
 //check for empty string
@@ -108,7 +108,7 @@ function empty_check($text,$key,$msg){
 	global $errors;
 	$text = sanitize_input($text);
 	if(!isset($text)){
-		$errors[$key] = $msg.$GLOBALS['cross_emote'];
+		$errors[$key] = $msg;
 	}
 }
 //validation for single text fields 
@@ -116,7 +116,7 @@ function valid_name_check($text,$key,$msg){
 	global $errors,$name_pattern;
 	$text = sanitize_input($text);
 	if(!empty($text) && !preg_match($name_pattern,$text)){
-		$errors[$key] = $msg.$GLOBALS['cross_emote'];
+		$errors[$key] = $msg;
 	}
 }
 
@@ -127,41 +127,59 @@ function get_errors(){
 
 //returns a message for sucessful operation
 function get_sucess($msg){
-	return $msg.$GLOBALS['ok_emote'];
+	return "<span class='success'>".$msg."</span>";
 }
 
 //returns a message for error in operation
 function get_failure($msg){
-	return $msg.$GLOBALS['cross_emote'];
+	return "<span class='merrors'>".$msg."</span>";
 }
 
 //all login related validation
 function login_validation($email,$pass){
-	global $cross_emote,$errors;
+	global $cross_emote,$errors,$conn;
 	$email = sanitize_input($email);
 	$pass = sanitize_input($pass);
-	$out = validate_login($email,$pass);
-	if($out === []){
-		$errors['mail_err'] = "Invalid mail or user doesn't exist ".$cross_emote;
-		$errors['pass_err'] = "Invalid password or user doesn't exist ".$cross_emote;
+	$result = validate_login($email,$pass);
+	if($result !== Null){
+		$data = $result->get_result();
+
+		if($data->num_rows == 0){
+			$errors['mail_err'] = "Invalid mail or user doesn't exist ";
+			$errors['pass_err'] = "Invalid password or user doesn't exist ";
+		}
+		else{
+
+			$data = $data->fetch_assoc();
+			$result->close();
+			$conn->close();
+			return $data;
+		}
+		
 	}
-	else{
-		return $out;
-	}
+
+	
 }
 //check whether user is creating an account 
 // using same username,password or mail 
 //for seconnd time
 function check_duplicate($uname,$pass,$mail){
-	global $cross_emote,$errors;
+	global $cross_emote,$errors,$conn;
 	$uname = sanitize_input($uname);
 	$mail = sanitize_input($mail);
 	$pass = sanitize_input($pass);
-	if(validate_registration($uname,$pass,$mail) === true){
-		$errors['uname_err'] = "Account with same username or email or password already exists ".$cross_emote;
-		$errors['mail_err'] = "Account with same username or email or password already exists ".$cross_emote;
-		$errors['pass_err'] = "Account with same username or email or password already exists ".$cross_emote;
-	}
+	$result = validate_registration($uname,$pass,$mail);
+	if($result !== Null){
+    	$data = $result->get_result();
+    	if($data->num_rows >= 1){
+		$errors['uname_err'] = "Account with same username or email or password already exists ";
+		$errors['mail_err'] = "Account with same username or email or password already exists ";
+		$errors['pass_err'] = "Account with same username or email or password already exists ";
+		}
+		$result->close();
+    	$conn->close();
+    }
+
 }
 
 //check whether old password matches
@@ -170,8 +188,12 @@ function check_duplicate($uname,$pass,$mail){
 function check_validPass($pass,$id){
 	global $errors,$cross_emote;
 	$pass = sanitize_input($pass);
-	if(!valid_pass($pass,$id)){
-		$errors['pass_err'] = "Given password doesn't match ".$cross_emote;
+	$result = valid_pass($id,$pass);
+	if($result !== Null){
+		$data = $result->get_result();
+		if($data->num_rows == 0){
+			$errors['pass_err'] = "Given password doesn't match ";
+		}
 	}
 }
 
@@ -182,13 +204,24 @@ function resetpass_validation($uname,$email){
 	global $errors,$cross_emote;
 	$uname= sanitize_input($uname);
 	$email = sanitize_input($email);
-	$out = passwordReset_validation($uname,$email);
-	if($out < 0){
-		$errors['uname_err'] = "Invalid username or account doesnt't exist ".$cross_emote;
-		$errors['mail_err'] = "Invalid email or account doesnt't exist ".$cross_emote;
-	}else{
-		return $out;
+	$result = passwordReset_validation($uname,$email);
+	if($result !== null){
+		$data = $result->get_result();
+		if($data->num_rows == 0){
+			$errors['uname_err'] = "Invalid username or account doesnt't exist ";
+			$errors['mail_err'] = "Invalid email or account doesnt't exist ";
+		}
+		else{
+			$out = $data->fetch_assoc();
+			return $out;
+		}
 	}
+	// if($out < 0){
+	// 	$errors['uname_err'] = "Invalid username or account doesnt't exist ".$cross_emote;
+	// 	$errors['mail_err'] = "Invalid email or account doesnt't exist ".$cross_emote;
+	// }else{
+	// 	return $out;
+	// }
 }	
 
 //checks whether starttime is less than
@@ -199,8 +232,8 @@ function validate_time($stime,$etime){
 	$etime = sanitize_input($etime);
 	if(!empty($stime) && !empty($etime)){
 		if(strtotime($stime) >= strtotime($etime)){
-			$errors['stime_err'] = "Start time is greater or equal to end time ".$cross_emote;
-			$errors['etime_err'] = "Start time is greater or equal to end time ".$cross_emote;
+			$errors['stime_err'] = "Start time is greater or equal to end time ";
+			$errors['etime_err'] = "Start time is greater or equal to end time ";
 		}
 	}
 }
@@ -211,7 +244,7 @@ function valid_time_check($time,$key,$msg){
 	global $errors,$cross_emote,$time_pattern;
 	$time = sanitize_input($time);
 	if(!preg_match($time_pattern,$time)){
-		$errors[$key] = $msg.$cross_emote;
+		$errors[$key] = $msg;
 	}
 }
 
@@ -222,7 +255,7 @@ function valid_date_check($date,$key,$msg){
 	$date = sanitize_input($date);
 	$date = date_parse($date);
 	if($date['error_count'] !== 0){
-		$errors[$key] = $msg.$cross_emote;
+		$errors[$key] = $msg;
 	}
 }
 
@@ -231,5 +264,5 @@ function valid_date_check($date,$key,$msg){
 //with a key and a message
 function setErrorMsg($key,$msg){
 	global $errors,$cross_emote;
-	$errors[$key] = $msg.$cross_emote;
+	$errors[$key] = $msg;
 }

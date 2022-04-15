@@ -9,8 +9,8 @@ if(!isset($_SESSION['id'])){
 require_once 'includes/header.php';
 
 ?>
-
-<form action="../controller/schedule_validation.php"	method="post" novalidate>
+<br><br>
+<form action="../controller/schedule_validation.php" method="post" onsubmit="return validateWeeklySchedule(this)" novalidate>
 	<fieldset>
 		<span>
 			<?php 
@@ -35,14 +35,15 @@ require_once 'includes/header.php';
 		<input type="text" name="wname"id="wname" autofocus 
 		value= "<?php echo $data['wname'] ?? '';?>">
 		<br>
-		<span><?php echo $errors['wname_err'] ?? ''; ?></span>
+		<span class="err ws"><?php echo $errors['wname_err'] ?? ''; ?></span>
 		<br>
 	</fieldset>
 	<br>
 	<input type="submit">
-	&nbsp; <a href="student_scheduler.php">Go back</a>
+	&nbsp; <a href="student_scheduler.php" style="pointer-events:initial"><button type="button">Go back</button></a>
 	<br>
 </form>
+<script src="scripts/weekSchedule.js"></script>
 <?php
 if(isset($_SESSION['success'])){
 	unset($_SESSION['success']);

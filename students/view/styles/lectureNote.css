@@ -1,0 +1,12 @@
+#lectureInfo{
+	width: 50%;
+	margin: auto;
+	box-sizing: border-box;
+	padding: 15px;
+	background-color: lightgrey;
+	text-align: left;
+	border: 2px solid black;
+	border-radius: 5px;
+	font-size: 1vw;
+	overflow: auto;
+}

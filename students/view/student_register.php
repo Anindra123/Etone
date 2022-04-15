@@ -8,12 +8,17 @@ session_start()
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Etone : note management and planning app</title>
   <link rel="icon" type="image/x-icon" href="../../public/img/notes3.ico">
+  <link rel="stylesheet" href="styles/style.css">
+  <style>
+    input[type=email],input[type=password],input[type=text]{
+    width: 90%;
+    padding: 10px;
+    margin: auto;
+    font-size: 1vw;
+}
+</style>
 </head>
-
-<body>
- <form action="../controller/studentAcc_info_validation.php" method="post" novalidate>
-    <span>
-        <?php 
+ <?php 
         
         $errors = $_SESSION['r_errors'] ?? [];
         $data = $_SESSION['r_data'] ?? [];
@@ -31,9 +36,10 @@ session_start()
             unset($_SESSION['m_errors']);
         }
         
-        ?>
-    </span>
-
+?>
+<body>
+    <br><br>
+    <form action="../controller/studentAcc_info_validation.php" method="post" onsubmit="return validateRegistration(this)" novalidate>
     <fieldset>
         <legend>Student Sign Up :</legend>
         <label for="fname">First Name *:</label>
@@ -41,23 +47,24 @@ session_start()
         <input type="text" name="fname"id="fname" autofocus 
         value= "<?php echo $data['fname'] ?? '';?>">
         <br>
-        <span><?php echo $errors['fname_err'] ?? ''; ?></span>
+        <span class="err fn"><?php echo $errors['fname_err'] ?? ''; ?></span>
         <br><br>
         <label for="mname">Middle Name:</label>
         <br>
         <input type="text" name="mname"id="mname" 
         value= "<?php echo $data['mname'] ?? '';?>">
         <br>
-        <span><?php echo $errors['mname_err'] ?? ''; ?></span>
+        <span class="err mn"><?php echo $errors['mname_err'] ?? ''; ?></span>
         <br><br>
         <label for="lname">Last Name *:</label>
         <br>
         <input type="text" name="lname" id="lname" 
         value= "<?php echo $data['lname'] ?? '';?>"> 
         <br>
-        <span><?php echo $errors['lname_err'] ?? ''; ?></span>
+        <span class="err ln"><?php echo $errors['lname_err'] ?? ''; ?></span>
         <br><br>    
         <label>Level of education * :</label>
+        <br><br>
         <input type="radio" name="loe" value="Elementary"
         id="elem">
         <label for="elem">Elementary(1-5)</label>
@@ -70,14 +77,15 @@ session_start()
         <input type="radio" name="loe" value="College"
         id="clge">
         <label for="clge">College(University)</label>
-        <span><?php echo $errors['loe_err'] ?? ''; ?></span>
+        <br><br>
+        <span class="err loe"><?php echo $errors['loe_err'] ?? ''; ?></span>
         <br><br>
         <label for="ins_name">Institution name :</label>
         <br><br>
         <input type="text" name="ins_name" id="ins_name" 
         value="<?php echo $data['ins_name'] ?? '';?>">
         <br>
-        <span><?php echo $errors['ins_name_err'] ?? ''; ?></span>
+        <span class="err ins"><?php echo $errors['ins_name_err'] ?? ''; ?></span>
         <br><br>
     </fieldset>
     <br><br>
@@ -88,28 +96,28 @@ session_start()
         <input type="text" name="uname"id="uname" 
         value="<?php echo $data['uname'] ?? '';?>">
         <br>
-        <span><?php echo $errors['uname_err'] ?? ''; ?></span>
+        <span class="err un"><?php echo $errors['uname_err'] ?? ''; ?></span>
         <br><br>
         <label for="mail">Email *:</label>
         <br><br>
         <input type="text" name="mail"id="mail" 
         value="<?php echo $data['mail'] ?? '';?>">
         <br>
-        <span><?php echo $errors['mail_err'] ?? ''; ?></span>
+        <span class="err ms"><?php echo $errors['mail_err'] ?? ''; ?></span>
         <br><br>
         <label for="pass">Password *:</label>
         <br><br>
         <input type="password" name="pass" id="pass" 
         value="<?php echo $data['pass'] ?? '';?>">
         <br>
-        <span><?php echo $errors['pass_err'] ?? '';?></span>
+        <span class="err ps"><?php echo $errors['pass_err'] ?? '';?></span>
         <br><br>
         <label for="cpass">Confirm Password *:</label>
         <br><br>
         <input type="password" name="cpass" id="cpass" 
         value="<?php echo $data['cpass'] ?? '';?>">
         <br>
-        <span><?php echo $errors['cpass_err'] ?? '';?></span>
+        <span class="err cps"><?php echo $errors['cpass_err'] ?? '';?></span>
         <br><br>
     </fieldset>
     <br>
@@ -117,6 +125,7 @@ session_start()
     <br>
     <p> Already have an account ? <a href="index.php">Sign In</a></p>
 </form>
+<script src="scripts/register.js"></script> 
 </body>
 </html>
 <?php 
