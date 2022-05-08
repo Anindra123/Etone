@@ -20,12 +20,10 @@ CSC3215 : Web Technologies course project
     - Port
     - HTTP and HTTPS
 <br>
-<br>
 
 ## Things to further learn
 - JQuery
 - A web framework such as ASP.NET
-<br>
 <br>
 
 ## System screenshots
